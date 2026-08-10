@@ -5,6 +5,7 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text>Pagina de inicio Yilmer</Text>
+    
     </View>
   );
 }

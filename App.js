@@ -1,13 +1,11 @@
 import React from "react";
-
 import { NavigationContainer } from "@react-navigation/native";
-
-import DrawerNavigator from "./src/Navigation/DrawerNavigation";
+import TabNavigation from "./src/Navigation/TabNavigation";
 
 export default function App() {
   return (
     <NavigationContainer>
-      <DrawerNavigator />
+      <TabNavigation />
     </NavigationContainer>
   );
 }

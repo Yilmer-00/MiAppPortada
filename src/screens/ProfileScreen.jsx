@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native'; 
 
-export default function ConfigurationScreen() {
+export default function ProfileScreen() {
     return (
         <View>
             <Text>Pagina Configuracion</Text>
