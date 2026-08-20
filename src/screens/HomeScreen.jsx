@@ -1,33 +1,61 @@
-import React, { useState } from "react";
-import {
-  View, Text, StyleSheet, ScrollView, TextInput, FlatList, TouchableOpacity, Image,
-} from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView, TextInput, FlatList, TouchableOpacity, Image, Dimensions } from "react-native";
 import { Search } from "lucide-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import TopHeader from "../components/TopHeader";
 import Footer from "../components/Footer";
 
+const { width } = Dimensions.get('window');
+const BANNER_WIDTH = width - 32;
+const banners = [
+  {
+    id: "1",
+    title: "50% OFF\nEn Tu Vida Saludable",
+    subtitle: "Aprovecha hoy nuestros descuentos",
+    buttonText: "Comprar Ahora",
+    image: require("../../assets/Saludable.png"),
+  },
+  {
+    id: "2",
+    title: "Nuevas Proteínas\n100% Orgánicas",
+    subtitle: "Envíos gratis por compras mayores a $100k",
+    buttonText: "Ver Catálogo",
+    image: require("../../assets/bannerdos.png"),
+  },
+  {
+    id: "3",
+    title: "Ofertas Especiales\nen Multivitamínicos",
+    subtitle: "Fortalece tu salud este mes",
+    buttonText: "Descubrir",
+    image: require("../../assets/bannertres.png"),
+  },
+];
 export default function HomeScreen() {
   const [selectedTag, setSelectedTag] = useState("Todos");
-
+  const [activeBannerIndex, setActiveBannerIndex] = useState(0);
+  const bannerRef = useRef(null);
   const tags = ["Todos", "Orgánico", "Keto", "Vegano", "Sin Gluten"];
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveBannerIndex((prevIndex) => {
+        const nextIndex = prevIndex === banners.length - 1 ? 0 : prevIndex + 1;
 
-  const banners = [
-    {
-      id: "1",
-      title: "50% OFF\nEn Tu Vida Saludable",
-      subtitle: "Aprovecha hoy nuestros descuentos",
-      buttonText: "Comprar Ahora",
-      image: require("../../assets/Saludable.png"),
-    },
-    {
-      id: "2",
-      title: "Nuevas Proteínas\n100% Orgánicas",
-      subtitle: "Envíos gratis por compras mayores a $100k",
-      buttonText: "Ver Catálogo",
-      image: require("../../assets/Saludable.png"), // Cambia por otra imagen
-    },
-  ];
+        bannerRef.current?.scrollToIndex({
+          index: nextIndex,
+          animated: true,
+        });
+
+        return nextIndex;
+      });
+    }, 4000); // Cambia cada 4 segundos
+
+    return () => clearInterval(timer);
+  }, []);
+  const handleScroll = (event) => {
+    const scrollPosition = event.nativeEvent.contentOffset.x;
+    const index = Math.round(scrollPosition / BANNER_WIDTH);
+    setActiveBannerIndex(index);
+  };
   const categories = [
     {
       id: "1",
@@ -48,31 +76,43 @@ export default function HomeScreen() {
       id: "3",
       name: "Snacks",
       icon: require("../../assets/icons/snacks.png"),
+      screen: "SnacksScreen",
+      bgColor: "#c4f783",
     },
     {
       id: "4",
       name: "Bebidas",
       icon: require("../../assets/icons/bebidas.png"),
+      screen: "BebidasScreen",
+      bgColor: "#99eff1",
     },
     {
       id: "5",
-      name: "hfdga",
-      icon: require("../../assets/icons/bebidas.png"),
+      name: "Creatinas",
+      icon: require("../../assets/icons/creatina.png"),
+      screen: "CreatinasScreen",
+      bgColor: "#ffaf53",
     },
     {
       id: "7",
-      name: "asdwsa",
-      icon: require("../../assets/icons/bebidas.png"),
+      name: "Superfoods",
+      icon: require("../../assets/icons/superfoods.png"),
+      screen: "SuperfoodsScreen",
+      bgColor: "#ffe570",
     },
     {
       id: "8",
-      name: "asedsa",
-      icon: require("../../assets/icons/bebidas.png"),
+      name: "Frutas",
+      icon: require("../../assets/icons/frutas.png"),
+      screen: "FrutasScreen",
+      bgColor: "#58fc7c",
     },
     {
       id: "9",
-      name: "asdrsa",
-      icon: require("../../assets/icons/bebidas.png"),
+      name: "Accesorios",
+      icon: require("../../assets/icons/accesorios.png"),
+      screen: "AccesoriosScreen",
+      bgColor: "#acaba9",
     },
 
 
@@ -97,27 +137,27 @@ export default function HomeScreen() {
     },
     {
       id: "3",
-      title: "Multivitamínico B212",
+      title: "Barra Energética Quest",
       brand: "Vida Saludable",
       price: "$45.000",
       discount: "-15%",
-      image: require("../../assets/vitaminB2.png"),
+      image: require("../../assets/Questbar.png"),
     },
     {
       id: "4",
-      title: "Multivitamínico B212",
+      title: "Mantequilla Nutrelle",
       brand: "Vida Saludable",
       price: "$45.000",
       discount: "-15%",
-      image: require("../../assets/vitaminB2.png"),
+      image: require("../../assets/mantequillaNutrelle.png"),
     },
     {
       id: "5",
-      title: "Multivitamínico B212",
+      title: "Electrolit",
       brand: "Vida Saludable",
       price: "$45.000",
       discount: "-15%",
-      image: require("../../assets/vitaminB2.png"),
+      image: require("../../assets/electrolit.png"),
     },
   ];
 
@@ -168,40 +208,58 @@ export default function HomeScreen() {
           </ScrollView>
 
           {/* Banner Promocional con estilo Nutrik */}
-          {/* Banner Promocional con Imagen de Fondo */}
+          {/* Banner Promocional con Carrusel y Punticos */}
           <View style={styles.bannerContainer}>
+            <FlatList
+              ref={bannerRef}
+              data={banners}
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              onMomentumScrollEnd={handleScroll}
+              keyExtractor={(item) => item.id}
+              getItemLayout={(_, index) => ({
+                length: BANNER_WIDTH,
+                offset: BANNER_WIDTH * index,
+                index,
+              })}
+              renderItem={({ item }) => (
+                <View style={[styles.bannerCard, { width: BANNER_WIDTH }]}>
+                  <Image source={item.image} style={styles.bannerImage} />
+                  <LinearGradient
+                    colors={[
+                      "#448d41",
+                      "rgba(90, 192, 87, 0.8)",
+                      "rgba(10, 22, 9, 0)"
+                    ]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.bannerGradient}
+                  />
 
-            <Image
-              source={require("../../assets/Saludable.png")}
-              style={styles.bannerImage}
+                  <View style={styles.bannerContent}>
+                    <Text style={styles.bannerTitle}>{item.title}</Text>
+                    <Text style={styles.bannerSubtitle}>{item.subtitle}</Text>
+                    <TouchableOpacity style={styles.bannerButton}>
+                      <Text style={styles.bannerButtonText}>{item.buttonText}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
             />
-            <LinearGradient
-              colors={[
-                "#398B36",
-                "rgba(57,139,54,0.8)",
-                "rgba(57,139,54,0)"
-              ]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.bannerGradient}
-            />
 
-            <View style={styles.bannerContent}>
-              <Text style={styles.bannerTitle}>
-                50% OFF{"\n"}En Tu Vida Saludable
-              </Text>
-
-              <Text style={styles.bannerSubtitle}>
-                Aprovecha hoy nuestros descuentos
-              </Text>
-
-              <TouchableOpacity style={styles.bannerButton}>
-                <Text style={styles.bannerButtonText}>
-                  Comprar Ahora
-                </Text>
-              </TouchableOpacity>
+            {/* Punticos de Navegación */}
+            <View style={styles.paginationContainer}>
+              {banners.map((_, index) => (
+                <View
+                  key={index}
+                  style={[
+                    styles.dot,
+                    activeBannerIndex === index ? styles.activeDot : styles.inactiveDot,
+                  ]}
+                />
+              ))}
             </View>
-
           </View>
 
           {/* Sección Categorías */}
@@ -342,18 +400,43 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#4c924ac2",
   },
+  bannerCard: {
+    height: 170,
+    position: 'relative',
+    justifyContent: 'center',
+  },
+  // Estilos para los punticos de navegación
+  paginationContainer: {
+    position: 'absolute',
+    bottom: 10,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    gap: 6,
+  },
+  dot: {
+    height: 8,
+    borderRadius: 4,
+  },
+  activeDot: {
+    width: 18, // Hace el puntico activo un poco más ancho (estilo alargado)
+    backgroundColor: '#FFFFFF',
+  },
+  inactiveDot: {
+    width: 8,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+  },
   bannerGradient: {
     position: "absolute",
     left: 0,
     top: 0,
     bottom: 0,
-    width: "70%",
+    width: "85%",
   },
   bannerImage: {
     position: "absolute",
     right: -20,
     top: 0,
-    width: "65%",
+    width: "75%",
     height: "100%",
     resizeMode: "cover",
   },
@@ -386,7 +469,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   bannerButtonText: {
-    color: "#2e7d32",
+    color: "#316b33",
     fontSize: 12,
     fontWeight: "bold",
   },

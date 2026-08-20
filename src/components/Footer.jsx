@@ -53,13 +53,13 @@ export default function Footer() {
             {/* Iconos de Redes Sociales */}
             <View style={styles.socialRow}>
               <TouchableOpacity style={styles.socialCircle}>
-                <Text style={styles.socialIcon}>🎵</Text>
+                <Text style={styles.socialIcon}>I</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.socialCircle}>
-                <Text style={styles.socialIcon}>📷</Text>
+                <Text style={styles.socialIcon}>T</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.socialCircle}>
-                <Text style={styles.socialIcon}>📘</Text>
+                <Text style={styles.socialIcon}>W</Text>
               </TouchableOpacity>
             </View>
           </View>
