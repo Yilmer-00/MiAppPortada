@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Image,
+  View, Text, StyleSheet, ScrollView, TextInput, FlatList, TouchableOpacity, Image,
 } from "react-native";
 import { Search } from "lucide-react-native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -12,16 +12,37 @@ export default function HomeScreen() {
 
   const tags = ["Todos", "Orgánico", "Keto", "Vegano", "Sin Gluten"];
 
+  const banners = [
+    {
+      id: "1",
+      title: "50% OFF\nEn Tu Vida Saludable",
+      subtitle: "Aprovecha hoy nuestros descuentos",
+      buttonText: "Comprar Ahora",
+      image: require("../../assets/Saludable.png"),
+    },
+    {
+      id: "2",
+      title: "Nuevas Proteínas\n100% Orgánicas",
+      subtitle: "Envíos gratis por compras mayores a $100k",
+      buttonText: "Ver Catálogo",
+      image: require("../../assets/Saludable.png"), // Cambia por otra imagen
+    },
+  ];
   const categories = [
     {
       id: "1",
       name: "Proteínas",
-      icon: require("../../assets/icons/proteina.png"), // Ruta a tu imagen
+      icon: require("../../assets/icons/proteina.png"),
+      screen: "ProteinasScreen", // Ruta para navegación
+      bgColor: "#E8F5E9",         // Color personalizado para el icono
+      badge: "Populares",
     },
     {
       id: "2",
       name: "Vitaminas",
       icon: require("../../assets/icons/vitaminas.png"),
+      screen: "VitaminasScreen",
+      bgColor: "#FFF3E0",
     },
     {
       id: "3",
@@ -33,6 +54,28 @@ export default function HomeScreen() {
       name: "Bebidas",
       icon: require("../../assets/icons/bebidas.png"),
     },
+    {
+      id: "5",
+      name: "hfdga",
+      icon: require("../../assets/icons/bebidas.png"),
+    },
+    {
+      id: "7",
+      name: "asdwsa",
+      icon: require("../../assets/icons/bebidas.png"),
+    },
+    {
+      id: "8",
+      name: "asedsa",
+      icon: require("../../assets/icons/bebidas.png"),
+    },
+    {
+      id: "9",
+      name: "asdrsa",
+      icon: require("../../assets/icons/bebidas.png"),
+    },
+
+
   ];
 
   const bestSellers = [
@@ -47,6 +90,30 @@ export default function HomeScreen() {
     {
       id: "2",
       title: "Multivitamínico B12",
+      brand: "Vida Saludable",
+      price: "$45.000",
+      discount: "-15%",
+      image: require("../../assets/vitaminB2.png"),
+    },
+    {
+      id: "3",
+      title: "Multivitamínico B212",
+      brand: "Vida Saludable",
+      price: "$45.000",
+      discount: "-15%",
+      image: require("../../assets/vitaminB2.png"),
+    },
+    {
+      id: "4",
+      title: "Multivitamínico B212",
+      brand: "Vida Saludable",
+      price: "$45.000",
+      discount: "-15%",
+      image: require("../../assets/vitaminB2.png"),
+    },
+    {
+      id: "5",
+      title: "Multivitamínico B212",
       brand: "Vida Saludable",
       price: "$45.000",
       discount: "-15%",
@@ -150,10 +217,13 @@ export default function HomeScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.categoriesContainer}
           >
-            {/* Reemplaza la sección del map de categorías */}
             {categories.map((cat) => (
-              <TouchableOpacity key={cat.id} style={styles.categoryCard}>
-                <View style={styles.categoryIconCircle}>
+              <TouchableOpacity
+                key={cat.id}
+                style={styles.categoryCard}
+                onPress={() => navigation.navigate(cat.screen)} // <-- Agregas navegación
+              >
+                <View style={[styles.categoryIconCircle, { backgroundColor: cat.bgColor || '#F5F5F5' }]}>
                   <Image source={cat.icon} style={styles.categoryIconImage} />
                 </View>
                 <Text style={styles.categoryName}>{cat.name}</Text>
@@ -162,6 +232,7 @@ export default function HomeScreen() {
           </ScrollView>
 
           {/* Sección Más Vendidos */}
+          {/* Sección Más Vendidos */}
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Más Vendidos</Text>
             <TouchableOpacity>
@@ -169,12 +240,20 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.bestSellersGrid}>
-            {bestSellers.map((item) => (
-              <View key={item.id} style={styles.productCard}>
-                <View style={styles.badgeContainer}>
-                  <Text style={styles.badgeText}>{item.discount}</Text>
-                </View>
+          <FlatList
+            data={bestSellers}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.bestSellersCarousel}
+            renderItem={({ item }) => (
+              <View style={styles.productCard}>
+                {item.discount && (
+                  <View style={styles.badgeContainer}>
+                    <Text style={styles.badgeText}>{item.discount}</Text>
+                  </View>
+                )}
+
                 <TouchableOpacity style={styles.favoriteButton}>
                   <Text style={{ fontSize: 14 }}>❤️</Text>
                 </TouchableOpacity>
@@ -193,10 +272,9 @@ export default function HomeScreen() {
                 </Text>
                 <Text style={styles.productPrice}>{item.price}</Text>
               </View>
-            ))}
-          </View>
+            )}
+          />
         </View>
-
         {/* Footer adaptado a borde inferior completo */}
         <Footer />
       </ScrollView>
@@ -337,6 +415,10 @@ const styles = StyleSheet.create({
     gap: 18,
     paddingBottom: 25,
   },
+  carouselContainer: {
+    paddingHorizontal: 16,
+    gap: 16,
+  },
   categoryCard: {
     alignItems: "center",
     width: 70,
@@ -367,14 +449,20 @@ const styles = StyleSheet.create({
     gap: 12,
     marginBottom: 10,
   },
+  bestSellersCarousel: {
+    paddingHorizontal: 16,
+    gap: 14, // Espacio entre cada tarjeta de producto
+  },
   productCard: {
-    flex: 1,
-    backgroundColor: "#fff",
-    borderRadius: 16,
+    width: 160, // Ancho fijo obligatorio para carruseles horizontales
+    backgroundColor: '#FFF',
+    borderRadius: 12,
     padding: 12,
-    borderWidth: 1,
-    borderColor: "#f0f0f0",
-    position: "relative",
+    // Sombra para dar elevación
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 5,
+    elevation: 2
   },
   badgeContainer: {
     position: "absolute",
@@ -398,9 +486,9 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   productImage: {
-  width: "80%",
-  height: "80%",
-},
+    width: "80%",
+    height: "80%",
+  },
   productImageContainer: {
     height: 90,
     alignItems: "center",
