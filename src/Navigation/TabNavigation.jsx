@@ -1,12 +1,14 @@
 import React from "react";
-import { Home, Search, Heart, ShoppingCart, User } from "lucide-react-native";
+import { Home, Search, Heart, ShoppingCart, User, ShelvingUnit } from "lucide-react-native";
 import { StyleSheet, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HomeScreen from "../screens/HomeScreen";
 import StoreScreen from "../screens/StoreScreen";
 import DiscountsScreen from "../screens/DiscountsScreen";
-import ConfigurationScreen from "../screens/ProfileScreen.jsx";
+import CarScreen from "../screens/CarScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import NewScreen from "../screens/NewScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +16,7 @@ export default function TabNavigation() {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
 
         tabBarShowLabel: true,
 
@@ -34,6 +36,15 @@ export default function TabNavigation() {
           ),
         }}
       />
+      <Tab.Screen
+        name="Tienda"
+        component={StoreScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <ShelvingUnit size={22} color={color} />
+          ),
+        }}
+      />
 
       <Tab.Screen
         name="Buscar"
@@ -46,34 +57,36 @@ export default function TabNavigation() {
       />
 
       <Tab.Screen
-        name="Favoritos"
-        component={DiscountsScreen}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Heart size={22} color={color} />
-          ),
-        }}
-      />
-
-      <Tab.Screen
         name="Carrito"
-        component={StoreScreen}
+        component={CarScreen}
         options={{
           tabBarIcon: ({ color }) => (
             <ShoppingCart size={22} color={color} />
           ),
         }}
       />
-
       <Tab.Screen
-        name="Perfil"
-        component={ConfigurationScreen}
+        name="perfil"
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ color }) => (
             <User size={22} color={color} />
           ),
         }}
+
       />
+      <Tab.Screen
+        name="NewScreen"
+        component={NewScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+
+
+
+
     </Tab.Navigator>
   );
 }
