@@ -9,6 +9,7 @@ import DiscountsScreen from "../screens/DiscountsScreen";
 import CarScreen from "../screens/CarScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import NewScreen from "../screens/NewScreen";
+import Dashboard from "../screens/Dashboard/Dashboard";
 
 const Tab = createBottomTabNavigator();
 
@@ -78,6 +79,14 @@ export default function TabNavigation() {
       <Tab.Screen
         name="NewScreen"
         component={NewScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="Dashboard"
+        component={Dashboard}
         options={{
           tabBarItemStyle: { display: "none" },
           tabBarButton: () => null,

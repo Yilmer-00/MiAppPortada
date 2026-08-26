@@ -75,7 +75,12 @@ export default function TopHeader({ title = "Inicio" }) {
                                     <Text style={styles.menuText}>Configuración y privacidad</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity style={styles.menuItem}>
+                                <TouchableOpacity                                     style={styles.menuItem}
+                                    onPress={() => {
+                                        setModalVisible(false);
+                                        navigation.navigate("Dashboard");
+                                    }}
+                                >
                                     <Text style={styles.menuIcon}>📦</Text>
                                     <Text style={styles.menuText}>Mis Pedidos</Text>
                                 </TouchableOpacity>
