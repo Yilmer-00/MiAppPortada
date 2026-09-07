@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native'; 
 
-export default function ConfigurationScreen() {
+export default function DiscountsScreen() {
     return (
         <View>
-            <Text>Pagina Configuracion</Text>
+            <Text>Pagina Descuentos</Text>
         </View>
     );
 }
