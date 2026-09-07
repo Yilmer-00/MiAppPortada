@@ -29,7 +29,11 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+<<<<<<< HEAD
       "expo-status-bar"
+=======
+      "@react-native-community/datetimepicker"
+>>>>>>> origin/yilmer
     ]
   }
 }
