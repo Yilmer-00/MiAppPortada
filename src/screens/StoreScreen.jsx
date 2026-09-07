@@ -17,7 +17,7 @@ export default function StoreScreen() {
             <Stack.Screen
                 name="StoreHome"
                 component={StoreHomeScreen}
-                options={{ title: "Tienda" }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="CategoryDetail"

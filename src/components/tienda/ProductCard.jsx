@@ -6,16 +6,12 @@ export default function ProductCard({ producto }) {
   const navigation = useNavigation();
 
   const nombre = producto?.nombre || producto?.name || "Producto";
-  const imagen = producto?.imagen || producto?.image;
+  const imagen = producto?.imagen || producto?.image || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400";
 
   return (
     <View style={styles.card}>
       <View style={styles.imageWrapper}>
-        {imagen ? (
-          <Image source={typeof imagen === "string" ? { uri: imagen } : imagen} style={styles.image} resizeMode="cover" />
-        ) : (
-          <View style={styles.placeholder} />
-        )}
+        <Image source={typeof imagen === "string" ? { uri: imagen } : imagen} style={styles.image} resizeMode="cover" />
       </View>
 
       <Text style={styles.nombre} numberOfLines={1}>{nombre}</Text>
