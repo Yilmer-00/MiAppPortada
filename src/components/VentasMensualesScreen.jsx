@@ -17,12 +17,12 @@ export function VentasMensualesScreen() {
         <View style={styles.header}>
           <Text style={styles.sectionTag}>FINANZAS</Text>
           <Text style={styles.title}>Ventas Mensuales</Text>
-          <Text style={styles.subtitle}>Comportamiento detallado de los ingresos mes a mes.</Text>
+          <Text style={styles.subtitle}>Comportamiento y evolución de los ingresos mes a mes.</Text>
         </View>
 
         <View style={styles.grid}>
           {ventasMensuales.map((item, index) => (
-            <View key={index} style={styles.card}>
+            <View key={index} style={styles.beneficio}>
               <View style={styles.cardHeader}>
                 <Text style={styles.mes}>{item.mes}</Text>
                 <Text style={styles.crecimiento}>{item.crecimiento}</Text>
@@ -38,17 +38,28 @@ export function VentasMensualesScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#052e16' },
+  container: { flex: 1, backgroundColor: '#ecfdf5' },
   scrollContent: { padding: 20 },
-  header: { marginBottom: 20, alignItems: 'center' },
-  sectionTag: { color: '#6afd6a', fontSize: 12, fontWeight: 'bold', letterSpacing: 1, marginBottom: 4 },
-  title: { fontSize: 26, fontWeight: 'bold', color: '#ffffff', marginBottom: 6 },
-  subtitle: { fontSize: 14, color: '#aecba8', textAlign: 'center' },
-  grid: { gap: 14 },
-  card: { backgroundColor: '#127150', padding: 20, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.2, shadowRadius: 6, elevation: 5 },
+  header: { marginBottom: 25, alignItems: 'center' },
+  sectionTag: { color: '#127150', fontSize: 12, fontWeight: 'bold', letterSpacing: 1.5, marginBottom: 4 },
+  title: { fontSize: 26, fontWeight: 'bold', color: '#127150', marginBottom: 8, textAlign: 'center' },
+  subtitle: { fontSize: 14, color: '#475569', textAlign: 'center' },
+  grid: { gap: 15 },
+  beneficio: {
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(18, 113, 80, 0.1)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 4,
+  },
   cardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
-  mes: { fontSize: 18, fontWeight: 'bold', color: '#ffffff' },
-  crecimiento: { fontSize: 13, fontWeight: 'bold', color: '#6afd6a', backgroundColor: 'rgba(106, 253, 106, 0.15px)', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
-  total: { fontSize: 24, fontWeight: '800', color: '#ffffff', marginBottom: 4 },
-  trans: { fontSize: 13, color: '#aecba8' },
+  mes: { fontSize: 18, fontWeight: 'bold', color: '#127150' },
+  crecimiento: { fontSize: 13, fontWeight: 'bold', color: '#127150', backgroundColor: '#6afd6a', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 10 },
+  total: { fontSize: 24, fontWeight: '800', color: '#052e16', marginBottom: 4 },
+  trans: { fontSize: 14, color: '#475569' },
 });

@@ -20,7 +20,7 @@ export function ProductosMasVendidosScreen() {
 
         <View style={styles.listContainer}>
           {productos.map((item, index) => (
-            <View key={index} style={styles.card}>
+            <View key={index} style={styles.beneficio}>
               <View style={styles.rankBadge}>
                 <Text style={styles.rankText}>{item.rank}</Text>
               </View>
@@ -38,18 +38,32 @@ export function ProductosMasVendidosScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#052e16' },
+  container: { flex: 1, backgroundColor: '#ecfdf5' },
   scrollContent: { padding: 20 },
   header: { marginBottom: 20, alignItems: 'center' },
-  sectionTag: { color: '#6afd6a', fontSize: 12, fontWeight: 'bold', letterSpacing: 1, marginBottom: 4 },
-  title: { fontSize: 26, fontWeight: 'bold', color: '#ffffff', marginBottom: 6 },
-  subtitle: { fontSize: 14, color: '#aecba8', textAlign: 'center' },
+  sectionTag: { color: '#127150', fontSize: 12, fontWeight: 'bold', letterSpacing: 1.5, marginBottom: 4 },
+  title: { fontSize: 26, fontWeight: 'bold', color: '#127150', marginBottom: 8, textAlign: 'center' },
+  subtitle: { fontSize: 14, color: '#475569', textAlign: 'center' },
   listContainer: { gap: 14 },
-  card: { backgroundColor: '#127150', padding: 16, borderRadius: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4, elevation: 3 },
-  rankBadge: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#6afd6a', justifyContent: 'center', alignItems: 'center', marginRight: 15 },
-  rankText: { color: '#052e16', fontWeight: 'bold', fontSize: 15 },
+  beneficio: {
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: 'rgba(18, 113, 80, 0.1)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  rankBadge: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#aecba8', justifyContent: 'center', alignItems: 'center', marginRight: 15 },
+  rankText: { color: '#052e16', fontWeight: 'bold', fontSize: 16 },
   info: { flex: 1, marginRight: 10 },
-  nombre: { fontSize: 16, fontWeight: 'bold', color: '#ffffff', marginBottom: 4 },
-  detalles: { fontSize: 13, color: '#aecba8' },
-  ingresos: { fontSize: 16, fontWeight: 'bold', color: '#6afd6a' },
+  nombre: { fontSize: 16, fontWeight: 'bold', color: '#127150', marginBottom: 4 },
+  detalles: { fontSize: 13, color: '#475569' },
+  ingresos: { fontSize: 16, fontWeight: 'bold', color: '#052e16' },
 });

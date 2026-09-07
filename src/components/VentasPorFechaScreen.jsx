@@ -38,7 +38,7 @@ export function VentasPorFechaScreen() {
             <Text style={styles.noResult}>No se encontraron ventas para esta fecha.</Text>
           ) : (
             filtrados.map((item, index) => (
-              <View key={index} style={styles.itemCard}>
+              <View key={index} style={styles.beneficio}>
                 <View style={{ flex: 1, marginRight: 10 }}>
                   <Text style={styles.itemProd}>{item.producto}</Text>
                   <Text style={styles.itemCliente}>Cliente: {item.cliente}</Text>
@@ -55,19 +55,33 @@ export function VentasPorFechaScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#052e16' },
+  container: { flex: 1, backgroundColor: '#ecfdf5' },
   scrollContent: { padding: 20 },
   header: { marginBottom: 20, alignItems: 'center' },
-  sectionTag: { color: '#6afd6a', fontSize: 12, fontWeight: 'bold', letterSpacing: 1, marginBottom: 4 },
-  title: { fontSize: 26, fontWeight: 'bold', color: '#ffffff', marginBottom: 6 },
-  subtitle: { fontSize: 14, color: '#aecba8', textAlign: 'center' },
+  sectionTag: { color: '#127150', fontSize: 12, fontWeight: 'bold', letterSpacing: 1.5, marginBottom: 4 },
+  title: { fontSize: 26, fontWeight: 'bold', color: '#127150', marginBottom: 8, textAlign: 'center' },
+  subtitle: { fontSize: 14, color: '#475569', textAlign: 'center' },
   searchContainer: { marginBottom: 20 },
-  input: { backgroundColor: '#127150', borderWidth: 1, borderColor: '#aecba8', borderRadius: 12, paddingHorizontal: 16, paddingVertical: 14, color: '#ffffff', fontSize: 15 },
+  input: { backgroundColor: '#ffffff', borderWidth: 1, borderColor: 'rgba(18, 113, 80, 0.2)', borderRadius: 16, paddingHorizontal: 16, paddingVertical: 14, color: '#052e16', fontSize: 15 },
   listContainer: { gap: 12 },
-  itemCard: { backgroundColor: '#127150', padding: 16, borderRadius: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4, elevation: 3 },
-  itemProd: { fontSize: 15, fontWeight: 'bold', color: '#ffffff', marginBottom: 4 },
-  itemCliente: { fontSize: 13, color: '#aecba8', marginBottom: 2 },
-  itemFecha: { fontSize: 12, color: '#6afd6a', fontWeight: '600' },
-  itemValor: { fontSize: 18, fontWeight: 'bold', color: '#6afd6a' },
-  noResult: { color: '#aecba8', textAlign: 'center', marginTop: 20 },
+  beneficio: {
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(18, 113, 80, 0.1)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  itemProd: { fontSize: 16, fontWeight: 'bold', color: '#127150', marginBottom: 4 },
+  itemCliente: { fontSize: 13, color: '#475569', marginBottom: 2 },
+  itemFecha: { fontSize: 12, color: '#127150', fontWeight: '600' },
+  itemValor: { fontSize: 18, fontWeight: 'bold', color: '#052e16' },
+  noResult: { color: '#475569', textAlign: 'center', marginTop: 20 },
 });
