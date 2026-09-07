@@ -41,7 +41,7 @@ const productosTop = [
     { nombre: 'Multivitamínico Fit', categoria: 'Vitaminas', vendidos: '76 unids', total: '$ 1.140.000' },
 ];
 
-export default function Dashboard() {
+export default function Dashboard({ navigation }) {
     const [fechaInicio, setFechaInicio] = useState(new Date(2026, 7, 1));  // 01/08/2026
     const [fechaFin, setFechaFin] = useState(new Date(2026, 7, 25));       // 25/08/2026
 
@@ -86,7 +86,7 @@ export default function Dashboard() {
     return (
 
         <SafeAreaView style={styles.safeArea}>
-            <TopHeader />
+            <TopHeader title="Estadísticas Vendedor" />
             <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
 
                 <View style={styles.headerRow}>
@@ -243,10 +243,14 @@ export default function Dashboard() {
                                         </View>
                                     </View>
 
-                                    {/* 3. Evento onPress configurado enviando los datos del item */}
                                     <TouchableOpacity
                                         style={styles.facturaBtn}
-                                        onPress={() => navigation.navigate('FacturasStack', { pedidoId: item.id, pedido: item })}
+                                        onPress={() =>
+                                            navigation.navigate('FacturasStack', {
+                                                screen: 'FacturaDetalle',
+                                                params: { factura: item },
+                                            })
+                                        }
                                     >
                                         <Text style={styles.facturaBtnText}>ver factura</Text>
                                     </TouchableOpacity>

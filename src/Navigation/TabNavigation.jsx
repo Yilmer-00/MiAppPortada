@@ -12,20 +12,11 @@ import CarScreen from "../screens/CarScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import NewScreen from "../screens/NewScreen";
 import Dashboard from "../screens/Dashboard/Dashboard";
-import FacturasScreen from "../screens/FacturasScreen";
-import FacturaDetalleScreen from "../screens/FacturaDetalleScreen";
+import FacturasStack from './FacturasStack';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function FacturasStack() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="FacturasList" component={FacturasScreen} />
-      <Stack.Screen name="FacturaDetalle" component={FacturaDetalleScreen} />
-    </Stack.Navigator>
-  );
-}
 
 export default function TabNavigation() {
   return (

@@ -15,9 +15,9 @@ export default function FacturaDetalleScreen({ route, navigation }) {
   return (
     <ScrollView style={styles.container}>
       {/* Botón Volver */}
-      <TouchableOpacity 
-        style={styles.btnVolver} 
-        onPress={() => navigation.goBack()}
+      <TouchableOpacity
+        style={styles.btnVolver}
+        onPress={() => navigation.navigate('Dashboard')}
       >
         <Ionicons name="arrow-back" size={18} color="#198754" />
         <Text style={styles.btnVolverText}>Volver a Facturas</Text>
@@ -28,11 +28,11 @@ export default function FacturaDetalleScreen({ route, navigation }) {
         <View style={styles.headerRow}>
           <Text style={styles.title}>Detalle de la Factura: {factura.id}</Text>
           <View style={[
-            styles.badge, 
+            styles.badge,
             { backgroundColor: factura.estado === 'Pagada' ? '#d1e7dd' : '#fff3cd' }
           ]}>
             <Text style={[
-              styles.badgeText, 
+              styles.badgeText,
               { color: factura.estado === 'Pagada' ? '#0f5132' : '#664d03' }
             ]}>
               {factura.estado}
@@ -54,12 +54,12 @@ export default function FacturaDetalleScreen({ route, navigation }) {
         <View style={styles.divider} />
 
         <Text style={styles.sectionTitle}>PRODUCTOS COMPRADOS</Text>
-        
+
         <View style={styles.productRow}>
           <Text style={styles.productName}>Yogur Griego Natural (x1)</Text>
           <Text style={styles.productPrice}>$ 12.000</Text>
         </View>
-        
+
         <View style={styles.productRow}>
           <Text style={styles.productName}>Ensalada Fresh (x1)</Text>
           <Text style={styles.productPrice}>$ 15.000</Text>
@@ -68,7 +68,7 @@ export default function FacturaDetalleScreen({ route, navigation }) {
         <View style={styles.divider} />
 
         <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Total a Pagar:</Text>
+          <Text style={styles.totalLabel}>Total de Pago:</Text>
           <Text style={styles.totalValue}>{factura.total}</Text>
         </View>
       </View>
