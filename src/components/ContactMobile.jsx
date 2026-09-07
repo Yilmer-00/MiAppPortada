@@ -15,9 +15,9 @@ import {
 export default function ContactMobile() {
   const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
-  const [tipo, setTipo] = useState('');
+  const [tipo, setTipo] = useState('consulta');
   const [mensaje, setMensaje] = useState('');
-  const [estadoEnvio, setEstadoEnvio] = useState('idle'); // idle | sending | success | error
+  const [estadoEnvio, setEstadoEnvio] = useState('idle');
 
   const handleSubmit = async () => {
     if (!nombre || !correo || !tipo || !mensaje) {
@@ -54,7 +54,7 @@ export default function ContactMobile() {
       setEstadoEnvio('success');
       setNombre('');
       setCorreo('');
-      setTipo('');
+      setTipo('consulta');
       setMensaje('');
 
       setTimeout(() => setEstadoEnvio('idle'), 5000);
@@ -70,34 +70,38 @@ export default function ContactMobile() {
         style={styles.flex1}
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
-          <View style={styles.cardGlass}>
-            <View style={styles.header}>
-              <Text style={styles.sectionTag}>CENTRO DE AYUDA</Text>
-              <Text style={styles.title}>Atención al usuario</Text>
-              <Text style={styles.subtitle}>
-                Tu opinión nos importa. Escríbenos para una queja, reclamo,
-                sugerencia o una consulta general.
-              </Text>
-            </View>
+          
+          {/* HERO / ENCABEZADO */}
+          <View style={styles.hero}>
+            <Text style={styles.sectionTag}>CENTRO DE AYUDA</Text>
+            <Text style={styles.title}>Atención al usuario</Text>
+            <Text style={styles.subtitle}>
+              Tu opinión nos importa. Escríbenos para una queja, reclamo, sugerencia o consulta general.
+            </Text>
+          </View>
 
-            {/* Campos de texto */}
+          {/* TARJETA DE FORMULARIO (Estilo Glass / Tarjeta Premium) */}
+          <View style={styles.cardGlass}>
+            
+            {/* Campo Nombre */}
             <View style={styles.field}>
               <Text style={styles.label}>Nombre completo *</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Ej. David Santacruz"
-                placeholderTextColor="#888"
+                placeholderTextColor="#94a3b8"
                 value={nombre}
                 onChangeText={setNombre}
               />
             </View>
 
+            {/* Campo Correo */}
             <View style={styles.field}>
               <Text style={styles.label}>Correo electrónico *</Text>
               <TextInput
                 style={styles.input}
                 placeholder="david@nutrick.com"
-                placeholderTextColor="#888"
+                placeholderTextColor="#94a3b8"
                 keyboardType="email-address"
                 autoCapitalize="none"
                 value={correo}
@@ -105,7 +109,7 @@ export default function ContactMobile() {
               />
             </View>
 
-            {/* Selector de Tipo de Solicitud adaptado a UX móvil */}
+            {/* Selector de Tipo de Solicitud (Chips) */}
             <View style={styles.field}>
               <Text style={styles.label}>Tipo de solicitud *</Text>
               <View style={styles.selectorContainer}>
@@ -135,12 +139,13 @@ export default function ContactMobile() {
               </View>
             </View>
 
+            {/* Mensaje */}
             <View style={styles.field}>
               <Text style={styles.label}>Mensaje detallado *</Text>
               <TextInput
                 style={[styles.input, styles.textArea]}
                 placeholder="Describe aquí tu situación con el mayor detalle posible..."
-                placeholderTextColor="#888"
+                placeholderTextColor="#94a3b8"
                 multiline
                 numberOfLines={5}
                 textAlignVertical="top"
@@ -149,7 +154,7 @@ export default function ContactMobile() {
               />
             </View>
 
-            {/* Botón de envío */}
+            {/* Botón de Envío */}
             <TouchableOpacity
               style={[
                 styles.button,
@@ -159,18 +164,17 @@ export default function ContactMobile() {
               disabled={estadoEnvio === 'sending'}
             >
               {estadoEnvio === 'sending' ? (
-                <ActivityIndicator color="#fff" />
+                <ActivityIndicator color="#052e16" />
               ) : (
                 <Text style={styles.buttonText}>Enviar solicitud</Text>
               )}
             </TouchableOpacity>
 
-            {/* Estado Alertas */}
+            {/* Alertas */}
             {estadoEnvio === 'success' && (
               <View style={styles.alertaSuccess}>
                 <Text style={styles.alertaSuccessText}>
-                  Solicitud enviada con éxito. Revisa tu correo si es la primera
-                  vez que usas FormSubmit.
+                  ¡Solicitud enviada con éxito! Revisa tu correo de confirmación.
                 </Text>
               </View>
             )}
@@ -178,11 +182,11 @@ export default function ContactMobile() {
             {estadoEnvio === 'error' && (
               <View style={styles.alertaError}>
                 <Text style={styles.alertaErrorText}>
-                  No pudimos enviar el formulario en este intento. Inténtalo
-                  nuevamente.
+                  No pudimos enviar el formulario. Inténtalo nuevamente.
                 </Text>
               </View>
             )}
+
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -193,41 +197,52 @@ export default function ContactMobile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0d1117',
+    backgroundColor: '#ecfdf5', // --fondo-suave
   },
   flex1: {
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
+    padding: 20,
   },
-  cardGlass: {
-    backgroundColor: 'rgba(22, 27, 34, 0.8)',
-    borderRadius: 16,
+  hero: {
+    marginBottom: 20,
+    backgroundColor: '#aecba8', // --verde
+    borderRadius: 20,
     padding: 20,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
-  },
-  header: {
-    marginBottom: 20,
+    borderColor: 'rgba(18, 113, 80, 0.15)',
   },
   sectionTag: {
-    color: '#00d2ff',
+    color: '#052e16', // --verde-claro
     fontSize: 12,
     fontWeight: 'bold',
-    letterSpacing: 1,
+    letterSpacing: 1.5,
     marginBottom: 4,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginBottom: 8,
+    fontSize: 26,
+    fontWeight: '800',
+    color: '#127150', // --verde-oscuro
+    marginBottom: 6,
   },
   subtitle: {
     fontSize: 14,
-    color: '#8b949e',
+    color: '#052e16',
     lineHeight: 20,
+    opacity: 0.85,
+  },
+  cardGlass: {
+    backgroundColor: '#ffffff', // --blanco
+    borderRadius: 20,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(18, 113, 80, 0.15)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 4,
   },
   field: {
     marginBottom: 16,
@@ -235,21 +250,22 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#c9d1d9',
+    color: '#127150', // --verde-oscuro
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#161b22',
-    borderColor: '#30363d',
+    backgroundColor: '#f8fafc', // --gris-claro
+    borderColor: 'rgba(18, 113, 80, 0.2)',
     borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    color: '#ffffff',
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    color: '#052e16', // --verde-claro
     fontSize: 15,
   },
   textArea: {
     height: 120,
+    paddingTop: 12,
   },
   selectorContainer: {
     flexDirection: 'row',
@@ -258,50 +274,58 @@ const styles = StyleSheet.create({
   },
   chip: {
     paddingVertical: 8,
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#30363d',
-    backgroundColor: '#161b22',
+    borderColor: 'rgba(18, 113, 80, 0.2)',
+    backgroundColor: '#f8fafc',
   },
   chipActive: {
-    backgroundColor: '#00d2ff',
-    borderColor: '#00d2ff',
+    backgroundColor: '#127150', // --verde-oscuro
+    borderColor: '#127150',
   },
   chipText: {
-    color: '#8b949e',
+    color: '#475569',
     fontSize: 13,
+    fontWeight: '500',
   },
   chipTextActive: {
-    color: '#0d1117',
+    color: '#ffffff', // --blanco
     fontWeight: 'bold',
   },
   button: {
-    backgroundColor: '#00d2ff',
+    backgroundColor: '#6afd6a', // --verde-neon
     paddingVertical: 14,
-    borderRadius: 8,
+    borderRadius: 12,
     alignItems: 'center',
     marginTop: 10,
+    shadowColor: '#127150',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
   },
   buttonDisabled: {
     opacity: 0.6,
   },
   buttonText: {
-    color: '#0d1117',
+    color: '#052e16', // --verde-claro
     fontSize: 16,
     fontWeight: 'bold',
   },
   alertaSuccess: {
     marginTop: 16,
     padding: 12,
-    backgroundColor: 'rgba(46, 160, 67, 0.15)',
-    borderColor: '#2ea043',
+    backgroundColor: 'rgba(106, 253, 106, 0.2)',
+    borderColor: '#127150',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 10,
   },
   alertaSuccessText: {
-    color: '#3fb950',
+    color: '#052e16',
     fontSize: 13,
+    fontWeight: '600',
+    textAlign: 'center',
   },
   alertaError: {
     marginTop: 16,
@@ -309,10 +333,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(248, 81, 73, 0.15)',
     borderColor: '#f85149',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 10,
   },
   alertaErrorText: {
     color: '#f85149',
     fontSize: 13,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
