@@ -1,17 +1,31 @@
 import React from "react";
-import { Home, Search, ShoppingCart, User, FileText } from "lucide-react-native";
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// 1. Agregado Store (o ShelvingUnit) al import
+import { Home, Search, ShoppingCart, User, FileText, Store } from "lucide-react-native";
 
+// Pantallas
 import HomeScreen from "../screens/HomeScreen";
 import StoreScreen from "../screens/StoreScreen";
 import CarScreen from "../screens/CarScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import NewScreen from "../screens/NewScreen";
 import Dashboard from "../screens/Dashboard/Dashboard";
-import FacturasStack from "./FacturasStack";
+import FacturasScreen from "../screens/FacturasScreen";
+import FacturaDetalleScreen from "../screens/FacturaDetalleScreen";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function FacturasStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="FacturasList" component={FacturasScreen} />
+      <Stack.Screen name="FacturaDetalle" component={FacturaDetalleScreen} />
+    </Stack.Navigator>
+  );
+}
 
 export default function TabNavigation() {
   return (
@@ -29,47 +43,52 @@ export default function TabNavigation() {
         name="Inicio"
         component={HomeScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <Home size={22} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <Home size={22} color={color} />,
         }}
       />
+
       <Tab.Screen
         name="Tienda"
         component={StoreScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <Search size={22} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <Store size={22} color={color} />,
         }}
       />
+
       <Tab.Screen
-        name="Facturas"
-        component={FacturasStack}
+        name="Buscar"
+        component={StoreScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <FileText size={22} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <Search size={22} color={color} />,
         }}
       />
+
       <Tab.Screen
         name="Carrito"
         component={CarScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <ShoppingCart size={22} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <ShoppingCart size={22} color={color} />,
         }}
       />
+
       <Tab.Screen
         name="perfil"
         component={ProfileScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <User size={22} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <User size={22} color={color} />,
         }}
       />
+
+      {/* 2. Se registra FacturasStack (oculto en el tabBar) para habilitar las rutas */}
+      <Tab.Screen
+        name="FacturasStack"
+        component={FacturasStack}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+
       <Tab.Screen
         name="NewScreen"
         component={NewScreen}
@@ -78,6 +97,7 @@ export default function TabNavigation() {
           tabBarButton: () => null,
         }}
       />
+
       <Tab.Screen
         name="Dashboard"
         component={Dashboard}
@@ -89,6 +109,8 @@ export default function TabNavigation() {
     </Tab.Navigator>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   tabBar: {

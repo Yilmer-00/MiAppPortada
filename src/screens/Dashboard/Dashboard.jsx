@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Dimensions,Platform, } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Dimensions, Platform, } from 'react-native';
 import { LineChart, PieChart } from 'react-native-gifted-charts';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Footer from "../../components/Footer";
@@ -242,7 +242,12 @@ export default function Dashboard() {
                                             </Text>
                                         </View>
                                     </View>
-                                    <TouchableOpacity style={styles.facturaBtn}>
+
+                                    {/* 3. Evento onPress configurado enviando los datos del item */}
+                                    <TouchableOpacity
+                                        style={styles.facturaBtn}
+                                        onPress={() => navigation.navigate('FacturasStack', { pedidoId: item.id, pedido: item })}
+                                    >
                                         <Text style={styles.facturaBtnText}>ver factura</Text>
                                     </TouchableOpacity>
                                 </View>
