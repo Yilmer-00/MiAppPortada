@@ -73,7 +73,7 @@ export default function Footer() {
         </Text>
         <View style={styles.divider} />
         <Text style={styles.creditsText}>
-          Hecho y desarrollado por <Text style={styles.brandTag}>@Nutrik Co 🇨🇴</Text>
+          Hecho y desarrollado por <Text style={styles.brandTag}>@Nutrik Co</Text>
         </Text>
       </View>
     </View>

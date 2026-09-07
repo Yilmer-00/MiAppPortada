@@ -92,6 +92,14 @@ export default function TabNavigation() {
           tabBarButton: () => null,
         }}
       />
+      <Tab.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
 
 
 

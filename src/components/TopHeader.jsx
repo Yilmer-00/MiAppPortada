@@ -58,7 +58,11 @@ export default function TopHeader({ title = "Inicio" }) {
                             </TouchableOpacity>
 
                             {/* Información del Usuario */}
-                            <View style={styles.profileSection}>
+                            <TouchableOpacity
+                                style={styles.profileSection}
+                                onPress={() => navigation.navigate('ProfileScreen')} // Nombre de tu pantalla de destino
+                                activeOpacity={0.7}
+                            >
                                 <View style={styles.largeAvatar}>
                                     <Text style={{ fontSize: 30 }}>👤</Text>
                                 </View>
@@ -66,7 +70,7 @@ export default function TopHeader({ title = "Inicio" }) {
                                     <Text style={styles.userName}>Yilmer</Text>
                                     <Text style={styles.viewProfileText}>Ver perfil</Text>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
 
                             {/* Lista de Opciones */}
                             <View style={styles.menuList}>
@@ -75,7 +79,7 @@ export default function TopHeader({ title = "Inicio" }) {
                                     <Text style={styles.menuText}>Configuración y privacidad</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity                                     style={styles.menuItem}
+                                <TouchableOpacity style={styles.menuItem}
                                     onPress={() => {
                                         setModalVisible(false);
                                         navigation.navigate("Dashboard");
