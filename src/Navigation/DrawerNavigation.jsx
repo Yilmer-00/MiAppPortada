@@ -4,7 +4,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import AppBar from "../components/AppBar";
 
 import SalesScreen from "../components/SalesScreen";
-import ContactMobile from "../components/ContactMobile";
 
 const Drawer = createDrawerNavigator();
 
@@ -15,8 +14,7 @@ export default function DrawerNavigator() {
         header: ({ navigation, route }) => <AppBar navigation={navigation} title={route.name} />,
       }}
     >
-      <Drawer.Screen name="📊 Ventas y estadísticas" component={SalesScreen} />
-      <Drawer.Screen name="📞 Contacto Móvil" component={ContactMobile} />
+      <Drawer.Screen name="📊 Ventas y estadísticas" component= {SalesScreen} />
     </Drawer.Navigator>
   );
 }
