@@ -133,7 +133,7 @@ export default function HomeScreen() {
       brand: "Vida Saludable",
       price: "$45.000",
       discount: "-15%",
-      image: require("../../assets/vitaminB2.png"),
+      image: require("../../assets/proteina.png"),
     },
     {
       id: "3",

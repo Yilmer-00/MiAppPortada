@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ProductCard from "./ProductCard";
 
@@ -7,14 +7,14 @@ export default function CategorySection({ titulo, productos }) {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.titulo}>{titulo}</Text>
+    <View className="mb-[22px]">
+      <View className="mb-2.5 flex-row items-center justify-between px-0.5">
+        <Text className="text-lg font-extrabold text-[#222222]">{titulo}</Text>
 
         <TouchableOpacity
           onPress={() => navigation.navigate("CategoryDetail", { titulo, productos })}
         >
-          <Text style={styles.verMas}>Ver más...</Text>
+          <Text className="text-xs font-bold text-[#2E7D32]">Ver más...</Text>
         </TouchableOpacity>
       </View>
 
@@ -29,15 +29,3 @@ export default function CategorySection({ titulo, productos }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { marginBottom: 25 },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 15,
-    marginBottom: 10,
-  },
-  titulo: { fontSize: 20, fontWeight: "bold" },
-  verMas: { color: "#2E7D32", fontWeight: "bold" },
-});

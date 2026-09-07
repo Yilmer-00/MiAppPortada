@@ -28,12 +28,9 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-<<<<<<< HEAD
-      "expo-status-bar"
-=======
+        "plugins": [
+      "expo-status-bar",
       "@react-native-community/datetimepicker"
->>>>>>> origin/yilmer
-    ]
+        ]
   }
 }

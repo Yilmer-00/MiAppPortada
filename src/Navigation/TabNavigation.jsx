@@ -2,7 +2,6 @@ import React from "react";
 import { Home, Search, Heart, ShoppingCart, User, ShelvingUnit } from "lucide-react-native";
 import { StyleSheet, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
 import HomeScreen from "../screens/HomeScreen";
 import StoreScreen from "../screens/StoreScreen";
 import DiscountsScreen from "../screens/DiscountsScreen";

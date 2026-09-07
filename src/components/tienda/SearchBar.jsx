@@ -1,30 +1,14 @@
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput } from "react-native";
 
 export default function SearchBar({ value, onChangeText }) {
   return (
-    <View style={styles.container}>
+    <View className="mx-5 my-5">
       <TextInput
         placeholder="Buscar productos..."
-        style={styles.input}
         value={value}
         onChangeText={onChangeText}
+        className="h-[45px] rounded-lg border border-[#DDDDDD] bg-white px-4"
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 15,
-    marginBottom: 20,
-  },
-
-  input: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    height: 45,
-    borderWidth: 1,
-    borderColor: "#ddd",
-  },
-});

@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from "react";
 import {
   View,
   Animated,
-  StyleSheet,
   TouchableOpacity,
   Text,
 } from "react-native";
@@ -34,11 +33,11 @@ export default function PortadaScreen({ navigation }) {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 items-center justify-center bg-white">
       <Animated.Image
         source={require("../../assets/nutrick.png")}
         style={[
-          styles.logo,
+          { width: 220, height: 220, marginBottom: 40 },
           {
             transform: [
               {
@@ -51,40 +50,12 @@ export default function PortadaScreen({ navigation }) {
       />
 
       <TouchableOpacity
-        style={styles.button}
+        className="rounded-full bg-[#4CAF50] px-[35px] py-3 shadow-lg"
         onPress={() => navigation.navigate("Home")}
       >
-        <Text style={styles.buttonText}>Comenzar</Text>
+        <Text className="text-lg font-bold text-white">Comenzar</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  logo: {
-    width: 220,
-    height: 220,
-    marginBottom: 40,
-  },
-
-  button: {
-    backgroundColor: "#4CAF50",
-    paddingVertical: 12,
-    paddingHorizontal: 35,
-    borderRadius: 25,
-    elevation: 5,
-  },
-
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});

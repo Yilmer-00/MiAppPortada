@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native'; 
+import { View, Text } from 'react-native';
 
 export default function DiscountsScreen() {
     return (
-        <View>
-            <Text>Pagina Descuentos</Text>
+        <View className="flex-1 items-center justify-center bg-white">
+            <Text className="text-xl font-bold text-[#2E7D32]">Página Descuentos</Text>
         </View>
     );
 }
