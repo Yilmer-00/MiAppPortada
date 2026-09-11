@@ -11,7 +11,7 @@ import {
 
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ArrowLeft, Star, Heart, Plus, CheckCircle2 } from "lucide-react-native";
+import { ArrowLeft, Star, Heart, CheckCircle2 } from "lucide-react-native";
 
 const { width } = Dimensions.get("window");
 
@@ -77,7 +77,8 @@ export default function NewScreen() {
           nombre: product.title,
           precio: Number(product.price.replace(/[^0-9]/g, "")),
           imagen: product.image,
-          descuento: 0,
+            descuento: 10,
+            marca: product.brand,
           descripcion: `${product.title} de ${product.brand}, recién llegado a nuestra tienda.`,
         },
       },
@@ -169,21 +170,17 @@ export default function NewScreen() {
               </Text>
 
               {/* PRECIO */}
-              <View style={styles.bottomRow}>
-                <View>
-                  <Text style={styles.priceLabel}>Precio</Text>
-                  <Text style={styles.productPrice}>{item.price}</Text>
-                </View>
-
-                {/* AGREGAR */}
-                <TouchableOpacity
-                  style={styles.addButton}
-                  onPress={() => handleAdd(item)}
-                  activeOpacity={0.8}
-                >
-                  <Plus size={19} color="#FFFFFF" />
-                </TouchableOpacity>
+              <View style={styles.priceBlock}>
+                <Text style={styles.oldPrice}>${Math.round(Number(item.price.replace(/[^0-9]/g, "")) / 0.9).toLocaleString("es-CO")}</Text>
+                <Text style={styles.productPrice}>{item.price}</Text>
               </View>
+              <TouchableOpacity
+                style={styles.detailButton}
+                onPress={() => handleAdd(item)}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.detailButtonText}>Ver más →</Text>
+              </TouchableOpacity>
             </View>
           ))}
         </View>
@@ -218,18 +215,19 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 18, fontWeight: "800", color: "#222222" },
   productCount: { fontSize: 12, color: "#777777" },
   gridContainer: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" },
-  productCard: { width: (width - 44) / 2, backgroundColor: "#FFFFFF", borderRadius: 18, padding: 12, marginBottom: 14, borderWidth: 1, borderColor: "#E9EDE9", position: "relative", elevation: 2, shadowColor: "#000", shadowOpacity: 0.04, shadowRadius: 5, shadowOffset: { width: 0, height: 2 } },
-  tagBadge: { position: "absolute", top: 10, left: 10, backgroundColor: "#2E7D32", paddingHorizontal: 8, paddingVertical: 4, borderRadius: 10, zIndex: 2 },
+  productCard: { width: (width - 44) / 2, backgroundColor: "#FFFFFF", borderRadius: 10, padding: 10, marginBottom: 14, borderWidth: 1, borderColor: "#E5E8E5", position: "relative", elevation: 2, shadowColor: "#000", shadowOpacity: 0.05, shadowRadius: 5, shadowOffset: { width: 0, height: 2 } },
+  tagBadge: { position: "absolute", top: 9, left: 9, backgroundColor: "#080B09", paddingHorizontal: 7, paddingVertical: 3, borderRadius: 3, zIndex: 2 },
   tagBadgeText: { color: "#FFFFFF", fontSize: 9, fontWeight: "800" },
-  favoriteButton: { position: "absolute", top: 9, right: 9, width: 30, height: 30, borderRadius: 15, backgroundColor: "#F8F8F8", alignItems: "center", justifyContent: "center", zIndex: 2 },
-  imageContainer: { height: 125, marginTop: 15, marginBottom: 8, backgroundColor: "#F8FAF8", borderRadius: 14, alignItems: "center", justifyContent: "center" },
+  favoriteButton: { position: "absolute", top: 9, right: 9, width: 27, height: 27, borderRadius: 14, backgroundColor: "#FFFFFF", alignItems: "center", justifyContent: "center", zIndex: 2 },
+  imageContainer: { height: 125, marginTop: 15, marginBottom: 8, backgroundColor: "#FBFBFB", alignItems: "center", justifyContent: "center" },
   productImage: { width: "88%", height: "88%" },
-  productBrand: { fontSize: 10, color: "#888888", marginTop: 2, marginBottom: 3 },
+  productBrand: { fontSize: 9, color: "#777777", marginTop: 2, marginBottom: 3, textTransform: "uppercase", letterSpacing: 1 },
   productTitle: { fontSize: 13, fontWeight: "700", color: "#2D2D2D", lineHeight: 17, minHeight: 34 },
-  bottomRow: { flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between", marginTop: 10 },
-  priceLabel: { fontSize: 9, color: "#999999", marginBottom: 1 },
-  productPrice: { fontSize: 15, fontWeight: "800", color: "#2E7D32" },
-  addButton: { width: 32, height: 32, borderRadius: 16, backgroundColor: "#4CAF50", alignItems: "center", justifyContent: "center", elevation: 2 },
+  priceBlock: { marginTop: 10, marginBottom: 10 },
+  oldPrice: { fontSize: 9, color: "#999999", textDecorationLine: "line-through", marginBottom: 1 },
+  productPrice: { fontSize: 15, fontWeight: "800", color: "#145C35" },
+  detailButton: { height: 34, borderRadius: 18, backgroundColor: "#145C35", alignItems: "center", justifyContent: "center" },
+  detailButtonText: { color: "#FFFFFF", fontSize: 11, fontWeight: "800" },
   bottomMessage: { flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 10, paddingVertical: 15 },
   bottomMessageText: { fontSize: 12, color: "#777777", marginLeft: 7 },
 });

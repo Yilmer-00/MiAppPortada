@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Heart, Plus } from "lucide-react-native";
+import { Heart } from "lucide-react-native";
 
 export default function ProductCard({ producto }) {
   const navigation = useNavigation();
@@ -11,6 +11,7 @@ export default function ProductCard({ producto }) {
   const precio = Number(producto?.precio || producto?.price || 0);
   const descuento = producto?.descuento || 0;
   const precioFormateado = `$${precio.toLocaleString("es-CO")}`;
+  const precioAnterior = descuento ? Math.round(precio / (1 - descuento / 100)) : 0;
 
   return (
     <View className="relative mr-3 w-[164px] rounded-[18px] border border-[#E9EDE9] bg-white p-3 shadow-sm">
@@ -28,14 +29,15 @@ export default function ProductCard({ producto }) {
       <Text className="mb-0.5 text-[10px] text-[#888888]">Nutrik saludable</Text>
       <Text className="min-h-[34px] text-[13px] font-bold leading-[17px] text-[#2D2D2D]" numberOfLines={2}>{nombre}</Text>
 
+      <View className="mt-2.5 mb-2">
+        {precioAnterior > 0 && <Text className="text-[9px] text-[#999999] line-through">${precioAnterior.toLocaleString("es-CO")}</Text>}
+        <Text className="text-[15px] font-extrabold text-[#145C35]">{precioFormateado}</Text>
+      </View>
       <TouchableOpacity
-        className="mt-2.5 flex-row items-end justify-between"
+        className="h-[34px] items-center justify-center rounded-full bg-[#145C35]"
         onPress={() => navigation.navigate("ProductDetail", { producto })}
       >
-        <Text className="text-[15px] font-extrabold text-[#2E7D32]">{precioFormateado}</Text>
-        <View className="h-[31px] w-[31px] items-center justify-center rounded-full bg-[#4CAF50]">
-          <Plus size={16} color="#FFFFFF" />
-        </View>
+        <Text className="text-[11px] font-extrabold text-white">Ver más →</Text>
       </TouchableOpacity>
     </View>
   );
