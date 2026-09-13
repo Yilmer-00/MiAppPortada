@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function FacturasScreen({ navigation }) {
@@ -11,51 +11,45 @@ export default function FacturasScreen({ navigation }) {
   ];
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.title}>Facturación</Text>
-        <Text style={styles.subtitle}>Gestiona tus facturas de forma rápida y ordenada.</Text>
+    <ScrollView className="flex-1 bg-[#f8f9fa] p-4 pt-[50px]">
+      <View className="mb-5">
+        <Text className="text-2xl font-bold text-[#333]">Facturación</Text>
+        <Text className="text-sm text-[#666] mt-1 mb-3">Gestiona tus facturas de forma rápida y ordenada.</Text>
         
-        <TouchableOpacity style={styles.btnNueva}>
+        <TouchableOpacity className="bg-[#198754] flex-row items-center justify-center py-2.5 rounded-lg">
           <Ionicons name="add" size={18} color="#fff" />
-          <Text style={styles.btnNuevaText}>Nueva factura</Text>
+          <Text className="text-white font-bold ml-1.5">Nueva factura</Text>
         </TouchableOpacity>
       </View>
 
       {facturas.map((item) => (
-        <View key={item.id} style={styles.card}>
-          <View style={styles.cardRow}>
-            <Text style={styles.facturaId}>{item.id}</Text>
-            <View style={[
-              styles.badge, 
-              { backgroundColor: item.estado === 'Pagada' ? '#d1e7dd' : '#fff3cd' }
-            ]}>
-              <Text style={[
-                styles.badgeText, 
-                { color: item.estado === 'Pagada' ? '#0f5132' : '#664d03' }
-              ]}>
+        <View key={item.id} className="bg-white rounded-[10px] p-4 mb-3 border border-[#eee]">
+          <View className="flex-row justify-between items-center mb-1.5">
+            <Text className="font-bold text-[#198754] text-base">{item.id}</Text>
+            <View className={`px-2 py-[3px] rounded-md ${item.estado === 'Pagada' ? 'bg-[#d1e7dd]' : 'bg-[#fff3cd]'}`}>
+              <Text className={`text-xs font-bold ${item.estado === 'Pagada' ? 'text-[#0f5132]' : 'text-[#664d03]'}`}>
                 {item.estado}
               </Text>
             </View>
           </View>
 
-          <Text style={styles.clientName}>{item.cliente}</Text>
+          <Text className="text-lg font-semibold text-[#212529] mb-2.5">{item.cliente}</Text>
           
-          <View style={styles.cardFooter}>
+          <View className="flex-row justify-between items-end border-t border-[#eee] pt-2.5">
             <View>
-              <Text style={styles.label}>Fecha: {item.fecha}</Text>
-              <Text style={styles.totalText}>{item.total}</Text>
+              <Text className="text-xs text-[#888]">Fecha: {item.fecha}</Text>
+              <Text className="text-base font-bold text-[#333] mt-0.5">{item.total}</Text>
             </View>
             
-            <View style={styles.actions}>
+            <View className="flex-row">
               <TouchableOpacity 
-                style={styles.actionBtn}
+                className="py-1.5 px-3 rounded-md ml-2 bg-[#f1f3f5]"
                 onPress={() => navigation.navigate('FacturaDetalle', { factura: item })}
               >
-                <Text style={styles.actionTextVer}>Ver</Text>
+                <Text className="text-[#0d6efd] font-semibold text-[13px]">Ver</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.actionBtn, styles.downloadBtn]}>
-                <Text style={styles.actionTextDownload}>Descargar</Text>
+              <TouchableOpacity className="py-1.5 px-3 rounded-md ml-2 bg-[#e7f5ff]">
+                <Text className="text-[#0366d6] font-semibold text-[13px]">Descargar</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -64,114 +58,3 @@ export default function FacturasScreen({ navigation }) {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f9fa',
-    padding: 16,
-    paddingTop: 50,
-  },
-  headerContainer: {
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
-    marginBottom: 12,
-  },
-  btnNueva: {
-    backgroundColor: '#198754',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  btnNuevaText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    marginLeft: 6,
-  },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#eee',
-  },
-  cardRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 6,
-  },
-  facturaId: {
-    fontWeight: 'bold',
-    color: '#198754',
-    fontSize: 16,
-  },
-  badge: {
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
-  },
-  badgeText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  clientName: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#212529',
-    marginBottom: 10,
-  },
-  cardFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-    paddingTop: 10,
-  },
-  label: {
-    fontSize: 12,
-    color: '#888',
-  },
-  totalText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-    marginTop: 2,
-  },
-  actions: {
-    flexDirection: 'row',
-  },
-  actionBtn: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 6,
-    marginLeft: 8,
-    backgroundColor: '#f1f3f5',
-  },
-  downloadBtn: {
-    backgroundColor: '#e7f5ff',
-  },
-  actionTextVer: {
-    color: '#0d6efd',
-    fontWeight: '600',
-    fontSize: 13,
-  },
-  actionTextDownload: {
-    color: '#0366d6',
-    fontWeight: '600',
-    fontSize: 13,
-  },
-});
