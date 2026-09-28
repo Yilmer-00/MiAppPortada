@@ -63,7 +63,7 @@ export default function TabNavigation() {
       />
 
       <Tab.Screen
-        name="perfil"
+        name="ProfileScreen"
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ color }) => <User size={22} color={color} />,
