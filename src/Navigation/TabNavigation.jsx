@@ -2,8 +2,15 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-// 1. Agregado Store (o ShelvingUnit) al import
-import { Home, Search, ShoppingCart, User, FileText, Store } from "lucide-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context"; // <-- Importante para los botones de navegación
+import {
+  Home,
+  Search,
+  ShoppingCart,
+  User,
+  FileText,
+  Store,
+} from "lucide-react-native";
 
 // Pantallas
 import HomeScreen from "../screens/HomeScreen";
@@ -12,13 +19,14 @@ import CarScreen from "../screens/CarScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import NewScreen from "../screens/NewScreen";
 import Dashboard from "../screens/Dashboard/Dashboard";
-import FacturasStack from './FacturasStack';
+import FacturasStack from "./FacturasStack";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-
 export default function TabNavigation() {
+  const insets = useSafeAreaInsets(); // <-- Detecta el espacio inferior de la barra de navegación del móvil
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -26,7 +34,14 @@ export default function TabNavigation() {
         tabBarShowLabel: true,
         tabBarActiveTintColor: "#4CAF50",
         tabBarInactiveTintColor: "#888",
-        tabBarStyle: styles.tabBar,
+        // Estilos combinados: mantenemos el diseño y sumamos el espacio seguro inferior
+        tabBarStyle: [
+          styles.tabBar,
+          {
+            height: 65 + (insets.bottom > 0 ? insets.bottom : 10),
+            paddingBottom: insets.bottom > 0 ? insets.bottom : 8,
+          },
+        ],
         tabBarLabelStyle: styles.tabLabel,
       }}
     >
@@ -70,7 +85,7 @@ export default function TabNavigation() {
         }}
       />
 
-      {/* 2. Se registra FacturasStack (oculto en el tabBar) para habilitar las rutas */}
+      {/* Rutas ocultas en la barra de navegación */}
       <Tab.Screen
         name="FacturasStack"
         component={FacturasStack}
@@ -101,14 +116,11 @@ export default function TabNavigation() {
   );
 }
 
-
-
 const styles = StyleSheet.create({
   tabBar: {
-    height: 80,
     backgroundColor: "#ffffff",
     borderTopWidth: 1,
-    borderTopColor: "#eee",
+    borderTopColor: "#f3f4f6",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     elevation: 10,
@@ -120,7 +132,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     paddingTop: 8,
-    paddingBottom: 8,
   },
   tabLabel: {
     fontSize: 12,
