@@ -13,10 +13,16 @@ import {
 } from "lucide-react-native";
 
 // Pantallas
+//auth/autenticacion
+
+//cliente
+import StoreScreen from "../screens/client/StoreScreen";
+import CarScreen from "../screens/client/CarScreen";
+
+//share/compartir
+import ProfileScreen from "../screens/shared/ProfileScreen";
+
 import HomeScreen from "../screens/HomeScreen";
-import StoreScreen from "../screens/StoreScreen";
-import CarScreen from "../screens/CarScreen";
-import ProfileScreen from "../screens/ProfileScreen";
 import NewScreen from "../screens/NewScreen";
 import Dashboard from "../screens/Dashboard/Dashboard";
 import FacturasStack from "./FacturasStack";
