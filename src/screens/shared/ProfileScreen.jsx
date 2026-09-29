@@ -42,7 +42,7 @@ export default function ProfileScreen({ setModalVisible }) {
           icon: "📦",
           badge: "1 activo",
           route: "Dashboard",
-          route: ". . .",
+          route: "OrdersScreen",
         },
         {
           id: "5",
@@ -56,7 +56,7 @@ export default function ProfileScreen({ setModalVisible }) {
           title: "Auto-recompra / Suscripciones",
           icon: "🔄",
           subtitle: "Proteína mensual (Activa)",
-          route: "Addresses",
+          route: "SubscriptionsScreen",
         },
       ],
     },

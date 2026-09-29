@@ -20,6 +20,8 @@ import StoreScreen from "../screens/client/StoreScreen";
 import CarScreen from "../screens/client/CarScreen";
 import PreferencesScreen from "../screens/client/profile/PreferencesScreen";
 import PaymentMethodsScreen from "../screens/client/profile/PaymentMethodsScreen";
+import OrdersScreen from "../screens/client/profile/OrdersScreen";
+import SubscriptionsScreen from "../screens/client/profile/SubscriptionsScreen";
 
 //share/compartir
 import ProfileScreen from "../screens/shared/ProfileScreen";
@@ -122,7 +124,25 @@ export default function TabNavigation() {
           tabBarButton: () => null,
         }}
       />
-      
+
+      <Tab.Screen
+        name="OrdersScreen"
+        component={OrdersScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+
+      <Tab.Screen
+        name="SubscriptionsScreen"
+        component={SubscriptionsScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+
       <Tab.Screen
         name="NewScreen"
         component={NewScreen}
