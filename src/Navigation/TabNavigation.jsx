@@ -62,7 +62,7 @@ export default function TabNavigation() {
 
       <Tab.Screen
         name="Tienda"
-        component={StoreScreen}
+        component={NewScreen}
         options={{
           tabBarIcon: ({ color }) => <Store size={22} color={color} />,
         }}
