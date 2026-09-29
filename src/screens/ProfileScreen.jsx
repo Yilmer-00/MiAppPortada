@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+
+
 export default function ProfileScreen({ setModalVisible }) {
 
     const navigation = useNavigation();
@@ -17,7 +19,7 @@ export default function ProfileScreen({ setModalVisible }) {
         {
             title: 'Nutrik & Compras',
             items: [
-                { id: '4', title: 'Mis Pedidos', icon: '📦', badge: '1 activo' },
+                { id: '4', title: 'Mis Pedidos', icon: '📦', badge: '1 activo', route: '/screens/Dashboard' },
                 { id: '5', title: 'Preferencias de Dieta', icon: '🥗', subtitle: 'Keto • Orgánico' },
                 { id: '6', title: 'Auto-recompra / Suscripciones', icon: '🔄', subtitle: 'Proteína mensual (Activa)' },
             ]
@@ -39,8 +41,12 @@ export default function ProfileScreen({ setModalVisible }) {
                 <TouchableOpacity className="w-10 h-10 rounded-full bg-white shadow-xs border border-gray-100 items-center justify-center">
                     <Text className="text-gray-700 text-lg">←</Text>
                 </TouchableOpacity>
-                <Text className="text-gray-900 text-lg font-bold">Perfil</Text>
-                <TouchableOpacity className="w-10 h-10 rounded-full bg-emerald-50 items-center justify-center">
+                <Text className="text-gray-900 text-lg font-bold color-emerald-700">Perfil</Text>
+                <TouchableOpacity
+                    className="w-10 h-10 rounded-full bg-emerald-50 items-center justify-center"
+                    // 3. Usa navigation.navigate en lugar de router.push
+                    onPress={() => navigation.navigate("EditProfile")}
+                >
                     <Text className="text-emerald-700 text-base">✏️</Text>
                 </TouchableOpacity>
             </View>
@@ -109,35 +115,34 @@ export default function ProfileScreen({ setModalVisible }) {
                         <Text className="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2 px-1">
                             {group.title}
                         </Text>
-                        <View className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-xs">
-                            {group.items.map((item, itemIdx) => (
-                                <TouchableOpacity
-                                    key={item.id}
-                                    className={`flex-row items-center justify-between px-4 py-3.5 ${itemIdx !== group.items.length - 1 ? 'border-b border-gray-100' : ''
-                                        } active:bg-gray-50`}
-                                >
-                                    <View className="flex-row items-center flex-1">
-                                        <View className="w-9 h-9 rounded-xl bg-emerald-50 items-center justify-center mr-3.5">
-                                            <Text className="text-base">{item.icon}</Text>
-                                        </View>
-                                        <View className="flex-1">
-                                            <Text className="text-gray-800 text-sm font-semibold">{item.title}</Text>
-                                            {item.subtitle && (
-                                                <Text className="text-gray-400 text-xs mt-0.5">{item.subtitle}</Text>
-                                            )}
-                                        </View>
+
+                        {/* Recorremos los items directamente sin el contenedor envolvente */}
+                        {group.items.map((item) => (
+                            <TouchableOpacity
+                                key={item.id}
+                                className="flex-row items-center justify-between px-4 py-3.5 bg-white rounded-2xl border border-gray-100 mb-3 shadow-xs active:bg-gray-50"
+                            >
+                                <View className="flex-row items-center flex-1">
+                                    <View className="w-9 h-9 rounded-xl bg-emerald-50 items-center justify-center mr-3.5">
+                                        <Text className="text-base">{item.icon}</Text>
                                     </View>
-                                    <View className="flex-row items-center space-x-2">
-                                        {item.badge && (
-                                            <View className="bg-emerald-100 px-2.5 py-0.5 rounded-full">
-                                                <Text className="text-emerald-700 text-xs font-bold">{item.badge}</Text>
-                                            </View>
+                                    <View className="flex-1">
+                                        <Text className="text-gray-800 text-sm font-semibold">{item.title}</Text>
+                                        {item.subtitle && (
+                                            <Text className="text-gray-400 text-xs mt-0.5">{item.subtitle}</Text>
                                         )}
-                                        <Text className="text-gray-300 text-lg">›</Text>
                                     </View>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
+                                </View>
+                                <View className="flex-row items-center space-x-2">
+                                    {item.badge && (
+                                        <View className="bg-emerald-100 px-2.5 py-0.5 rounded-full">
+                                            <Text className="text-emerald-700 text-xs font-bold">{item.badge}</Text>
+                                        </View>
+                                    )}
+                                    <Text className="text-gray-300 text-lg">›</Text>
+                                </View>
+                            </TouchableOpacity>
+                        ))}
                     </View>
                 ))
             }
