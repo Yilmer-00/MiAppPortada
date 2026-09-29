@@ -18,6 +18,8 @@ import {
 //cliente
 import StoreScreen from "../screens/client/StoreScreen";
 import CarScreen from "../screens/client/CarScreen";
+import PreferencesScreen from "../screens/client/profile/PreferencesScreen";
+import PaymentMethodsScreen from "../screens/client/profile/PaymentMethodsScreen";
 
 //share/compartir
 import ProfileScreen from "../screens/shared/ProfileScreen";
@@ -59,7 +61,6 @@ export default function TabNavigation() {
           tabBarIcon: ({ color }) => <Home size={22} color={color} />,
         }}
       />
-
       <Tab.Screen
         name="Tienda"
         component={StoreScreen}
@@ -67,7 +68,6 @@ export default function TabNavigation() {
           tabBarIcon: ({ color }) => <Store size={22} color={color} />,
         }}
       />
-
       <Tab.Screen
         name="Buscar"
         component={StoreScreen}
@@ -75,7 +75,6 @@ export default function TabNavigation() {
           tabBarIcon: ({ color }) => <Search size={22} color={color} />,
         }}
       />
-
       <Tab.Screen
         name="Carrito"
         component={CarScreen}
@@ -83,7 +82,6 @@ export default function TabNavigation() {
           tabBarIcon: ({ color }) => <ShoppingCart size={22} color={color} />,
         }}
       />
-
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
@@ -91,7 +89,6 @@ export default function TabNavigation() {
           tabBarIcon: ({ color }) => <User size={22} color={color} />,
         }}
       />
-
       {/* Rutas ocultas en la barra de navegación */}
       <Tab.Screen
         name="FacturasStack"
@@ -109,7 +106,23 @@ export default function TabNavigation() {
           tabBarButton: () => null,
         }}
       />
-
+      <Tab.Screen
+        name="PreferencesScreen"
+        component={PreferencesScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="PaymentMethodsScreen"
+        component={PaymentMethodsScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+      
       <Tab.Screen
         name="NewScreen"
         component={NewScreen}
@@ -118,7 +131,6 @@ export default function TabNavigation() {
           tabBarButton: () => null,
         }}
       />
-
       <Tab.Screen
         name="Dashboard"
         component={Dashboard}
