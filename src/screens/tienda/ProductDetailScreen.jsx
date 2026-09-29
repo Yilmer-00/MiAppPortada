@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import {Image,ScrollView, StyleSheet,Text, TouchableOpacity, useWindowDimensions,View,} from "react-native";
 import { CreditCard, Minus, Plus, ShoppingCart, Zap } from "lucide-react-native";
 
 export default function ProductDetailScreen({ route }) {
