@@ -9,7 +9,7 @@ export default function LoadingScreen() {
         <Image
           // IMPORTANTE: Asegúrate de que la ruta a tu logo sea correcta.
           // Si tu logo está en /assets/logo.png, la ruta relativa desde /src/screens es:
-          source={require("../../assets/nutrick.png")}
+          source={require("../../../assets/nutrick.png")}
           style={styles.logo}
           // 'contain' asegura que el logo no se corte y se ajuste al espacio:
           resizeMode="contain"

@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import TabNavigation from "./src/Navigation/TabNavigation";
 
-import LoadingScreen from "./src/screens/LoadingScreen";
+import LoadingScreen from "./src/screens/auth/LoadingScreen"; // Asegúrate de que la ruta sea correcta
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);

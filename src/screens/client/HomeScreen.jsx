@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, TextInput, FlatList, TouchableOpacity, Image, Dimensions } from "react-native";
 import { Search } from "lucide-react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import TopHeader from "../components/TopHeader";
-import Footer from "../components/Footer";
+import TopHeader from "../../components/TopHeader";
+import Footer from "../../components/Footer";
 
 const { width } = Dimensions.get('window');
 const BANNER_WIDTH = width - 32;
@@ -13,21 +13,21 @@ const banners = [
     title: "50% OFF\nEn Tu Vida Saludable",
     subtitle: "Aprovecha hoy nuestros descuentos",
     buttonText: "Comprar Ahora",
-    image: require("../../assets/Saludable.png"),
+    image: require("../../../assets/Saludable.png"),
   },
   {
     id: "2",
     title: "Nuevas Proteínas\n100% Orgánicas",
     subtitle: "Envíos gratis por compras mayores a $100k",
     buttonText: "Ver Catálogo",
-    image: require("../../assets/bannerdos.png"),
+    image: require("../../../assets/bannerdos.png"),
   },
   {
     id: "3",
     title: "Ofertas Especiales\nen Multivitamínicos",
     subtitle: "Fortalece tu salud este mes",
     buttonText: "Descubrir",
-    image: require("../../assets/bannertres.png"),
+    image: require("../../../assets/bannertres.png"),
   },
 ];
 export default function HomeScreen() {
@@ -60,7 +60,7 @@ export default function HomeScreen() {
     {
       id: "1",
       name: "Proteínas",
-      icon: require("../../assets/icons/proteina.png"),
+      icon: require("../../../assets/icons/proteina.png"),    
       screen: "ProteinasScreen", // Ruta para navegación
       bgColor: "#E8F5E9",         // Color personalizado para el icono
       badge: "Populares",
@@ -68,49 +68,49 @@ export default function HomeScreen() {
     {
       id: "2",
       name: "Vitaminas",
-      icon: require("../../assets/icons/vitaminas.png"),
+      icon: require("../../../assets/icons/vitaminas.png"),
       screen: "VitaminasScreen",
       bgColor: "#FFF3E0",
     },
     {
       id: "3",
       name: "Snacks",
-      icon: require("../../assets/icons/snacks.png"),
+      icon: require("../../../assets/icons/snacks.png"),
       screen: "SnacksScreen",
       bgColor: "#c4f783",
     },
     {
       id: "4",
       name: "Bebidas",
-      icon: require("../../assets/icons/bebidas.png"),
+      icon: require("../../../assets/icons/bebidas.png"),
       screen: "BebidasScreen",
       bgColor: "#99eff1",
     },
     {
       id: "5",
       name: "Creatinas",
-      icon: require("../../assets/icons/creatina.png"),
+      icon: require("../../../assets/icons/creatina.png"),
       screen: "CreatinasScreen",
       bgColor: "#ffaf53",
     },
     {
       id: "7",
       name: "Superfoods",
-      icon: require("../../assets/icons/superfoods.png"),
+      icon: require("../../../assets/icons/superfoods.png"),
       screen: "SuperfoodsScreen",
       bgColor: "#ffe570",
     },
     {
       id: "8",
       name: "Frutas",
-      icon: require("../../assets/icons/frutas.png"),
+      icon: require("../../../assets/icons/frutas.png"),
       screen: "FrutasScreen",
       bgColor: "#58fc7c",
     },
     {
       id: "9",
       name: "Accesorios",
-      icon: require("../../assets/icons/accesorios.png"),
+      icon: require("../../../assets/icons/accesorios.png"),
       screen: "AccesoriosScreen",
       bgColor: "#acaba9",
     },
@@ -125,7 +125,7 @@ export default function HomeScreen() {
       brand: "Nutrik Organic",
       price: "$120.000",
       discount: "-20%",
-      image: require("../../assets/proteina.png"),
+      image: require("../../../assets/proteina.png"),
     },
     {
       id: "2",
@@ -133,7 +133,7 @@ export default function HomeScreen() {
       brand: "Vida Saludable",
       price: "$5.000",
       discount: "-15%",
-      image: require("../../assets/vitaminB2.png"),
+      image: require("../../../assets/vitaminB2.png"),
     },
     {
       id: "3",
@@ -141,7 +141,7 @@ export default function HomeScreen() {
       brand: "Vida Saludable",
       price: "$15.000",
       discount: "-15%",
-      image: require("../../assets/Questbar.png"),
+      image: require("../../../assets/Questbar.png"),
     },
     {
       id: "4",
@@ -149,7 +149,7 @@ export default function HomeScreen() {
       brand: "Vida Saludable",
       price: "$15.000",
       discount: "-10%",
-      image: require("../../assets/mantequillaNutrelle.png"),
+      image: require("../../../assets/mantequillaNutrelle.png"),
     },
     {
       id: "5",
@@ -157,7 +157,7 @@ export default function HomeScreen() {
       brand: "Vida Saludable",
       price: "$7.000",
       discount: "-15%",
-      image: require("../../assets/electrolit.png"),
+      image: require("../../../assets/electrolit.png"),
     },
   ];
 

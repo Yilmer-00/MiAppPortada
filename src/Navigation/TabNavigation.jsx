@@ -12,21 +12,41 @@ import {
   Store,
 } from "lucide-react-native";
 
-// Pantallas
-//auth/autenticacion
+// ==========================================
+// PANTALLAS / AUTH
+// ==========================================
+// import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
+// import AuthLoadingScreen from "../screens/auth/LoadingScreen"; // Renombrado para evitar conflicto con shared
+// import RegisterScreen from "../screens/auth/RegisterScreen";
 
-//cliente
+// ==========================================
+// PANTALLAS / CLIENT
+// ==========================================
 import StoreScreen from "../screens/client/StoreScreen";
 import CarScreen from "../screens/client/CarScreen";
+import HomeScreen from "../screens/client/HomeScreen";                 // Ruta corregida
+import AddressesScreen from "../screens/client/AddressesScreen";         // Faltaba
+import EditProfile from "../screens/client/EditProfile";           // Ruta corregida (está en client)
+import FacturaDetalleScreen from "../screens/client/FacturaDetalleScreen"; // Faltaba
+import Facturasscreen from "../screens/client/FacturasScreen";           // Faltaba
+import ProfileScreen from "../screens/client/ProfileScreen";             // Faltaba
 
-//share/compartir
-import ProfileScreen from "../screens/shared/ProfileScreen";
+// ==========================================
+// PANTALLAS / SELLER
+// ==========================================
+import Dashboard from "../screens/seller/Dashboard";
+import NewScreen from "../screens/seller/NewScreen";                     // Ruta corregida
+// import EditProductScreen from "../screens/seller/EditProductScreen";     // Faltaba
+// import OrdersScreen from "../screens/seller/OrdersScreen";               // Faltaba
+// import ProductsScreen from "../screens/seller/ProductsScreen";           // Faltaba
 
-import HomeScreen from "../screens/HomeScreen";
-import EditProfile from "../screens/EditProfile";
-import NewScreen from "../screens/NewScreen";
-import Dashboard from "../screens/Dashboard/Dashboard";
+// ==========================================
+// NAVEGACIÓN Y COMPONENTES COMPARTIDOS
+// ==========================================
 import FacturasStack from "./FacturasStack";
+// import SharedLoadingScreeno from "../screens/shared/LoadingScreen";
+
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -104,6 +124,33 @@ export default function TabNavigation() {
       <Tab.Screen
         name="EditProfile"
         component={EditProfile}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+
+      <Tab.Screen
+        name="AddressesScreen"
+        component={AddressesScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+
+      <Tab.Screen
+        name="FacturaDetalleScreen"
+        component={FacturaDetalleScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+
+      <Tab.Screen
+        name="Facturasscreen"
+        component={Facturasscreen}
         options={{
           tabBarItemStyle: { display: "none" },
           tabBarButton: () => null,
