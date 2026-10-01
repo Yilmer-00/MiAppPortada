@@ -103,7 +103,7 @@ export default function TopHeader({ title = "Inicio" }) {
                   style={styles.menuItem}
                   onPress={() => {
                     setModalVisible(false);
-                    navigation.navigate("NewScreen");
+                    navigation.navigate("RegisterScreen");
                   }}
                 >
                   <Text style={styles.menuIcon}>✨</Text>

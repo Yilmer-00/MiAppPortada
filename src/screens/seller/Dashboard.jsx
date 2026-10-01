@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Dimensions, Platform, } from 'react-native';
 import { LineChart, PieChart } from 'react-native-gifted-charts';
+import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Footer from "../../components/Footer";
-import TopHeader from "../../components/TopHeader";
-
+import SellerHeader from '../../components/SellerHeader';
 const { width } = Dimensions.get('window');
 
 // --- DATOS DE PRUEBA ---
@@ -41,7 +41,10 @@ const productosTop = [
     { nombre: 'Multivitamínico Fit', categoria: 'Vitaminas', vendidos: '76 unids', total: '$ 1.140.000' },
 ];
 
-export default function Dashboard({ navigation }) {
+export default function Dashboard() {
+
+    const navigation = useNavigation();
+
     const [fechaInicio, setFechaInicio] = useState(new Date(2026, 7, 1));  // 01/08/2026
     const [fechaFin, setFechaFin] = useState(new Date(2026, 7, 25));       // 25/08/2026
 
@@ -85,8 +88,7 @@ export default function Dashboard({ navigation }) {
     };
     return (
 
-        <SafeAreaView style={styles.safeArea}>
-            <TopHeader title="Estadísticas Vendedor" />
+        <SafeAreaView style={styles.safeArea}>           
             <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
 
                 <View style={styles.headerRow}>
