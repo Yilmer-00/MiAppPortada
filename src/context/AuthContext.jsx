@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 
         // USUARIO CLIENTE DE PRUEBA
         if (
-            email === "cliente@test.com" &&
+            email === "cliente@gmail.com" &&
             password === "123456"
         ) {
             setUser({
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
 
         // USUARIO VENDEDOR DE PRUEBA
         if (
-            email === "vendedor@test.com" &&
+            email === "vendedor@gmail.com" &&
             password === "123456"
         ) {
             setUser({

@@ -4,7 +4,8 @@ import {
   Text,
   TextInput,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { AuthContext } from "../../context/AuthContext";
@@ -13,7 +14,7 @@ import { AuthContext } from "../../context/AuthContext";
 export default function LoginScreen({ navigation }) {
   const { login } = useContext(AuthContext);
 
-  const [email, setEmail] = useState('cliente@test.com');
+  const [email, setEmail] = useState('@gmail.com');
   const [password, setPassword] = useState('123456');
 
   const [rememberMe, setRememberMe] = useState(true);
@@ -39,29 +40,33 @@ export default function LoginScreen({ navigation }) {
           <Ionicons name="chevron-back" size={20} color="#111827" />
         </TouchableOpacity>
 
-        {/* Logo superior con texto Nutrik[cite: 11] */}
-        <View className="flex-row items-center bg-white px-4 py-1.5 rounded-full shadow-sm border border-emerald-100">
-          <View className="w-5 h-5 bg-emerald-500 rounded-full items-center justify-center mr-2">
-            <MaterialCommunityIcons name="food-apple-outline" size={12} color="white" />
-          </View>
-          <Text className="text-sm font-bold text-gray-900">Nutrik</Text>
-        </View>
+        {/* Espacio vacío para equilibrar el diseño o puedes quitar este View */}
+        <View />
 
         <TouchableOpacity
           onPress={() => navigation.navigate('ProfileScreen')}
           className="w-10 h-10 bg-white rounded-full items-center justify-center shadow-sm border border-gray-100"
         >
-          <Feather name="user" size={18} color="#00C896" />
+          <Feather name="user" size={18} color="#034600" />
         </TouchableOpacity>
       </View>
 
       {/* 2. ICONO CENTRAL Y BIENVENIDA */}
       <View className="items-center mb-5">
-        <View className="w-20 h-20 bg-white rounded-full items-center justify-center shadow-md border border-emerald-100 mb-3">
-          <MaterialCommunityIcons name="food-apple-outline" size={36} color="#00C896" />
-          <View className="absolute top-1 right-2 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-white" />
+
+        {/* Contenedor del Logo Central */}
+        <View className="w-40 h-40 bg-white rounded-3xl items-center justify-center shadow-md border border-gray-100 mb-3 p-2">
+          <Image
+            source={require('../../../assets/nutrick.png')}
+            style={{
+              width: '100%',
+              height: '100%',
+              resizeMode: 'contain'
+            }}
+          />
         </View>
 
+        {/* Badge de Nutrición Inteligente */}
         <View className="bg-emerald-100/60 px-3.5 py-1 rounded-full flex-row items-center mb-3">
           <View className="w-2 h-2 rounded-full bg-[#00C896] mr-2" />
           <Text className="text-[11px] font-bold text-emerald-800 tracking-wider">NUTRICIÓN INTELIGENTE</Text>
@@ -69,10 +74,9 @@ export default function LoginScreen({ navigation }) {
 
         <Text className="text-2xl font-black text-gray-900 text-center mb-1">¡Hola de nuevo!</Text>
         <Text className="text-xs text-gray-500 text-center px-6 leading-4">
-          Accede a tu nutrición personalizada, metas fit y pedidos en curso[cite: 11].
+          Accede a tu nutrición personalizada, metas fit y pedidos en curso.
         </Text>
       </View>
-
       {/* 3. PESTAÑAS (INICIAR SESIÓN / REGISTRARSE)[cite: 11] */}
       <View className="flex-row bg-gray-200/50 p-1 rounded-2xl mb-5 border border-gray-200/40">
         <TouchableOpacity className="flex-1 py-3 rounded-xl bg-white shadow-sm items-center justify-center">
@@ -157,14 +161,14 @@ export default function LoginScreen({ navigation }) {
       </TouchableOpacity>
 
       {/* 7. ACCESO BIOMÉTRICO[cite: 11] */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => navigation.navigate('BiometricLoginScreen')}
         className="bg-emerald-50/80 border border-emerald-200/60 rounded-2xl py-3.5 flex-row justify-center items-center mb-6"
       >
         <MaterialCommunityIcons name="face-recognition" size={18} color="#00C896" style={{ marginRight: 8 }} />
         <Text className="text-xs font-bold text-emerald-900 mr-2">Acceder con Face ID / Huella</Text>
         <Feather name="lock" size={12} color="#00C896" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* 8. SEPARADOR SOCIAL[cite: 11] */}
       <View className="flex-row items-center mb-5">
@@ -225,6 +229,6 @@ export default function LoginScreen({ navigation }) {
         <Text className="text-[10px] text-gray-400">Nutrik Health & Fitness Ecosystem © 2025</Text>
       </View>
 
-    </ScrollView>
+    </ScrollView >
   );
 }
