@@ -35,14 +35,6 @@ import FacturaDetalleScreen from "../screens/client/FacturaDetalleScreen"; // Fa
 import Facturasscreen from "../screens/client/FacturasScreen";           // Faltaba
 import ProfileScreen from "../screens/client/ProfileScreen";             // Faltaba
 
-// ==========================================
-// PANTALLAS / SELLER
-// ==========================================
-import Dashboard from "../screens/seller/Dashboard";
-import NewScreen from "../screens/seller/NewScreen";                     // Ruta corregida
-// import EditProductScreen from "../screens/seller/EditProductScreen";     // Faltaba
-// import OrdersScreen from "../screens/seller/OrdersScreen";               // Faltaba
-// import ProductsScreen from "../screens/seller/ProductsScreen";           // Faltaba
 
 // ==========================================
 // NAVEGACIÓN Y COMPONENTES COMPARTIDOS

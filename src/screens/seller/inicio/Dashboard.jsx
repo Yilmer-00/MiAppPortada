@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Dim
 import { LineChart, PieChart } from 'react-native-gifted-charts';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Footer from "../../components/Footer";
-import SellerHeader from '../../components/SellerHeader';
+import Footer from "../../../components/Footer";
+import SellerHeader from '../../../components/SellerHeader';
 const { width } = Dimensions.get('window');
 
 // --- DATOS DE PRUEBA ---
@@ -107,7 +107,7 @@ export default function Dashboard() {
                         }}
                     >
                         <Text style={styles.dateText}>
-                            📅 {formatearFecha(fechaInicio)} - {formatearFecha(fechaFin)}
+                            {formatearFecha(fechaInicio)} - {formatearFecha(fechaFin)}
                         </Text>
                     </TouchableOpacity>
                 </View>

@@ -23,10 +23,17 @@ const AuthNavigator = () => {
                 name="Register"
                 component={RegisterScreen}
                 options={{
-                    title: "Crear cuenta",
+                    headerShown: false,
+
                 }}
             />
-            <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
+            <Stack.Screen
+            name="ForgotPasswordScreen" 
+            component={ForgotPasswordScreen}
+            options={{
+                headerShown: false,
+            }}
+            />
 
         </Stack.Navigator>
     );

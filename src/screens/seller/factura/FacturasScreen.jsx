@@ -42,7 +42,7 @@ export default function FacturasScreen() {
 
             {/* Detalles: Fecha y Total */}
             <View className="flex-row justify-between items-center border-t border-gray-100 pt-2.5 mb-2">
-                <Text className="text-xs text-gray-500">📅 {item.fecha}</Text>
+                <Text className="text-xs text-gray-500">fecha: {item.fecha}</Text>
                 <Text className="text-base font-bold text-gray-900">{item.total}</Text>
             </View>
 
@@ -65,6 +65,7 @@ export default function FacturasScreen() {
                 </TouchableOpacity>
             </View>
         </View>
+
     );
 
     return (
@@ -103,6 +104,7 @@ export default function FacturasScreen() {
                 renderItem={renderFacturaCard}
                 contentContainerStyle={{ paddingBottom: 20 }}
                 showsVerticalScrollIndicator={false}
+
             />
         </View>
     );
