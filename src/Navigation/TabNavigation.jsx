@@ -12,21 +12,41 @@ import {
   Store,
 } from "lucide-react-native";
 
-// Pantallas
-//auth/autenticacion
+// ==========================================
+// PANTALLAS / AUTH
+// ==========================================
+// import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
+// import AuthLoadingScreen from "../screens/auth/LoadingScreen"; // Renombrado para evitar conflicto con shared
+// import RegisterScreen from "../screens/auth/RegisterScreen";
 
-//cliente
+// ==========================================
+// PANTALLAS / CLIENT
+// ==========================================
 import StoreScreen from "../screens/client/StoreScreen";
 import CarScreen from "../screens/client/CarScreen";
+import HomeScreen from "../screens/client/HomeScreen";                 // Ruta corregida
+import AddressesScreen from "../screens/client/AddressesScreen";         // Faltaba
+import EditProfile from "../screens/client/EditProfile";           // Ruta corregida (está en client)
+import FacturaDetalleScreen from "../screens/client/FacturaDetalleScreen"; // Faltaba
+import Facturasscreen from "../screens/client/FacturasScreen";           // Faltaba
+import ProfileScreen from "../screens/client/ProfileScreen";             // Faltaba
+import ProductsScreen from '../screens/client/ProductsScreen';
+// ==========================================
+// PANTALLAS / SELLER
+// ==========================================
+import Dashboard from "../screens/seller/Dashboard";
+import NewScreen from "../screens/client/NewScreen";                     // Ruta corregida
+// import EditProductScreen from "../screens/seller/EditProductScreen";     // Faltaba
+// import OrdersScreen from "../screens/seller/OrdersScreen";               // Faltaba
+// import ProductsScreen from "../screens/seller/ProductsScreen";           // Faltaba
 
-//share/compartir
-import ProfileScreen from "../screens/shared/ProfileScreen";
-
-import HomeScreen from "../screens/HomeScreen";
-import EditProfile from "../screens/EditProfile";
-import NewScreen from "../screens/NewScreen";
-import Dashboard from "../screens/Dashboard/Dashboard";
+// ==========================================
+// NAVEGACIÓN Y COMPONENTES COMPARTIDOS
+// ==========================================
 import FacturasStack from "./FacturasStack";
+// import SharedLoadingScreeno from "../screens/shared/LoadingScreen";
+
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -36,6 +56,7 @@ export default function TabNavigation() {
 
   return (
     <Tab.Navigator
+    
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
@@ -62,7 +83,7 @@ export default function TabNavigation() {
 
       <Tab.Screen
         name="Tienda"
-        component={NewScreen}
+        component={ProductsScreen}
         options={{
           tabBarIcon: ({ color }) => <Store size={22} color={color} />,
         }}
@@ -111,8 +132,43 @@ export default function TabNavigation() {
       />
 
       <Tab.Screen
+        name="AddressesScreen"
+        component={AddressesScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+
+      <Tab.Screen
+        name="FacturaDetalleScreen"
+        component={FacturaDetalleScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+
+      <Tab.Screen
+        name="Facturasscreen"
+        component={Facturasscreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+
+      <Tab.Screen
         name="NewScreen"
         component={NewScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="ProductsScreen"
+        component={ProductsScreen}
         options={{
           tabBarItemStyle: { display: "none" },
           tabBarButton: () => null,

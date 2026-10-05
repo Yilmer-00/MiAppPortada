@@ -23,7 +23,7 @@ const newProducts = [
     brand: "Nutrik Natural",
     price: "$28.000",
     weight: "500g",
-    image: require("../../assets/mantequilla.png"),
+    image: require("../../../assets/mantequilla.png"),
   },
   {
     id: "2",
@@ -31,7 +31,7 @@ const newProducts = [
     brand: "FitBar Organic",
     price: "$12.000",
     weight: "60g",
-    image: require("../../assets/barra.png"),
+    image: require("../../../assets/barra.png"),
   },
   {
     id: "3",
@@ -39,14 +39,15 @@ const newProducts = [
     brand: "Green Tea Co",
     price: "$52.000",
     weight: "100g",
-    image: require("../../assets/matcha.png"),
+    image: require("../../../assets/matcha.png"),
   },
   {
     id: "4",
     title: "Creatina Monohidratada",
     brand: "Nutrik Pure",
     price: "$85.000",
-    
+    weight: "300g",
+    image: require("../../../assets/proteina.png")
   },
   {
     id: "5",
@@ -54,7 +55,7 @@ const newProducts = [
     brand: "BioVida",
     price: "$34.000",
     weight: "450ml",
-    image: require("../../assets/coco.png"),
+    image: require("../../../assets/coco.png"),
   },
   {
     id: "6",
@@ -62,7 +63,7 @@ const newProducts = [
     brand: "Nutrik Natural",
     price: "$22.000",
     weight: "400g",
-    image: require("../../assets/secos.png"),
+    image: require("../../../assets/secos.png"),
   },
 ];
 
