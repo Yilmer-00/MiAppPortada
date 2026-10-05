@@ -133,7 +133,7 @@ export default function HomeScreen() {
       brand: "Vida Saludable",
       price: "$5.000",
       discount: "-15%",
-     
+      image: { uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0U3brOwt9Aoop-aFWgxhVicDEW1rGLnbTOLiRVKSxxw&s=10" },
     },
     {
       id: "3",

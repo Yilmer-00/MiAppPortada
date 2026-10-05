@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  FlatList,
   ScrollView,
   StyleSheet,
 } from "react-native";
@@ -18,7 +17,7 @@ import {
   ShoppingBag,
 } from "lucide-react-native";
 
-// Categorías según la UI de las imágenes
+// Categorías según la UI
 const categories = [
   { id: "all", name: "All", icon: "grid" },
   { id: "peanut", name: "Maní", icon: "🥜" },
@@ -102,17 +101,24 @@ export default function ProductsScreen() {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  // Filtrado dinámico únicamente por categoría
+  // Filtrado dinámico por categoría
   const filteredProducts = productsData.filter((product) => {
     return selectedCategory === "all" || product.category === selectedCategory;
   });
 
-  // Ir a la pantalla de detalle (Imagen 3)
+  // Ir a la pantalla de detalle (Asegura pasar el ID y campos serializables)
   const handleOpenDetail = (product) => {
-    navigation.navigate("ProductDetail", { product });
+    const { image, ...serializableProduct } = product;
+
+    const parentNav = navigation.getParent();
+    if (parentNav) {
+      parentNav.navigate("ProductDetail", { product: serializableProduct });
+    } else {
+      navigation.navigate("ProductDetail", { product: serializableProduct });
+    }
   };
 
-  // Enviar directamente al Carrito
+  // Enviar al Carrito
   const handleAddToCart = (product) => {
     navigation.navigate("Carrito", {
       productoAgregar: {
@@ -122,52 +128,10 @@ export default function ProductsScreen() {
         price: product.price,
         numericPrice: product.numericPrice,
         weight: product.weight,
-        image: product.image,
         bgAccent: product.bgAccent,
       },
     });
   };
-
-  const renderProductCard = ({ item }) => (
-    <TouchableOpacity
-      style={styles.card}
-      activeOpacity={0.9}
-      onPress={() => handleOpenDetail(item)}
-    >
-      {/* Imagen Principal */}
-      <View style={styles.imageWrapper}>
-        <Image source={item.image} style={styles.productImage} resizeMode="contain" />
-      </View>
-
-      {/* Badge de Descuento */}
-      {item.discount && (
-        <View style={styles.discountBadge}>
-          <Text style={styles.discountText}>{item.discount}</Text>
-        </View>
-      )}
-
-      {/* Título y Marca */}
-      <Text style={styles.cardTitle} numberOfLines={1}>
-        {item.title}
-      </Text>
-      <Text style={styles.cardSubtitle} numberOfLines={1}>
-        {item.brand} • {item.weight}
-      </Text>
-
-      {/* Precio y Botón (+) */}
-      <View style={styles.cardFooter}>
-        <Text style={styles.cardPrice}>{item.price}</Text>
-
-        <TouchableOpacity
-          style={styles.plusButton}
-          onPress={() => handleAddToCart(item)}
-          activeOpacity={0.8}
-        >
-          <Plus size={18} color="#0F172A" />
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
-  );
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
@@ -195,76 +159,113 @@ export default function ProductsScreen() {
         </View>
       </View>
 
-      {/* Título Principal */}
-      <View style={styles.heroTextContainer}>
-        <Text style={styles.heroTitle}>
-          ¿Buscando algo <Text style={styles.heroBold}>Saludable?</Text>
-        </Text>
-      </View>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+        {/* Título Principal */}
+        <View style={styles.heroTextContainer}>
+          <Text style={styles.heroTitle}>
+            ¿Buscando algo <Text style={styles.heroBold}>Saludable?</Text>
+          </Text>
+        </View>
 
-      {/* Selector Horizontal de Categorías */}
-      <View style={styles.categoriesWrapper}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.categoriesScroll}
-        >
-          {categories.map((cat) => {
-            const isSelected = selectedCategory === cat.id;
-            return (
-              <TouchableOpacity
-                key={cat.id}
-                style={[
-                  styles.categoryItem,
-                  isSelected && styles.categoryItemSelected,
-                ]}
-                onPress={() => setSelectedCategory(cat.id)}
-                activeOpacity={0.8}
-              >
-                <View
+        {/* Selector Horizontal de Categorías */}
+        <View style={styles.categoriesWrapper}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.categoriesScroll}
+          >
+            {categories.map((cat) => {
+              const isSelected = selectedCategory === cat.id;
+              return (
+                <TouchableOpacity
+                  key={cat.id}
                   style={[
-                    styles.categoryIconCircle,
-                    isSelected && styles.categoryIconCircleSelected,
+                    styles.categoryItem,
+                    isSelected && styles.categoryItemSelected,
                   ]}
+                  onPress={() => setSelectedCategory(cat.id)}
+                  activeOpacity={0.8}
                 >
-                  {cat.icon === "grid" ? (
-                    <Grid size={18} color={isSelected ? "#FFFFFF" : "#0F172A"} />
-                  ) : (
-                    <Text style={styles.categoryEmoji}>{cat.icon}</Text>
-                  )}
-                </View>
-                <Text
-                  style={[
-                    styles.categoryText,
-                    isSelected && styles.categoryTextSelected,
-                  ]}
-                >
-                  {cat.name}
-                </Text>
-                {isSelected && <View style={styles.activeDot} />}
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
+                  <View
+                    style={[
+                      styles.categoryIconCircle,
+                      isSelected && styles.categoryIconCircleSelected,
+                    ]}
+                  >
+                    {cat.icon === "grid" ? (
+                      <Grid size={18} color={isSelected ? "#FFFFFF" : "#0F172A"} />
+                    ) : (
+                      <Text style={styles.categoryEmoji}>{cat.icon}</Text>
+                    )}
+                  </View>
+                  <Text
+                    style={[
+                      styles.categoryText,
+                      isSelected && styles.categoryTextSelected,
+                    ]}
+                  >
+                    {cat.name}
+                  </Text>
+                  {isSelected && <View style={styles.activeDot} />}
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
 
-      {/* Grilla de Productos */}
-      <FlatList
-        data={filteredProducts}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        columnWrapperStyle={styles.columnWrapper}
-        contentContainerStyle={styles.productListContent}
-        renderItem={renderProductCard}
-        ListEmptyComponent={
+        {/* Grilla de Productos */}
+        {filteredProducts.length === 0 ? (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>
               No hay productos disponibles en esta categoría.
             </Text>
           </View>
-        }
-      />
+        ) : (
+          <View style={styles.gridContainer}>
+            {filteredProducts.map((item) => (
+              <TouchableOpacity
+                key={item.id}
+                style={styles.card}
+                activeOpacity={0.9}
+                onPress={() => handleOpenDetail(item)}
+              >
+                {/* Imagen Principal */}
+                <View style={styles.imageWrapper}>
+                  <Image source={item.image} style={styles.productImage} resizeMode="contain" />
+                </View>
+
+                {/* Badge de Descuento */}
+                {item.discount && (
+                  <View style={styles.discountBadge}>
+                    <Text style={styles.discountText}>{item.discount}</Text>
+                  </View>
+                )}
+
+                {/* Título y Marca */}
+                <Text style={styles.cardTitle} numberOfLines={1}>
+                  {item.title}
+                </Text>
+                <Text style={styles.cardSubtitle} numberOfLines={1}>
+                  {item.brand} • {item.weight}
+                </Text>
+
+                {/* Precio y Botón (+) */}
+                <View style={styles.cardFooter}>
+                  <Text style={styles.cardPrice}>{item.price}</Text>
+
+                  <TouchableOpacity
+                    style={styles.plusButton}
+                    onPress={() => handleAddToCart(item)}
+                    activeOpacity={0.8}
+                  >
+                    <Plus size={18} color="#0F172A" />
+                  </TouchableOpacity>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -273,6 +274,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F8FAFC",
+  },
+  scrollContent: {
+    paddingBottom: 30,
   },
   topHeader: {
     flexDirection: "row",
@@ -372,13 +376,11 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     marginTop: 4,
   },
-  productListContent: {
-    paddingHorizontal: 20,
-    paddingBottom: 30,
-  },
-  columnWrapper: {
+  gridContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 16,
+    paddingHorizontal: 20,
   },
   card: {
     width: "48%",
@@ -394,6 +396,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     borderWidth: 1,
     borderColor: "#F8FAFC",
+    marginBottom: 16,
   },
   imageWrapper: {
     width: "100%",

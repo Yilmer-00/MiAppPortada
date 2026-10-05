@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  FlatList,
   ScrollView,
   StyleSheet,
 } from "react-native";
@@ -20,7 +19,15 @@ import {
   ShoppingBag,
 } from "lucide-react-native";
 
-// Productos recomendados (Cross-selling al estilo "Lo Nuevo")
+// Mapeo estático de imágenes para evitar pasar 'require' por params (soluciona la advertencia y el fondo en blanco)
+const PRODUCT_IMAGES = {
+  "1": require("../../../assets/mantequilla.png"),
+  "2": require("../../../assets/barra.png"),
+  "3": require("../../../assets/matcha.png"),
+  "4": require("../../../assets/proteina.png"),
+};
+
+// Productos recomendados (Cross-selling)
 const recommendedProducts = [
   {
     id: "3",
@@ -29,7 +36,6 @@ const recommendedProducts = [
     price: "$52.000",
     numericPrice: 52000,
     weight: "100g",
-    image: require("../../../assets/matcha.png"),
     bgAccent: "#DCFCE7",
   },
   {
@@ -39,7 +45,6 @@ const recommendedProducts = [
     price: "$85.000",
     numericPrice: 85000,
     weight: "300g",
-    image: require("../../../assets/proteina.png"),
     bgAccent: "#E0F2FE",
   },
 ];
@@ -48,7 +53,7 @@ export default function CarScreen() {
   const navigation = useNavigation();
   const route = useRoute();
 
-  // Estado del carrito inicial con la Mantequilla de Maní por defecto
+  // Estado del carrito inicial con la Mantequilla de Maní
   const [cartItems, setCartItems] = useState([
     {
       id: "1",
@@ -57,7 +62,6 @@ export default function CarScreen() {
       price: "$28.000",
       numericPrice: 28000,
       weight: "500g",
-      image: require("../../../assets/mantequilla.png"),
       bgAccent: "#FEF3C7",
       quantity: 1,
     },
@@ -173,57 +177,62 @@ export default function CarScreen() {
           </View>
         ) : (
           <View style={styles.itemsList}>
-            {cartItems.map((item) => (
-              <View key={item.id} style={styles.cartCard}>
-                <View
-                  style={[
-                    styles.imageWrapper,
-                    { backgroundColor: item.bgAccent },
-                  ]}
-                >
-                  <Image
-                    source={item.image}
-                    style={styles.productImage}
-                    resizeMode="contain"
-                  />
-                </View>
+            {cartItems.map((item) => {
+              // Obtiene la imagen de la propiedad o resuelve con PRODUCT_IMAGES según el ID
+              const imageSource = item.image || PRODUCT_IMAGES[item.id];
 
-                <View style={styles.productDetails}>
-                  <Text style={styles.brandText}>{item.brand}</Text>
-                  <Text style={styles.titleText} numberOfLines={1}>
-                    {item.title}
-                  </Text>
-                  <Text style={styles.priceText}>
-                    {formatCurrency(item.numericPrice)}
-                  </Text>
-                </View>
-
-                <View style={styles.actionColumn}>
-                  <TouchableOpacity
-                    onPress={() => removeItem(item.id)}
-                    style={styles.deleteButton}
+              return (
+                <View key={item.id} style={styles.cartCard}>
+                  <View
+                    style={[
+                      styles.imageWrapper,
+                      { backgroundColor: item.bgAccent || "#F8FAFC" },
+                    ]}
                   >
-                    <Trash2 size={16} color="#94A3B8" />
-                  </TouchableOpacity>
+                    <Image
+                      source={imageSource}
+                      style={styles.productImage}
+                      resizeMode="contain"
+                    />
+                  </View>
 
-                  <View style={styles.quantityControls}>
+                  <View style={styles.productDetails}>
+                    <Text style={styles.brandText}>{item.brand}</Text>
+                    <Text style={styles.titleText} numberOfLines={1}>
+                      {item.title}
+                    </Text>
+                    <Text style={styles.priceText}>
+                      {formatCurrency(item.numericPrice)}
+                    </Text>
+                  </View>
+
+                  <View style={styles.actionColumn}>
                     <TouchableOpacity
-                      style={styles.qtyBtn}
-                      onPress={() => updateQuantity(item.id, -1)}
+                      onPress={() => removeItem(item.id)}
+                      style={styles.deleteButton}
                     >
-                      <Minus size={14} color="#15803D" />
+                      <Trash2 size={16} color="#94A3B8" />
                     </TouchableOpacity>
-                    <Text style={styles.qtyText}>{item.quantity}</Text>
-                    <TouchableOpacity
-                      style={styles.qtyBtn}
-                      onPress={() => updateQuantity(item.id, 1)}
-                    >
-                      <Plus size={14} color="#15803D" />
-                    </TouchableOpacity>
+
+                    <View style={styles.quantityControls}>
+                      <TouchableOpacity
+                        style={styles.qtyBtn}
+                        onPress={() => updateQuantity(item.id, -1)}
+                      >
+                        <Minus size={14} color="#15803D" />
+                      </TouchableOpacity>
+                      <Text style={styles.qtyText}>{item.quantity}</Text>
+                      <TouchableOpacity
+                        style={styles.qtyBtn}
+                        onPress={() => updateQuantity(item.id, 1)}
+                      >
+                        <Plus size={14} color="#15803D" />
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
-              </View>
-            ))}
+              );
+            })}
           </View>
         )}
 
@@ -235,35 +244,39 @@ export default function CarScreen() {
           </View>
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {recommendedProducts.map((prod) => (
-              <View key={prod.id} style={styles.recommendedCard}>
-                <View
-                  style={[
-                    styles.recommendedImgContainer,
-                    { backgroundColor: prod.bgAccent },
-                  ]}
-                >
-                  <Image
-                    source={prod.image}
-                    style={styles.recommendedImg}
-                    resizeMode="contain"
-                  />
-                </View>
-                <Text style={styles.recommendedTitle} numberOfLines={1}>
-                  {prod.title}
-                </Text>
-                <Text style={styles.recommendedPrice}>{prod.price}</Text>
+            {recommendedProducts.map((prod) => {
+              const recImageSource = prod.image || PRODUCT_IMAGES[prod.id];
 
-                <TouchableOpacity
-                  style={styles.addRecommendedBtn}
-                  onPress={() => addRecommendedItem(prod)}
-                  activeOpacity={0.8}
-                >
-                  <Plus size={14} color="#FFFFFF" />
-                  <Text style={styles.addRecommendedText}>Agregar</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
+              return (
+                <View key={prod.id} style={styles.recommendedCard}>
+                  <View
+                    style={[
+                      styles.recommendedImgContainer,
+                      { backgroundColor: prod.bgAccent },
+                    ]}
+                  >
+                    <Image
+                      source={recImageSource}
+                      style={styles.recommendedImg}
+                      resizeMode="contain"
+                    />
+                  </View>
+                  <Text style={styles.recommendedTitle} numberOfLines={1}>
+                    {prod.title}
+                  </Text>
+                  <Text style={styles.recommendedPrice}>{prod.price}</Text>
+
+                  <TouchableOpacity
+                    style={styles.addRecommendedBtn}
+                    onPress={() => addRecommendedItem(prod)}
+                    activeOpacity={0.8}
+                  >
+                    <Plus size={14} color="#FFFFFF" />
+                    <Text style={styles.addRecommendedText}>Agregar</Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
           </ScrollView>
         </View>
       </ScrollView>

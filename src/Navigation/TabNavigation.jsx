@@ -31,6 +31,7 @@ import FacturaDetalleScreen from "../screens/client/FacturaDetalleScreen"; // Fa
 import Facturasscreen from "../screens/client/FacturasScreen";           // Faltaba
 import ProfileScreen from "../screens/client/ProfileScreen";             // Faltaba
 import ProductsScreen from '../screens/client/ProductsScreen';
+import ProductDetailScreen from '../screens/client/ProductDetailScreen';
 // ==========================================
 // PANTALLAS / SELLER
 // ==========================================
@@ -169,6 +170,14 @@ export default function TabNavigation() {
       <Tab.Screen
         name="ProductsScreen"
         component={ProductsScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="ProductDetail"
+        component={ProductDetailScreen}
         options={{
           tabBarItemStyle: { display: "none" },
           tabBarButton: () => null,
