@@ -200,22 +200,6 @@ export default function TabNavigation() {
         }}
       />
 
-      <Tab.Screen
-        name="NewScreen"
-        component={NewScreen}
-        options={{
-          tabBarItemStyle: { display: "none" },
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="Dashboard"
-        component={Dashboard}
-        options={{
-          tabBarItemStyle: { display: "none" },
-          tabBarButton: () => null,
-        }}
-      />
     </Tab.Navigator>
   );
 }
