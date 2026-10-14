@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Switch, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from "../../../context/AuthContext";
 
 export default function ConfiguracionScreen() {
     const navigation = useNavigation();
+    const { logout } = useContext(AuthContext);
+
 
     // Estados funcionales para los interruptores (Switches)
     const [notificaciones, setNotificaciones] = useState(true);
@@ -25,7 +28,7 @@ export default function ConfiguracionScreen() {
                         // 🚀 Aquí puedes redirigir a tu AuthNavigator o pantalla de Login
                         navigation.reset({
                             index: 0,
-                            routes: [{ name: 'AuthNavigator' }],
+                            routes: [{ name: 'Login' }],
                         });
                     }
                 }
@@ -167,7 +170,7 @@ export default function ConfiguracionScreen() {
             {/* Botón de Cerrar Sesión */}
             <TouchableOpacity
                 className="bg-red-50 border border-red-200 py-3.5 rounded-xl flex-row justify-center items-center mb-8 shadow-sm"
-                onPress={handleCerrarSesion}
+                onPress={logout}
             >
                 <Ionicons name="log-out-outline" size={18} color="#dc2626" />
                 <Text className="text-red-600 font-bold text-sm ml-2">Cerrar sesión</Text>

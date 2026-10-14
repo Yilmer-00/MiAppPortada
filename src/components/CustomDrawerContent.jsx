@@ -67,9 +67,8 @@ export default function CustomDrawerContent(props) {
         {/* Botón de Soporte */}
         <TouchableOpacity
           style={styles.footerButton}
-          onPress={() => {
-            console.log("Navegar a Soporte");
-          }}
+          onPress={() => navigation.navigate("Soporte")
+          }
         >
           <Ionicons
             name="help-circle-outline"
