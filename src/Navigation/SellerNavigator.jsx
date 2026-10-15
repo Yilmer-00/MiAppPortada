@@ -5,12 +5,15 @@ import SellerHeader from "../components/SellerHeader";
 import CustomDrawerContent from "../components/CustomDrawerContent";
 
 // --- PANTALLAS DEL DRAWER ---
+import SellerProfile from "../screens/seller/profile/SellerProfileScreen";
 import Dashboard from "../screens/seller/inicio/Dashboard";
 import Facturas from "../screens/seller/factura/FacturasScreen";
 import Productos from "../screens/seller/Productos/ProductosScreen";
 import Pedidos from "../screens/seller/pedidos/PedidosScreen";
 import Ventas from "../screens/seller/ventas/VentasScreen";
 import ConfiguracionScreen from "../screens/seller/configuracion/ConfiguracionScreen";
+import Soporte from "../screens/seller/soporte/SellerSupportScreen";
+
 // import inicio from "../screens/auth/LoadingScreen"
 // --- NAVEGACIÓN Y PANTALLAS OCULTAS ---
 import FacturasStack from "../Navigation/FacturasStack";
@@ -87,6 +90,13 @@ export default function SellerNavigator() {
           drawerItemStyle: { display: "none" },
         }}
       />
+      <Drawer.Screen
+        name="Soporte"
+        component={Soporte}
+        options={{
+          drawerItemStyle: { display: "none" },
+        }}
+      />
       {/* <Drawer.Screen
         name="inicio"
         component={inicio}
@@ -109,6 +119,15 @@ export default function SellerNavigator() {
         name="FacturaDetalleScreen"
         component={Dashboard}
         options={{ drawerItemStyle: { display: "none" } }}
+      />
+
+      <Drawer.Screen
+        name="SellerProfile"
+        component={SellerProfile}
+        options={{
+          title: "Perfil de Vendedor",
+          drawerItemStyle: { display: "none" },
+        }}
       />
     </Drawer.Navigator>
   );

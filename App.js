@@ -11,6 +11,7 @@ import AuthNavigator from "./src/Navigation/AuthNavigator";
 import LoadingScreen from "./src/screens/auth/LoadingScreen";
 
 import { AuthProvider, AuthContext } from "./src/context/AuthContext";
+
 import SellerNavigator from "./src/Navigation/SellerNavigator";
 
 // ==========================================

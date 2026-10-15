@@ -10,7 +10,6 @@ export default function SellerHeader({ title }) {
 
   const handleOpenDrawer = () => {
     try {
-      // Intenta disparar la acción del Drawer de manera global
       navigation.dispatch(DrawerActions.openDrawer());
     } catch (error) {
       if (navigation.canGoBack()) {
@@ -24,16 +23,18 @@ export default function SellerHeader({ title }) {
       style={{ paddingTop: insets.top }}
       className="bg-white px-4 py-3 border-b border-gray-100 shadow-sm flex-row items-center justify-between"
     >
-      {/* Izquierda: Botón de Menú / Hamburguesa */}
-      <TouchableOpacity
-        onPress={handleOpenDrawer}
-        className="p-2 rounded-full active:bg-gray-100 items-center justify-center"
-      >
-        <Ionicons name="menu" size={24} color="#0e1420" />
-      </TouchableOpacity>
+      {/* 🍔 Izquierda: Botón de Menú (Ancho fijo simétrico w-24) */}
+      <View className="w-24 flex-row items-center justify-start">
+        <TouchableOpacity
+          onPress={handleOpenDrawer}
+          className="p-2 rounded-full active:bg-gray-100 items-center justify-center"
+        >
+          <Ionicons name="menu" size={24} color="#0e1420" />
+        </TouchableOpacity>
+      </View>
 
-      {/* Centro: Título de la pantalla actual */}
-      <View className="flex-1 px-2 items-center">
+      {/* 📌 Centro: Título de la pantalla actual (True Centered) */}
+      <View className="flex-1 items-center justify-center px-1">
         <Text
           className="text-base font-bold text-gray-900 text-center"
           numberOfLines={1}
@@ -42,21 +43,20 @@ export default function SellerHeader({ title }) {
         </Text>
       </View>
 
-      {/* Derecha: Contenedor de Notificaciones y Perfil */}
-      <View className="flex-row items-center space-x-2">
-        {/* 🔔 Botón de Notificaciones con Badge */}
+      {/* 🔔👤 Derecha: Notificaciones y Perfil (Ancho fijo simétrico w-24) */}
+      <View className="w-24 flex-row items-center justify-end gap-2">
+        {/* Botón de Notificaciones con Badge */}
         <TouchableOpacity
           onPress={() => navigation.navigate("NotificacionesScreen")}
-          className="p-2 rounded-full active:bg-gray-100 relative items-center justify-center mr-1"
+          className="p-2 rounded-full active:bg-gray-100 relative items-center justify-center"
         >
           <Ionicons name="notifications-outline" size={22} color="#111827" />
-          {/* Círculo indicador de notificaciones pendientes */}
           <View className="absolute top-1.5 right-1.5 bg-red-500 w-4 h-4 rounded-full justify-center items-center border border-white">
             <Text className="text-[9px] font-bold text-white">1</Text>
           </View>
         </TouchableOpacity>
 
-        {/* 👤 Botón de Perfil del Vendedor (Avatar) */}
+        {/* Botón de Perfil del Vendedor (Avatar) */}
         <TouchableOpacity
           onPress={() => navigation.navigate("SellerProfile")}
           className="active:opacity-85 items-center justify-center"
@@ -72,6 +72,3 @@ export default function SellerHeader({ title }) {
     </View>
   );
 }
-
-
-

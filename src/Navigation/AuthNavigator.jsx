@@ -1,40 +1,52 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 
+// Pantallas de autenticación
 import LoginScreen from "../screens/auth/LoadingScreen";
 import RegisterScreen from "../screens/auth/RegisterScreen";
-import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
-const Stack = createNativeStackNavigator();
+import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
+import RegisterCliente from "../screens/auth/RegisterCliente/RegisterCliente";
+import RegisterVendedor from "../screens/auth/RegisterVendedor/RegisterVendedor";
+
+const Stack = createStackNavigator();
 
 const AuthNavigator = () => {
-
     return (
-        <Stack.Navigator>
-
+        <Stack.Navigator
+            initialRouteName="Login"
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            {/* Inicio de sesión */}
             <Stack.Screen
                 name="Login"
                 component={LoginScreen}
-                options={{
-                    headerShown: false,
-                }}
             />
 
+            {/* Registro general */}
             <Stack.Screen
                 name="Register"
                 component={RegisterScreen}
-                options={{
-                    headerShown: false,
-
-                }}
             />
+
+            {/* Recuperación de contraseña */}
             <Stack.Screen
-            name="ForgotPasswordScreen" 
-            component={ForgotPasswordScreen}
-            options={{
-                headerShown: false,
-            }}
+                name="ForgotPasswordScreen"
+                component={ForgotPasswordScreen}
             />
 
+            {/* Registro de cliente */}
+            <Stack.Screen
+                name="RegisterCliente"
+                component={RegisterCliente}
+            />
+
+            {/* Registro de vendedor */}
+            <Stack.Screen
+                name="RegisterVendedor"
+                component={RegisterVendedor}
+            />
         </Stack.Navigator>
     );
 };
