@@ -629,7 +629,7 @@ export default function RegisterScreen({ navigation }) {
                                         <TextInput
                                             value={nombre}
                                             onChangeText={setNombre}
-                                            placeholder="Ej. Yilmer Melenge"
+                                            placeholder="Ej. Gabriel Chango"
                                             placeholderTextColor="#A1ADA5"
                                             style={{
                                                 flex: 1,
