@@ -32,6 +32,8 @@ import Facturasscreen from "../screens/client/FacturasScreen";           // Falt
 import ProfileScreen from "../screens/client/ProfileScreen";             // Faltaba
 import ProductsScreen from '../screens/client/ProductsScreen';
 import ProductDetailScreen from '../screens/client/ProductDetailScreen';
+import ConfiguracionScreen from "../screens/client/ConfiguracionScreen";
+import AyudaSoporteScreen from "../screens/client/AyudaSoporteScreen";
 // ==========================================
 // PANTALLAS / SELLER
 // ==========================================
@@ -57,7 +59,7 @@ export default function TabNavigation() {
 
   return (
     <Tab.Navigator
-    
+
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
@@ -178,6 +180,22 @@ export default function TabNavigation() {
       <Tab.Screen
         name="ProductDetail"
         component={ProductDetailScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="Configuracion"
+        component={ConfiguracionScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="AyudaSoporte"
+        component={AyudaSoporteScreen}
         options={{
           tabBarItemStyle: { display: "none" },
           tabBarButton: () => null,

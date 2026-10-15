@@ -20,11 +20,10 @@ import {
 
 // Mapeo local de imágenes por ID para evitar problemas de serialización en React Navigation
 const PRODUCT_IMAGES = {
-    "1": require("../../../assets/proteina.png"),
-    "2": require("../../../assets/icons/vitaminas.png"), // Mapeo para ID 2
-    "3": require("../../../assets/Questbar.png"),
-    "4": require("../../../assets/mantequillaNutrelle.png"),
-    "5": require("../../../assets/electrolit.png"),
+    "1": require("../../../assets/mantequilla.png"),
+    "2": require("../../../assets/barra.png"),
+    "3": require("../../../assets/matcha.png"),
+    "4": require("../../../assets/proteina.png"),
 };
 
 export default function ProductDetailScreen() {
@@ -42,19 +41,27 @@ export default function ProductDetailScreen() {
         return (
             <SafeAreaView style={styles.emptyContainer}>
                 <Text style={styles.emptyText}>No se encontró la información del producto.</Text>
-                <TouchableOpacity style={styles.backButtonBtn} onPress={() => navigation.goBack()}>
-                    <Text style={styles.backButtonText}>Volver</Text>
+                <TouchableOpacity 
+                    style={styles.backButtonBtn} 
+                    onPress={() => navigation.navigate("Tienda")}
+                >
+                    <Text style={styles.backButtonText}>Volver a la Tienda</Text>
                 </TouchableOpacity>
             </SafeAreaView>
         );
     }
 
     // Obtener la imagen correspondiente
-    const imageSource = product.image || PRODUCT_IMAGES[product.id];
+    const imageSource = PRODUCT_IMAGES[product.id] || product.image;
 
     // Controladores de cantidad
     const handleIncrease = () => setQuantity((prev) => prev + 1);
     const handleDecrease = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+    // Redirección explícita a la pantalla/tab de la Tienda
+    const handleGoToStore = () => {
+        navigation.navigate("Tienda");
+    };
 
     // Agregar al Carrito
     const handleAddToCart = () => {
@@ -74,18 +81,19 @@ export default function ProductDetailScreen() {
 
     return (
         <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-            {/* Dynamic Background Accent */}
+            {/* Header dinámico con color de acento */}
             <View
                 style={[
                     styles.imageHeaderContainer,
                     { backgroundColor: product.bgAccent || "#FEF3C7" },
                 ]}
             >
-                {/* Top Bar */}
+                {/* Barra superior con botón de regreso a Tienda */}
                 <View style={styles.topBar}>
                     <TouchableOpacity
                         style={styles.iconCircle}
-                        onPress={() => navigation.goBack()}
+                        onPress={handleGoToStore}
+                        activeOpacity={0.8}
                     >
                         <ChevronLeft size={20} color="#0F172A" />
                     </TouchableOpacity>
@@ -93,6 +101,7 @@ export default function ProductDetailScreen() {
                     <TouchableOpacity
                         style={styles.iconCircle}
                         onPress={() => setIsFavorite(!isFavorite)}
+                        activeOpacity={0.8}
                     >
                         <Heart
                             size={20}
@@ -102,7 +111,7 @@ export default function ProductDetailScreen() {
                     </TouchableOpacity>
                 </View>
 
-                {/* Product Image */}
+                {/* Imagen del producto */}
                 <View style={styles.imageWrapper}>
                     {imageSource ? (
                         <Image
@@ -118,7 +127,7 @@ export default function ProductDetailScreen() {
                 </View>
             </View>
 
-            {/* Details Container */}
+            {/* Contenedor de Detalles */}
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.detailsContainer}
@@ -133,10 +142,10 @@ export default function ProductDetailScreen() {
                     </View>
                 </View>
 
-                {/* Title */}
+                {/* Título */}
                 <Text style={styles.productTitle}>{product.title}</Text>
 
-                {/* Price & Discount */}
+                {/* Precio y Descuento */}
                 <View style={styles.priceRow}>
                     <Text style={styles.productPrice}>{product.price}</Text>
                     {product.oldPrice && (
@@ -149,7 +158,7 @@ export default function ProductDetailScreen() {
                     )}
                 </View>
 
-                {/* Quick Specs */}
+                {/* Especificaciones */}
                 <View style={styles.specsRow}>
                     <View style={styles.specBox}>
                         <Text style={styles.specLabel}>Peso / Porción</Text>
@@ -162,7 +171,7 @@ export default function ProductDetailScreen() {
                     </View>
                 </View>
 
-                {/* Description */}
+                {/* Descripción */}
                 <Text style={styles.sectionTitle}>Descripción</Text>
                 <Text style={styles.descriptionText}>
                     {product.description ||
@@ -170,9 +179,9 @@ export default function ProductDetailScreen() {
                 </Text>
             </ScrollView>
 
-            {/* Bottom Action Bar */}
+            {/* Barra Inferior de Acción */}
             <View style={styles.bottomBar}>
-                {/* Quantity Controls */}
+                {/* Controles de Cantidad */}
                 <View style={styles.quantityContainer}>
                     <TouchableOpacity
                         style={styles.qtyBtn}
@@ -191,7 +200,7 @@ export default function ProductDetailScreen() {
                     </TouchableOpacity>
                 </View>
 
-                {/* Add to Cart Button */}
+                {/* Botón Agregar al Carrito */}
                 <TouchableOpacity
                     style={styles.addToCartBtn}
                     onPress={handleAddToCart}
@@ -359,7 +368,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 14,
         alignItems: "center",
-        justifyContent: "space-around",
+        justify: "space-around",
         marginBottom: 20,
     },
     specBox: {

@@ -17,7 +17,6 @@ import {
   ShoppingBag,
 } from "lucide-react-native";
 
-// Categorías según la UI
 const categories = [
   { id: "all", name: "All", icon: "grid" },
   { id: "peanut", name: "Maní", icon: "🥜" },
@@ -101,24 +100,19 @@ export default function ProductsScreen() {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  // Filtrado dinámico por categoría
   const filteredProducts = productsData.filter((product) => {
     return selectedCategory === "all" || product.category === selectedCategory;
   });
 
-  // Ir a la pantalla de detalle (Asegura pasar el ID y campos serializables)
   const handleOpenDetail = (product) => {
-    const { image, ...serializableProduct } = product;
-
     const parentNav = navigation.getParent();
     if (parentNav) {
-      parentNav.navigate("ProductDetail", { product: serializableProduct });
+      parentNav.navigate("ProductDetail", { product });
     } else {
-      navigation.navigate("ProductDetail", { product: serializableProduct });
+      navigation.navigate("ProductDetail", { product });
     }
   };
 
-  // Enviar al Carrito
   const handleAddToCart = (product) => {
     navigation.navigate("Carrito", {
       productoAgregar: {
@@ -135,7 +129,6 @@ export default function ProductsScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
-      {/* Top Header */}
       <View style={styles.topHeader}>
         <TouchableOpacity style={styles.iconCircle} onPress={() => navigation.goBack()}>
           <ChevronLeft size={20} color="#0F172A" />
@@ -160,14 +153,12 @@ export default function ProductsScreen() {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        {/* Título Principal */}
         <View style={styles.heroTextContainer}>
           <Text style={styles.heroTitle}>
             ¿Buscando algo <Text style={styles.heroBold}>Saludable?</Text>
           </Text>
         </View>
 
-        {/* Selector Horizontal de Categorías */}
         <View style={styles.categoriesWrapper}>
           <ScrollView
             horizontal
@@ -213,7 +204,6 @@ export default function ProductsScreen() {
           </ScrollView>
         </View>
 
-        {/* Grilla de Productos */}
         {filteredProducts.length === 0 ? (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>
@@ -229,19 +219,16 @@ export default function ProductsScreen() {
                 activeOpacity={0.9}
                 onPress={() => handleOpenDetail(item)}
               >
-                {/* Imagen Principal */}
-                <View style={styles.imageWrapper}>
-                  <Image source={item.image} style={styles.productImage} resizeMode="contain" />
+                <View style={styles.imageWrapperCard}>
+                  <Image source={item.image} style={styles.productImageCard} resizeMode="contain" />
                 </View>
 
-                {/* Badge de Descuento */}
                 {item.discount && (
                   <View style={styles.discountBadge}>
                     <Text style={styles.discountText}>{item.discount}</Text>
                   </View>
                 )}
 
-                {/* Título y Marca */}
                 <Text style={styles.cardTitle} numberOfLines={1}>
                   {item.title}
                 </Text>
@@ -249,7 +236,6 @@ export default function ProductsScreen() {
                   {item.brand} • {item.weight}
                 </Text>
 
-                {/* Precio y Botón (+) */}
                 <View style={styles.cardFooter}>
                   <Text style={styles.cardPrice}>{item.price}</Text>
 
@@ -271,197 +257,37 @@ export default function ProductsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F8FAFC",
-  },
-  scrollContent: {
-    paddingBottom: 30,
-  },
-  topHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  iconCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#FFFFFF",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    elevation: 2,
-  },
-  locationContainer: {
-    alignItems: "center",
-  },
-  locationLabel: {
-    fontSize: 11,
-    color: "#94A3B8",
-    fontWeight: "600",
-  },
-  locationTitle: {
-    fontSize: 14,
-    fontWeight: "800",
-    color: "#0F172A",
-  },
-  headerRightIcons: {
-    flexDirection: "row",
-    gap: 8,
-  },
-  heroTextContainer: {
-    paddingHorizontal: 20,
-    marginTop: 8,
-    marginBottom: 8,
-  },
-  heroTitle: {
-    fontSize: 24,
-    fontWeight: "400",
-    color: "#64748B",
-  },
-  heroBold: {
-    fontWeight: "900",
-    color: "#0F172A",
-  },
-  categoriesWrapper: {
-    marginVertical: 12,
-  },
-  categoriesScroll: {
-    paddingHorizontal: 20,
-    gap: 16,
-  },
-  categoryItem: {
-    alignItems: "center",
-    width: 64,
-  },
-  categoryIconCircle: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: "#FFFFFF",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 6,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 3,
-  },
-  categoryIconCircleSelected: {
-    backgroundColor: "#0F172A",
-  },
-  categoryEmoji: {
-    fontSize: 20,
-  },
-  categoryText: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: "#64748B",
-  },
-  categoryTextSelected: {
-    color: "#0F172A",
-    fontWeight: "800",
-  },
-  activeDot: {
-    width: 16,
-    height: 3,
-    backgroundColor: "#0F172A",
-    borderRadius: 2,
-    marginTop: 4,
-  },
-  gridContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-  },
-  card: {
-    width: "48%",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 28,
-    padding: 12,
-    alignItems: "center",
-    position: "relative",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.04,
-    shadowRadius: 12,
-    elevation: 3,
-    borderWidth: 1,
-    borderColor: "#F8FAFC",
-    marginBottom: 16,
-  },
-  imageWrapper: {
-    width: "100%",
-    height: 125,
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 6,
-  },
-  productImage: {
-    width: "90%",
-    height: "90%",
-  },
-  discountBadge: {
-    position: "absolute",
-    top: 14,
-    backgroundColor: "#0F172A",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  discountText: {
-    color: "#FFFFFF",
-    fontSize: 10,
-    fontWeight: "800",
-  },
-  cardTitle: {
-    fontSize: 13,
-    fontWeight: "800",
-    color: "#0F172A",
-    textAlign: "center",
-    marginTop: 4,
-    width: "100%",
-  },
-  cardSubtitle: {
-    fontSize: 10,
-    color: "#94A3B8",
-    textAlign: "center",
-    marginBottom: 10,
-  },
-  cardFooter: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingHorizontal: 4,
-  },
-  cardPrice: {
-    fontSize: 15,
-    fontWeight: "900",
-    color: "#0F172A",
-  },
-  plusButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: "#F1F5F9",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  emptyContainer: {
-    paddingVertical: 40,
-    alignItems: "center",
-  },
-  emptyText: {
-    color: "#94A3B8",
-    fontSize: 13,
-  },
+  container: { flex: 1, backgroundColor: "#F8FAFC" },
+  scrollContent: { paddingBottom: 30 },
+  topHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 20, paddingVertical: 10 },
+  iconCircle: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#FFFFFF", alignItems: "center", justifyContent: "center", shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 6, elevation: 2 },
+  locationContainer: { alignItems: "center" },
+  locationLabel: { fontSize: 11, color: "#94A3B8", fontWeight: "600" },
+  locationTitle: { fontSize: 14, fontWeight: "800", color: "#0F172A" },
+  headerRightIcons: { flexDirection: "row", gap: 8 },
+  heroTextContainer: { paddingHorizontal: 20, marginTop: 8, marginBottom: 8 },
+  heroTitle: { fontSize: 24, fontWeight: "400", color: "#64748B" },
+  heroBold: { fontWeight: "900", color: "#0F172A" },
+  categoriesWrapper: { marginVertical: 12 },
+  categoriesScroll: { paddingHorizontal: 20, gap: 16 },
+  categoryItem: { alignItems: "center", width: 64 },
+  categoryIconCircle: { width: 56, height: 56, borderRadius: 28, backgroundColor: "#FFFFFF", alignItems: "center", justifyContent: "center", marginBottom: 6, shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.05, shadowRadius: 10, elevation: 3 },
+  categoryIconCircleSelected: { backgroundColor: "#0F172A" },
+  categoryEmoji: { fontSize: 20 },
+  categoryText: { fontSize: 12, fontWeight: "600", color: "#64748B" },
+  categoryTextSelected: { color: "#0F172A", fontWeight: "800" },
+  activeDot: { width: 16, height: 3, backgroundColor: "#0F172A", borderRadius: 2, marginTop: 4 },
+  gridContainer: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", paddingHorizontal: 20 },
+  card: { width: "48%", backgroundColor: "#FFFFFF", borderRadius: 28, padding: 12, alignItems: "center", position: "relative", shadowColor: "#000", shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.04, shadowRadius: 12, elevation: 3, borderWidth: 1, borderColor: "#F8FAFC", marginBottom: 16 },
+  imageWrapperCard: { width: "100%", height: 125, alignItems: "center", justifyContent: "center", marginVertical: 6 },
+  productImageCard: { width: "90%", height: "90%" },
+  discountBadge: { position: "absolute", top: 14, backgroundColor: "#0F172A", paddingHorizontal: 8, paddingVertical: 4, borderRadius: 12 },
+  discountText: { color: "#FFFFFF", fontSize: 10, fontWeight: "800" },
+  cardTitle: { fontSize: 13, fontWeight: "800", color: "#0F172A", textAlign: "center", marginTop: 4, width: "100%" },
+  cardSubtitle: { fontSize: 10, color: "#94A3B8", textAlign: "center", marginBottom: 10 },
+  cardFooter: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "100%", paddingHorizontal: 4 },
+  cardPrice: { fontSize: 15, fontWeight: "900", color: "#0F172A" },
+  plusButton: { width: 32, height: 32, borderRadius: 16, backgroundColor: "#F1F5F9", alignItems: "center", justifyContent: "center" },
+  emptyContainer: { paddingVertical: 40, alignItems: "center" },
+  emptyText: { color: "#94A3B8", fontSize: 13 },
 });

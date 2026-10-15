@@ -81,7 +81,13 @@ export default function TopHeader({ title = "Inicio" }) {
 
               {/* Lista de Opciones */}
               <View style={styles.menuList}>
-                <TouchableOpacity style={styles.menuItem}>
+                <TouchableOpacity
+                  style={styles.menuItem}
+                  onPress={() => {
+                    setModalVisible(false);          // Cierra el modal
+                    navigation.navigate("Configuracion"); // Navega a la pantalla que creaste
+                  }}
+                >
                   <Text style={styles.menuIcon}>⚙️</Text>
                   <Text style={styles.menuText}>
                     Configuración y privacidad
@@ -110,12 +116,24 @@ export default function TopHeader({ title = "Inicio" }) {
                   <Text style={styles.menuText}>Lo nuevo</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.menuItem}>
+                <TouchableOpacity
+                  style={styles.menuItem}
+                  onPress={() => {
+                    setModalVisible(false);
+                    navigation.navigate("Tienda");
+                  }}
+                >
                   <Text style={styles.menuIcon}>🏷️</Text>
                   <Text style={styles.menuText}>Cupones y Descuentos</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.menuItem}>
+                <TouchableOpacity
+                  style={styles.menuItem}
+                  onPress={() => {
+                    setModalVisible(false);
+                    navigation.navigate("AyudaSoporte");
+                  }}
+                >
                   <Text style={styles.menuIcon}>ℹ️</Text>
                   <Text style={styles.menuText}>Ayuda y Soporte</Text>
                 </TouchableOpacity>
