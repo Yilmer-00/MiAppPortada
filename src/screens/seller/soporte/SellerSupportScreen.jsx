@@ -10,14 +10,14 @@ import { useNavigation } from "@react-navigation/native";
 const STORAGE_KEY = "@nutrik_support_tickets";
 
 // Sustituye los nombres por las rutas reales de tu navegador.
-const SUPPORT_ROUTES = {
-    Inicio: "SellerDashboard",
-    Productos: "SellerProducts",
-    Pedidos: "SellerOrders",
-    Finanzas: "SellerFinance",
-    Perfil: "SellerProfile",
-    Ayuda: null,
-};
+// const SUPPORT_ROUTES = {
+//     Inicio: "SellerDashboard",
+//     Productos: "SellerProducts",
+//     Pedidos: "SellerOrders",
+//     Finanzas: "SellerFinance",
+//     Perfil: "SellerProfile",
+//     Ayuda: null,
+// };
 
 // Configura únicamente canales oficiales de Nutrik. Vacíos = aviso en pantalla.
 const SUPPORT_CONFIG = {
@@ -304,15 +304,6 @@ export default function SellerSupportScreen() {
                     <Text className="mt-1 text-center text-[10px] leading-4 text-slate-400">Versión beta · Las solicitudes aún no se envían a un servidor.</Text>
                 </View>
             </ScrollView>
-
-            <View className="flex-row justify-around border-t border-slate-100 bg-white px-1 pb-2 pt-3">
-                {[{ label: "Inicio", icon: "home-outline" }, { label: "Productos", icon: "cube-outline" }, { label: "Pedidos", icon: "receipt-outline" }, { label: "Finanzas", icon: "bar-chart-outline" }, { label: "Perfil", icon: "person-outline" }].map(item =>
-                    <TouchableOpacity key={item.label} onPress={() => navigateTo(item.label)} className="min-w-14 items-center px-1 py-1" accessibilityRole="button" accessibilityLabel={`Ir a ${item.label}`}>
-                        <Ionicons name={item.icon} size={21} color="#64748b" />
-                        <Text className="mt-1 text-[10px] font-medium text-slate-500">{item.label}</Text>
-                    </TouchableOpacity>
-                )}
-            </View>
 
             <ModalShell visible={modalVisible} title="Crear solicitud de soporte" subtitle="Describe el inconveniente. Se guardará localmente; aún no se enviará al equipo." onClose={() => setModalVisible(false)}>
                 <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>

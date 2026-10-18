@@ -1,4 +1,4 @@
-import{ useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Alert,
     Image,
@@ -298,7 +298,7 @@ export default function SellerProfileScreen() {
     }
 
     return (
-        <SafeAreaView className="flex-1 bg-slate-50">
+        <SafeAreaView className="flex-1 bg-slate-50" style={{ flex: 1, height: '100%', overflow: 'hidden' }}>
             <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
 
             <ScrollView

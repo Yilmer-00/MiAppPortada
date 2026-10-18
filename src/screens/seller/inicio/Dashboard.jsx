@@ -335,7 +335,7 @@ export default function Dashboard() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView  className="flex-1 bg-slate-50">
       
 
       <ScrollView

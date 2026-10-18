@@ -37,7 +37,7 @@ export default function ConfiguracionScreen() {
     };
 
     return (
-        <ScrollView className="flex-1 bg-gray-50 p-4 pt-6" showsVerticalScrollIndicator={false}>
+        <ScrollView className="flex-1 bg-gray-50 p-4 pt-6" showsVerticalScrollIndicator={false} flex-1>
 
             {/* Cabecera superior */}
             <View className="mb-6">

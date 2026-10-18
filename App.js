@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-
+import { View } from 'react-native';
 import "./global.css";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -62,14 +62,16 @@ export default function App() {
     <SafeAreaProvider>
       {/* 1. AuthProvider envuelve absolutamente todo para que el contexto esté disponible siempre */}
       <AuthProvider>
-        <NavigationContainer>
-          {/* 2. Si está cargando mostramos el LoadingScreen, si no, pasamos a la navegación con roles */}
-          {isLoading ? (
-            <LoadingScreen />
-          ) : (
-            <AppNavigation />
-          )}
-        </NavigationContainer>
+        <View style={{ flex: 1, height: '100%', overflow: 'hidden' }}>
+          <NavigationContainer>
+            {/* 2. Si está cargando mostramos el LoadingScreen, si no, pasamos a la navegación con roles */}
+            {isLoading ? (
+              <LoadingScreen />
+            ) : (
+              <AppNavigation />
+            )}
+          </NavigationContainer>
+        </View>
       </AuthProvider>
     </SafeAreaProvider>
   );
