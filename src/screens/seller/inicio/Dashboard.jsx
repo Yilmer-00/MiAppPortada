@@ -335,8 +335,8 @@ export default function Dashboard() {
   };
 
   return (
-    <SafeAreaView  className="flex-1 bg-slate-50">
-      
+    <SafeAreaView className="flex-1 bg-slate-50" style={{ flex: 1, height: '100%', overflow: 'hidden' }}>
+
 
       <ScrollView
         className="flex-1"
@@ -503,31 +503,28 @@ export default function Dashboard() {
             <LineChart
               data={lineData}
               curved
+              height={180}
+              width={300}
               thickness={3}
               color="#15803D"
               dataPointsColor="#15803D"
               dataPointsRadius={4}
-              startFillColor="#86EFAC"
-              endFillColor="#FFFFFF"
-              startOpacity={0.22}
-              endOpacity={0.02}
-              areaChart
               noOfSections={4}
               yAxisLabelPrefix="$"
               yAxisLabelSuffix="k"
-              yAxisTextStyle={{ color: "#94A3B8", fontSize: 10 }}
-              xAxisLabelTextStyle={{ color: "#94A3B8", fontSize: 10 }}
-              height={175}
-              width={anchoGrafico}
-              initialSpacing={12}
-              spacing={Math.max(
-                22,
-                (anchoGrafico - 30) / (lineData.length - 1),
-              )}
+              yAxisTextStyle={{
+                color: "#94A3B8",
+                fontSize: 10,
+              }}
+              xAxisLabelTextStyle={{
+                color: "#94A3B8",
+                fontSize: 10,
+              }}
+              initialSpacing={10}
+              spacing={28}
               hideRules
               isAnimated
               animationDuration={900}
-              adjustToWidth
             />
           </ScrollView>
           <Text className="mt-1 text-[10px] text-slate-400">
