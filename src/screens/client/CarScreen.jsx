@@ -14,12 +14,10 @@ import {
   Trash2,
   Plus,
   Minus,
-  Sparkles,
-  ChevronRight,
   ShoppingBag,
 } from "lucide-react-native";
 
-// Mapeo estático de imágenes para evitar pasar 'require' por params (soluciona la advertencia y el fondo en blanco)
+// Mapeo estático de imágenes para evitar problemas al pasar parámetros
 const PRODUCT_IMAGES = {
   "1": require("../../../assets/mantequilla.png"),
   "2": require("../../../assets/barra.png"),
@@ -27,33 +25,10 @@ const PRODUCT_IMAGES = {
   "4": require("../../../assets/proteina.png"),
 };
 
-// Productos recomendados (Cross-selling)
-const recommendedProducts = [
-  {
-    id: "3",
-    title: "Matcha Orgánico en Polvo",
-    brand: "Green Tea Co",
-    price: "$52.000",
-    numericPrice: 52000,
-    weight: "100g",
-    bgAccent: "#DCFCE7",
-  },
-  {
-    id: "4",
-    title: "Creatina Monohidratada",
-    brand: "Nutrik Pure",
-    price: "$85.000",
-    numericPrice: 85000,
-    weight: "300g",
-    bgAccent: "#E0F2FE",
-  },
-];
-
 export default function CarScreen() {
   const navigation = useNavigation();
   const route = useRoute();
 
-  // Estado del carrito inicial con la Mantequilla de Maní
   const [cartItems, setCartItems] = useState([
     {
       id: "1",
@@ -67,7 +42,6 @@ export default function CarScreen() {
     },
   ]);
 
-  // Recibir producto enviado desde ProductsScreen o LoNuevoScreen
   useEffect(() => {
     if (route.params?.productoAgregar) {
       const newProduct = route.params.productoAgregar;
@@ -76,16 +50,15 @@ export default function CarScreen() {
         if (exists) {
           return prevItems.map((item) =>
             item.id === newProduct.id
-              ? { ...item, quantity: item.quantity + 1 }
+              ? { ...item, quantity: item.quantity + (newProduct.quantity || 1) }
               : item
           );
         }
-        return [...prevItems, { ...newProduct, quantity: 1 }];
+        return [...prevItems, { ...newProduct, quantity: newProduct.quantity || 1 }];
       });
     }
   }, [route.params?.productoAgregar]);
 
-  // Funciones de gestión del carrito
   const updateQuantity = (id, change) => {
     setCartItems((prevItems) =>
       prevItems
@@ -108,21 +81,6 @@ export default function CarScreen() {
     setCartItems([]);
   };
 
-  const addRecommendedItem = (product) => {
-    setCartItems((prevItems) => {
-      const exists = prevItems.find((item) => item.id === product.id);
-      if (exists) {
-        return prevItems.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prevItems, { ...product, quantity: 1 }];
-    });
-  };
-
-  // Cálculos de totales
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.numericPrice * item.quantity,
     0
@@ -172,13 +130,12 @@ export default function CarScreen() {
             <ShoppingBag size={64} color="#CBD5E1" />
             <Text style={styles.emptyTitle}>Tu carrito está vacío</Text>
             <Text style={styles.emptySubtitle}>
-              Explora nuestro catálogo y añade tus snacks favoritos.
+              Explora nuestro catálogo y añade tus productos saludables favoritos.
             </Text>
           </View>
         ) : (
           <View style={styles.itemsList}>
             {cartItems.map((item) => {
-              // Obtiene la imagen de la propiedad o resuelve con PRODUCT_IMAGES según el ID
               const imageSource = item.image || PRODUCT_IMAGES[item.id];
 
               return (
@@ -233,358 +190,166 @@ export default function CarScreen() {
                 </View>
               );
             })}
+
+            {/* Resumen de Pago */}
+            <View style={styles.summaryContainer}>
+              <View style={styles.summaryRow}>
+                <Text style={styles.summaryLabel}>Subtotal</Text>
+                <Text style={styles.summaryValue}>{formatCurrency(subtotal)}</Text>
+              </View>
+              <View style={styles.summaryRow}>
+                <Text style={styles.summaryLabel}>Envío</Text>
+                <Text style={styles.summaryValue}>Gratis</Text>
+              </View>
+              <View style={[styles.summaryRow, styles.totalRow]}>
+                <Text style={styles.totalLabel}>Total</Text>
+                <Text style={styles.totalValue}>{formatCurrency(subtotal)}</Text>
+              </View>
+
+              <TouchableOpacity style={styles.checkoutButton} activeOpacity={0.85}>
+                <Text style={styles.checkoutButtonText}>Proceder al Pago</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
-
-        {/* Sección Te podría interesar (Cross-selling) */}
-        <View style={styles.recommendedSection}>
-          <View style={styles.sectionHeader}>
-            <Sparkles size={16} color="#15803D" />
-            <Text style={styles.sectionTitle}>Te podría interesar</Text>
-          </View>
-
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {recommendedProducts.map((prod) => {
-              const recImageSource = prod.image || PRODUCT_IMAGES[prod.id];
-
-              return (
-                <View key={prod.id} style={styles.recommendedCard}>
-                  <View
-                    style={[
-                      styles.recommendedImgContainer,
-                      { backgroundColor: prod.bgAccent },
-                    ]}
-                  >
-                    <Image
-                      source={recImageSource}
-                      style={styles.recommendedImg}
-                      resizeMode="contain"
-                    />
-                  </View>
-                  <Text style={styles.recommendedTitle} numberOfLines={1}>
-                    {prod.title}
-                  </Text>
-                  <Text style={styles.recommendedPrice}>{prod.price}</Text>
-
-                  <TouchableOpacity
-                    style={styles.addRecommendedBtn}
-                    onPress={() => addRecommendedItem(prod)}
-                    activeOpacity={0.8}
-                  >
-                    <Plus size={14} color="#FFFFFF" />
-                    <Text style={styles.addRecommendedText}>Agregar</Text>
-                  </TouchableOpacity>
-                </View>
-              );
-            })}
-          </ScrollView>
-        </View>
       </ScrollView>
-
-      {/* Footer Fijo con Resumen y Checkout */}
-      {cartItems.length > 0 && (
-        <View style={styles.footerContainer}>
-          <View style={styles.summaryRow}>
-            <Text style={styles.summaryLabel}>Subtotal</Text>
-            <Text style={styles.summaryValue}>
-              {formatCurrency(subtotal)}
-            </Text>
-          </View>
-          <View style={styles.summaryRow}>
-            <Text style={styles.summaryLabel}>Envío</Text>
-            <Text style={styles.freeShippingText}>GRATIS</Text>
-          </View>
-
-          <View style={styles.divider} />
-
-          <View style={styles.totalRow}>
-            <View>
-              <Text style={styles.totalLabel}>Total a pagar</Text>
-              <Text style={styles.totalPrice}>{formatCurrency(subtotal)}</Text>
-            </View>
-
-            <TouchableOpacity
-              style={styles.checkoutButton}
-              activeOpacity={0.9}
-              onPress={() => {
-                /* Conectar con pantalla de pago/factura */
-              }}
-            >
-              <Text style={styles.checkoutText}>Finalizar Compra</Text>
-              <ChevronRight size={18} color="#FFFFFF" />
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F8FAFC",
-  },
+  container: { flex: 1, backgroundColor: "#F8FAFC" },
   header: {
-    height: 60,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 20,
-    backgroundColor: "#F8FAFC",
+    paddingVertical: 12,
+    backgroundColor: "#FFFFFF",
+    borderBottomWidth: 1,
+    borderBottomColor: "#F1F5F9",
   },
   backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#DCFCE7",
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: "#F0FDF4",
     alignItems: "center",
     justifyContent: "center",
   },
-  headerCenter: {
-    alignItems: "center",
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "800",
-    color: "#0F172A",
-  },
-  headerSubtitle: {
-    fontSize: 11,
-    color: "#64748B",
-  },
+  headerCenter: { alignItems: "center" },
+  headerTitle: { fontSize: 16, fontWeight: "900", color: "#0F172A" },
+  headerSubtitle: { fontSize: 11, color: "#64748B", fontWeight: "600" },
   trashHeaderButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#FFE4E6",
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: "#FFF1F2",
     alignItems: "center",
     justifyContent: "center",
   },
-  scrollContent: {
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    paddingBottom: 20,
-  },
+  scrollContent: { padding: 20, paddingBottom: 40 },
   emptyContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 60,
+    marginTop: 80,
   },
   emptyTitle: {
     fontSize: 18,
-    fontWeight: "800",
-    color: "#334155",
+    fontWeight: "900",
+    color: "#0F172A",
     marginTop: 16,
   },
   emptySubtitle: {
     fontSize: 13,
-    color: "#94A3B8",
+    color: "#64748B",
     textAlign: "center",
     marginTop: 6,
-    paddingHorizontal: 30,
+    paddingHorizontal: 40,
   },
-  itemsList: {
-    gap: 12,
-  },
+  itemsList: { gap: 14 },
   cartCard: {
     flexDirection: "row",
     backgroundColor: "#FFFFFF",
     borderRadius: 20,
     padding: 12,
     alignItems: "center",
-    shadowColor: "#0F172A",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 3,
-    borderWidth: 1,
-    borderColor: "#F1F5F9",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
   },
   imageWrapper: {
-    width: 70,
-    height: 70,
-    borderRadius: 16,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  productImage: {
-    width: "80%",
-    height: "80%",
-  },
-  productDetails: {
-    flex: 1,
-    marginLeft: 12,
-  },
-  brandText: {
-    fontSize: 10,
-    fontWeight: "700",
-    color: "#94A3B8",
-    textTransform: "uppercase",
-  },
-  titleText: {
-    fontSize: 14,
-    fontWeight: "800",
-    color: "#1E293B",
-    marginVertical: 2,
-  },
-  priceText: {
-    fontSize: 15,
-    fontWeight: "900",
-    color: "#15803D",
-  },
-  actionColumn: {
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-    height: 65,
-  },
-  deleteButton: {
-    padding: 4,
-  },
-  quantityControls: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F1F5F9",
-    borderRadius: 12,
-    paddingHorizontal: 4,
-    paddingVertical: 2,
-    gap: 8,
-  },
-  qtyBtn: {
-    width: 24,
-    height: 24,
-    borderRadius: 8,
-    backgroundColor: "#FFFFFF",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  qtyText: {
-    fontSize: 12,
-    fontWeight: "800",
-    color: "#0F172A",
-  },
-  recommendedSection: {
-    marginTop: 28,
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    fontSize: 15,
-    fontWeight: "800",
-    color: "#0F172A",
-  },
-  recommendedCard: {
-    width: 140,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 20,
-    padding: 10,
-    marginRight: 12,
-    borderWidth: 1,
-    borderColor: "#F1F5F9",
-  },
-  recommendedImgContainer: {
-    height: 90,
+    width: 75,
+    height: 75,
     borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 8,
   },
-  recommendedImg: {
-    width: "75%",
-    height: "75%",
-  },
-  recommendedTitle: {
-    fontSize: 12,
-    fontWeight: "700",
-    color: "#1E293B",
-  },
-  recommendedPrice: {
-    fontSize: 13,
-    fontWeight: "800",
-    color: "#15803D",
-    marginVertical: 4,
-  },
-  addRecommendedBtn: {
-    backgroundColor: "#15803D",
+  productImage: { width: "75%", height: "75%" },
+  productDetails: { flex: 1, marginLeft: 12 },
+  brandText: { fontSize: 10, fontWeight: "800", color: "#94A3B8" },
+  titleText: { fontSize: 14, fontWeight: "800", color: "#0F172A", marginVertical: 2 },
+  priceText: { fontSize: 14, fontWeight: "900", color: "#15803D" },
+  actionColumn: { alignItems: "flex-end", justifyContent: "space-between", height: 75 },
+  deleteButton: { padding: 4 },
+  quantityControls: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 6,
+    backgroundColor: "#F8FAFC",
     borderRadius: 12,
-    gap: 4,
-  },
-  addRecommendedText: {
-    color: "#FFFFFF",
-    fontSize: 11,
-    fontWeight: "700",
-  },
-  footerContainer: {
-    backgroundColor: "#FFFFFF",
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-    padding: 20,
-    shadowColor: "#0F172A",
-    shadowOffset: { width: 0, height: -6 },
-    shadowOpacity: 0.06,
-    shadowRadius: 16,
-    elevation: 10,
+    padding: 2,
     borderWidth: 1,
-    borderColor: "#F1F5F9",
+    borderColor: "#E2E8F0",
+  },
+  qtyBtn: {
+    width: 26,
+    height: 26,
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  qtyText: { fontSize: 13, fontWeight: "800", color: "#0F172A", paddingHorizontal: 8 },
+  summaryContainer: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 20,
+    padding: 20,
+    marginTop: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
   },
   summaryRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 6,
+    marginBottom: 10,
   },
-  summaryLabel: {
-    fontSize: 13,
-    color: "#64748B",
-  },
-  summaryValue: {
-    fontSize: 13,
-    fontWeight: "700",
-    color: "#1E293B",
-  },
-  freeShippingText: {
-    fontSize: 12,
-    fontWeight: "800",
-    color: "#15803D",
-  },
-  divider: {
-    height: 1,
-    backgroundColor: "#F1F5F9",
-    marginVertical: 10,
-  },
+  summaryLabel: { fontSize: 13, color: "#64748B", fontWeight: "600" },
+  summaryValue: { fontSize: 13, fontWeight: "800", color: "#0F172A" },
   totalRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    borderTopWidth: 1,
+    borderTopColor: "#F1F5F9",
+    paddingTop: 12,
+    marginTop: 6,
+    marginBottom: 16,
   },
-  totalLabel: {
-    fontSize: 11,
-    color: "#94A3B8",
-  },
-  totalPrice: {
-    fontSize: 22,
-    fontWeight: "900",
-    color: "#15803D",
-  },
+  totalLabel: { fontSize: 15, fontWeight: "900", color: "#0F172A" },
+  totalValue: { fontSize: 18, fontWeight: "900", color: "#15803D" },
   checkoutButton: {
     backgroundColor: "#15803D",
-    flexDirection: "row",
+    height: 50,
+    borderRadius: 25,
     alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 18,
-    gap: 6,
+    justifyContent: "center",
+    shadowColor: "#15803D",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 3,
   },
-  checkoutText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "800",
-  },
+  checkoutButtonText: { color: "#FFFFFF", fontSize: 15, fontWeight: "900" },
 });
