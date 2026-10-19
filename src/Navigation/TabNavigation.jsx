@@ -51,7 +51,7 @@ import NewScreen from "../screens/client/NewScreen";                     // Ruta
 // NAVEGACIÓN Y COMPONENTES COMPARTIDOS
 // ==========================================
 import FacturasStack from "./FacturasStack";
-// import SharedLoadingScreeno from "../screens/shared/LoadingScreen";
+// import SharedLoadingScreeno from "../screens/shared/Logit adingScreen";
 
 
 

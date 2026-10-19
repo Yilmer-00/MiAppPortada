@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { View } from 'react-native';
+import React, { useState, useContext } from "react";
+import { View, StyleSheet, Platform } from "react-native";
 import "./global.css";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -7,72 +7,66 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import TabNavigation from "./src/Navigation/TabNavigation";
 import AuthNavigator from "./src/Navigation/AuthNavigator";
-
-import LoadingScreen from "./src/screens/auth/LoadingScreen";
+import SellerNavigator from "./src/Navigation/SellerNavigator";
+import SplashScreen from './src/components/SplashScreen';
 
 import { AuthProvider, AuthContext } from "./src/context/AuthContext";
 
-import SellerNavigator from "./src/Navigation/SellerNavigator";
-
-// ==========================================
+// ======================================================
 // NAVEGACIÓN SEGÚN EL ROL
-// ==========================================
-
+// ======================================================
 function AppNavigation() {
-  // Extraemos 'user' del contexto (no isLoading)
   const { user } = useContext(AuthContext);
 
-  // Si no hay usuario autenticado, mostramos las pantallas de autenticación (Login/Registro)
+  // Sin sesión: login y registro.
   if (!user) {
     return <AuthNavigator />;
   }
 
-  // Usuario vendedor
+  // Sesión de vendedor.
   if (user.role === "vendedor") {
     return <SellerNavigator />;
   }
 
-  // Usuario cliente
+  // Sesión de cliente.
   if (user.role === "cliente") {
     return <TabNavigation />;
   }
 
-  // Por seguridad si el rol no coincide
+  // Rol desconocido: volver al flujo de autenticación.
   return <AuthNavigator />;
 }
 
-
-// ==========================================
+// ======================================================
 // APP PRINCIPAL
-// ==========================================
-
+// ======================================================
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isAppLoading, setIsAppLoading] = useState(true);
 
-  useEffect(() => {
-    // Simulamos la carga inicial de 2.5 segundos
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
+  // 1. Si la app está cargando, mostramos únicamente el SplashScreen personalizado
+  if (isAppLoading) {
+    return <SplashScreen onFinishLoading={() => setIsAppLoading(false)} />;
+  }
 
-    return () => clearTimeout(timer);
-  }, []);
-
+  // 2. Una vez termina, se renderiza toda la estructura normal de la app
   return (
     <SafeAreaProvider>
-      {/* 1. AuthProvider envuelve absolutamente todo para que el contexto esté disponible siempre */}
       <AuthProvider>
-        <View style={{ flex: 1, height: '100%', overflow: 'hidden' }}>
+        <View style={styles.root}>
           <NavigationContainer>
-            {/* 2. Si está cargando mostramos el LoadingScreen, si no, pasamos a la navegación con roles */}
-            {isLoading ? (
-              <LoadingScreen />
-            ) : (
-              <AppNavigation />
-            )}
+            <AppNavigation />
           </NavigationContainer>
         </View>
       </AuthProvider>
     </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    minHeight: 0,
+    width: "100%",
+    ...(Platform.OS === "web" ? { minWidth: 0 } : {}),
+  },
+});

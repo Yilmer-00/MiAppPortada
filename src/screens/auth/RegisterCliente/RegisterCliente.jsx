@@ -20,6 +20,7 @@ const isSmallDevice = width < 380;
 
 const RegisterClient = ({ navigation }) => {
     const { register } = useAuth();
+    const scrollRef = useRef(null);
 
     const [paso, setPaso] = useState(1);
     const [error, setError] = useState('');
@@ -119,11 +120,17 @@ const RegisterClient = ({ navigation }) => {
         }
         setError('');
         setPaso((p) => p + 1);
+        requestAnimationFrame(() => {
+            scrollRef.current?.scrollTo({ y: 0, animated: true });
+        });
     };
 
     const anterior = () => {
         setError('');
         setPaso((p) => p - 1);
+        requestAnimationFrame(() => {
+            scrollRef.current?.scrollTo({ y: 0, animated: true });
+        });
     };
 
     const enviar = () => {
@@ -157,13 +164,19 @@ const RegisterClient = ({ navigation }) => {
 
     return (
         <ScrollView
-            showsVerticalScrollIndicator={false}
-            className="flex-1 bg-[#F2FAF4]"
+            ref={scrollRef}
+            style={{ flex: 1, minHeight: 0, width: '100%' }}
+            className="bg-[#F2FAF4]"
             contentContainerStyle={{
+                flexGrow: 1,
                 paddingTop: 20,
-                paddingBottom: 40,
+                paddingBottom: 48,
                 paddingHorizontal: isSmallDevice ? 17 : 22,
+                width: '100%',
             }}
+            showsVerticalScrollIndicator={true}
+            keyboardShouldPersistTaps="handled"
+            nestedScrollEnabled
         >
             {/* LOGO Y CABECERA */}
             <Animated.View
@@ -292,7 +305,7 @@ const RegisterClient = ({ navigation }) => {
                     <>
                         <View className="mb-4">
                             <Text className="text-xs font-bold text-[#34443A] mb-1.5 ml-1">Nombres *</Text>
-                            <View className="flex-row gap-2">
+                            <View className="flex-row flex-wrap gap-2">
                                 <TextInput
                                     className="flex-1 bg-[#F8FAF9] border border-[#E4ECE6] rounded-2xl px-4 py-3.5 text-sm text-[#17251B]"
                                     placeholder="Primer Nombre"
@@ -312,7 +325,7 @@ const RegisterClient = ({ navigation }) => {
 
                         <View className="mb-4">
                             <Text className="text-xs font-bold text-[#34443A] mb-1.5 ml-1">Apellidos *</Text>
-                            <View className="flex-row gap-2">
+                            <View className="flex-row flex-wrap gap-2">
                                 <TextInput
                                     className="flex-1 bg-[#F8FAF9] border border-[#E4ECE6] rounded-2xl px-4 py-3.5 text-sm text-[#17251B]"
                                     placeholder="Primer Apellido"
@@ -368,7 +381,7 @@ const RegisterClient = ({ navigation }) => {
 
                         <View className="mb-6">
                             <Text className="text-xs font-bold text-[#34443A] mb-2 ml-1">Género *</Text>
-                            <View className="flex-row flex gap-2">
+                            <View className="flex-row flex-wrap gap-2">
                                 {[
                                     { label: 'Femenino', value: 'femenino' },
                                     { label: 'Masculino', value: 'masculino' },
@@ -399,7 +412,7 @@ const RegisterClient = ({ navigation }) => {
                     <>
                         <View className="mb-4">
                             <Text className="text-xs font-bold text-[#34443A] mb-1.5 ml-1">Peso y estatura *</Text>
-                            <View className="flex-row gap-2">
+                            <View className="flex-row flex-wrap gap-2">
                                 <TextInput
                                     className="flex-1 bg-[#F8FAF9] border border-[#E4ECE6] rounded-2xl px-4 py-3.5 text-sm text-[#17251B]"
                                     placeholder="Peso (Ej: 70 kg)"
@@ -420,7 +433,7 @@ const RegisterClient = ({ navigation }) => {
 
                         <View className="mb-4">
                             <Text className="text-xs font-bold text-[#34443A] mb-2 ml-1">Actividad diaria *</Text>
-                            <View className="flex-row flex gap-2">
+                            <View className="flex-row flex-wrap gap-2">
                                 {[
                                     { label: 'Sedentario (poco ejercicio)', value: 'sedentario' },
                                     { label: 'Ligero (1-3 días)', value: 'ligero' },
@@ -446,7 +459,7 @@ const RegisterClient = ({ navigation }) => {
 
                         <View className="mb-4">
                             <Text className="text-xs font-bold text-[#34443A] mb-2 ml-1">Objetivo principal *</Text>
-                            <View className="flex-row flex gap-2">
+                            <View className="flex-row flex-wrap gap-2">
                                 {[
                                     { label: 'Perder peso', value: 'perder' },
                                     { label: 'Ganar músculo', value: 'musculo' },
@@ -472,7 +485,7 @@ const RegisterClient = ({ navigation }) => {
 
                         <View className="mb-4">
                             <Text className="text-xs font-bold text-[#34443A] mb-2 ml-1">¿Cada cuánto haces ejercicio?</Text>
-                            <View className="flex-row flex gap-2">
+                            <View className="flex-row flex-wrap gap-2">
                                 {[
                                     { label: 'Casi nunca', value: 'nunca' },
                                     { label: '1-2 veces', value: '1-2' },
@@ -498,7 +511,7 @@ const RegisterClient = ({ navigation }) => {
 
                         <View className="mb-6">
                             <Text className="text-xs font-bold text-[#34443A] mb-2 ml-1">Nivel de experiencia</Text>
-                            <View className="flex-row flex gap-2">
+                            <View className="flex-row flex-wrap gap-2">
                                 {['principiante', 'intermedio', 'avanzado'].map((niv) => {
                                     const isSelected = form.nivel === niv;
                                     return (
