@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Search, Bell, ShoppingBag, Star, Flame, Plus } from "lucide-react-native";
+import { Search,  Star, Flame, Plus } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
 import TopHeader from "../../components/TopHeader";
 import Footer from "../../components/Footer";
