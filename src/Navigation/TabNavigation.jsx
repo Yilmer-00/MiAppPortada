@@ -34,8 +34,18 @@ import EditProfile from "../screens/client/EditProfile";           // Ruta corre
 import FacturaDetalleScreen from "../screens/client/FacturaDetalleScreen"; // Faltaba
 import Facturasscreen from "../screens/client/FacturasScreen";           // Faltaba
 import ProfileScreen from "../screens/client/ProfileScreen";             // Faltaba
-
-
+import ProductsScreen from '../screens/client/ProductsScreen';
+import ProductDetailScreen from '../screens/client/ProductDetailScreen';
+import ConfiguracionScreen from "../screens/client/ConfiguracionScreen";
+import AyudaSoporteScreen from "../screens/client/AyudaSoporteScreen";
+// ==========================================
+// PANTALLAS / SELLER
+// ==========================================
+import Dashboard from "../screens/seller/inicio/Dashboard";
+import NewScreen from "../screens/client/NewScreen";                     // Ruta corregida
+// import EditProductScreen from "../screens/seller/EditProductScreen";     // Faltaba
+// import OrdersScreen from "../screens/seller/OrdersScreen";               // Faltaba
+// import ProductsScreen from "../screens/seller/ProductsScreen";           // Faltaba
 
 // ==========================================
 // NAVEGACIÓN Y COMPONENTES COMPARTIDOS
@@ -53,6 +63,7 @@ export default function TabNavigation() {
 
   return (
     <Tab.Navigator
+
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
@@ -78,7 +89,7 @@ export default function TabNavigation() {
       />
       <Tab.Screen
         name="Tienda"
-        component={StoreScreen}
+        component={ProductsScreen}
         options={{
           tabBarIcon: ({ color }) => <Store size={22} color={color} />,
         }}
@@ -201,6 +212,55 @@ export default function TabNavigation() {
         }}
       />
 
+      <Tab.Screen
+        name="NewScreen"
+        component={NewScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="ProductsScreen"
+        component={ProductsScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="ProductDetail"
+        component={ProductDetailScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="Configuracion"
+        component={ConfiguracionScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="AyudaSoporte"
+        component={AyudaSoporteScreen}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+
+      <Tab.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
     </Tab.Navigator>
   );
 }
