@@ -41,7 +41,7 @@ import ProfileScreen from "../screens/client/ProfileScreen";             // Falt
 // NAVEGACIÓN Y COMPONENTES COMPARTIDOS
 // ==========================================
 import FacturasStack from "./FacturasStack";
-// import SharedLoadingScreeno from "../screens/shared/LoadingScreen";
+// import SharedLoadingScreeno from "../screens/shared/Logit adingScreen";
 
 
 
