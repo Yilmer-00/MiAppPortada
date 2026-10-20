@@ -313,16 +313,15 @@ export default function Dashboard() {
     setPickerTemporal(nuevaFecha);
   };
 
-  const abrirFactura = (venta) => {
+  const irANuevaFactura = () => {
     try {
       navigation.navigate("FacturasStack", {
-        screen: "FacturaDetalle",
-        params: { factura: venta },
+        screen: "CrearFactura", // Aquí le indicas que entre al Stack y busque esta pantalla
       });
     } catch (error) {
       Alert.alert(
         "Factura",
-        "Verifica que las rutas FacturasStack y FacturaDetalle estén registradas en tu navegador.",
+        "Verifica que la ruta FacturasStack y CrearFactura estén registradas.",
       );
     }
   };
@@ -335,9 +334,10 @@ export default function Dashboard() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50" style={{ flex: 1, height: '100%', overflow: 'hidden' }}>
-
-
+    <SafeAreaView
+      className="flex-1 bg-slate-50"
+      style={{ flex: 1, height: "100%", overflow: "hidden" }}
+    >
       <ScrollView
         className="flex-1"
         contentContainerStyle={{
@@ -665,13 +665,13 @@ export default function Dashboard() {
                       <View className="w-[85px]">
                         <TouchableOpacity
                           accessibilityRole="button"
-                          accessibilityLabel={`Ver factura del pedido ${venta.id}`}
+                          accessibilityLabel="Crear nueva factura"
                           activeOpacity={0.75}
-                          onPress={() => abrirFactura(venta)}
-                          className="self-start rounded-lg bg-emerald-700 px-2.5 py-2"
+                          onPress={() => irANuevaFactura()} // Cambia la función a la que creamos para ir a crear factura
+                          className="self-start rounded-lg bg-blue-600 px-2.5 py-2 items-center"
                         >
                           <Text className="text-[10px] font-bold text-white">
-                            Ver factura
+                            Crear factura
                           </Text>
                         </TouchableOpacity>
                       </View>

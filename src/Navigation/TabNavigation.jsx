@@ -28,22 +28,19 @@ import PreferencesScreen from "../screens/client/profile/PreferencesScreen";
 import PaymentMethodsScreen from "../screens/client/profile/PaymentMethodsScreen";
 import OrdersScreen from "../screens/client/profile/OrdersScreen";
 import SubscriptionsScreen from "../screens/client/profile/SubscriptionsScreen";
-import HomeScreen from "../screens/client/HomeScreen";                 // Ruta corregida
-import AddressesScreen from "../screens/client/AddressesScreen";         // Faltaba
-import EditProfile from "../screens/client/EditProfile";           // Ruta corregida (está en client)
+import HomeScreen from "../screens/client/HomeScreen"; // Ruta corregida
+import AddressesScreen from "../screens/client/AddressesScreen"; // Faltaba
+import EditProfile from "../screens/client/EditProfile"; // Ruta corregida (está en client)
 import FacturaDetalleScreen from "../screens/client/FacturaDetalleScreen"; // Faltaba
-import Facturasscreen from "../screens/client/FacturasScreen";           // Faltaba
-import ProfileScreen from "../screens/client/ProfileScreen";             // Faltaba
-
-
+import Facturasscreen from "../screens/client/FacturasScreen"; // Faltaba
+import ProfileScreen from "../screens/client/ProfileScreen"; // Faltaba
+import Dashboard from "../screens/seller/inicio/Dashboard";
 
 // ==========================================
 // NAVEGACIÓN Y COMPONENTES COMPARTIDOS
 // ==========================================
 import FacturasStack from "./FacturasStack";
 // import SharedLoadingScreeno from "../screens/shared/Logit adingScreen";
-
-
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -201,6 +198,14 @@ export default function TabNavigation() {
         }}
       />
 
+      <Tab.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{
+          tabBarItemStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
     </Tab.Navigator>
   );
 }

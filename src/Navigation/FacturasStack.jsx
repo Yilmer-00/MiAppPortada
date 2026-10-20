@@ -1,7 +1,8 @@
-import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import FacturasScreen from '../screens/client/FacturasScreen';
-import FacturaDetalleScreen from '../screens/client/FacturaDetalleScreen';
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import FacturasScreen from "../screens/client/FacturasScreen";
+import FacturaDetalleScreen from "../screens/client/FacturaDetalleScreen";
+import CrearFacturaScreen from "../screens/seller/factura/CrearFacturaScreen"; // 1. Importa la pantalla del vendedor
 
 const Stack = createNativeStackNavigator();
 
@@ -10,6 +11,8 @@ export default function FacturasStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="FacturasList" component={FacturasScreen} />
       <Stack.Screen name="FacturaDetalle" component={FacturaDetalleScreen} />
+      <Stack.Screen name="CrearFactura" component={CrearFacturaScreen} />{" "}
+      {/* 2. Regístrala aquí */}
     </Stack.Navigator>
   );
 }

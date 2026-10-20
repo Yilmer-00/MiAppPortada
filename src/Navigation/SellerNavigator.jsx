@@ -13,7 +13,8 @@ import Pedidos from "../screens/seller/pedidos/PedidosScreen";
 import Ventas from "../screens/seller/ventas/VentasScreen";
 import ConfiguracionScreen from "../screens/seller/configuracion/ConfiguracionScreen";
 import Soporte from "../screens/seller/soporte/SellerSupportScreen";
-
+import CrarFactura from "../screens/seller/factura/CrearFacturaScreen";
+import ListaFacturasScreen from "../screens/seller/factura/ListaFacturasScreen";
 // import inicio from "../screens/auth/LoadingScreen"
 // --- NAVEGACIÓN Y PANTALLAS OCULTAS ---
 import FacturasStack from "../Navigation/FacturasStack";
@@ -81,7 +82,6 @@ export default function SellerNavigator() {
           ),
         }}
       />
-
       {/* Configuración la ocultamos del listado automático superior para ponerla abajo */}
       <Drawer.Screen
         name="Configuración"
@@ -104,7 +104,6 @@ export default function SellerNavigator() {
           drawerItemStyle: { display: "none" },
         }}
       /> */}
-
       {/* Rutas ocultas del menú lateral */}
       <Drawer.Screen
         name="FacturasStack"
@@ -119,6 +118,23 @@ export default function SellerNavigator() {
         name="FacturaDetalleScreen"
         component={Dashboard}
         options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <Drawer.Screen
+        name="CrarFactura"
+        component={CrarFactura}
+        options={{
+          title: "CrearFactura",
+          drawerItemStyle: { display: "none" },
+        }}
+      />
+
+      <Drawer.Screen
+        name="ListaFacturasScreen"
+        component={ListaFacturasScreen}
+        options={{
+          title: "CrearFactura",
+          drawerItemStyle: { display: "none" },
+        }}
       />
 
       <Drawer.Screen
