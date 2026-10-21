@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FacturasScreen from '../screens/client/FacturasScreen';
-import FacturaDetalleScreen from '../screens/client/FacturaDetalleScreen';
+import FacturaDetalleScreen from '../screens/seller/factura/FacturaDetalleScreen';
 import CrearFacturaScreen from '../screens/seller/factura/CrearFacturaScreen';
 
 const Stack = createNativeStackNavigator();

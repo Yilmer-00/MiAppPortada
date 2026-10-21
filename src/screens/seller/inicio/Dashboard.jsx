@@ -313,15 +313,16 @@ export default function Dashboard() {
     setPickerTemporal(nuevaFecha);
   };
 
-  const irANuevaFactura = () => {
+  const abrirFactura = (venta) => {
     try {
       navigation.navigate("FacturasStack", {
-        screen: "CrearFactura", // Aquí le indicas que entre al Stack y busque esta pantalla
+        screen: "FacturasDetalle",
+        params: { factura: venta },
       });
     } catch (error) {
       Alert.alert(
         "Factura",
-        "Verifica que la ruta FacturasStack y CrearFactura estén registradas.",
+        "Verifica que las rutas FacturasStack y FacturaDetalle estén registradas en tu navegador.",
       );
     }
   };
@@ -665,13 +666,13 @@ export default function Dashboard() {
                       <View className="w-[85px]">
                         <TouchableOpacity
                           accessibilityRole="button"
-                          accessibilityLabel="Crear nueva factura"
+                          accessibilityLabel={`Ver factura del pedido ${venta.id}`}
                           activeOpacity={0.75}
-                          onPress={() => irANuevaFactura()} // Cambia la función a la que creamos para ir a crear factura
-                          className="self-start rounded-lg bg-blue-600 px-2.5 py-2 items-center"
+                          onPress={() => abrirFactura(venta)}
+                          className="self-start rounded-lg bg-emerald-700 px-2.5 py-2"
                         >
                           <Text className="text-[10px] font-bold text-white">
-                            Crear factura
+                            Ver factura
                           </Text>
                         </TouchableOpacity>
                       </View>
