@@ -1,14 +1,7 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Modal,
-  SafeAreaView,
-  StyleSheet,
-} from "react-native";
+import {View,Text,TouchableOpacity,Modal,StyleSheet,} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TopHeader({ title = "Inicio" }) {
   const navigation = useNavigation();
@@ -246,4 +239,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
   },
-});
+}); 
