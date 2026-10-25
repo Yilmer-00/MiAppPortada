@@ -10,11 +10,12 @@ import Dashboard from "../screens/seller/inicio/Dashboard";
 import Facturas from "../screens/seller/factura/FacturasScreen";
 import Productos from "../screens/seller/Productos/ProductosScreen";
 import Pedidos from "../screens/seller/pedidos/PedidosScreen";
-import Ventas from "../screens/seller/ventas/VentasScreen";
+// import Ventas from "../screens/seller/ventas/VentasScreen";
 import ConfiguracionScreen from "../screens/seller/configuracion/ConfiguracionScreen";
 import Soporte from "../screens/seller/soporte/SellerSupportScreen";
 import CrarFactura from "../screens/seller/factura/CrearFacturaScreen";
 import ListaFacturasScreen from "../screens/seller/factura/ListaFacturasScreen";
+import EditarTiendaScreen from "../screens/seller/configuracion/EditarTiendaScreen"
 // import inicio from "../screens/auth/LoadingScreen"
 // --- NAVEGACIÓN Y PANTALLAS OCULTAS ---
 import FacturasStack from "../Navigation/FacturasStack";
@@ -73,7 +74,7 @@ export default function SellerNavigator() {
           ),
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Ventas"
         component={Ventas}
         options={{
@@ -81,7 +82,7 @@ export default function SellerNavigator() {
             <Ionicons name="stats-chart-outline" size={size} color={color} />
           ),
         }}
-      />
+      /> */}
       {/* Configuración la ocultamos del listado automático superior para ponerla abajo */}
       <Drawer.Screen
         name="Configuración"
@@ -142,6 +143,14 @@ export default function SellerNavigator() {
         component={SellerProfile}
         options={{
           title: "Perfil de Vendedor",
+          drawerItemStyle: { display: "none" },
+        }}
+      />
+      <Drawer.Screen
+        name="EditarTiendaScreen"
+        component={EditarTiendaScreen}
+        options={{
+          title: "Facturas",
           drawerItemStyle: { display: "none" },
         }}
       />
