@@ -28,32 +28,19 @@ import PreferencesScreen from "../screens/client/profile/PreferencesScreen";
 import PaymentMethodsScreen from "../screens/client/profile/PaymentMethodsScreen";
 import OrdersScreen from "../screens/client/profile/OrdersScreen";
 import SubscriptionsScreen from "../screens/client/profile/SubscriptionsScreen";
-import HomeScreen from "../screens/client/HomeScreen";                 // Ruta corregida
-import AddressesScreen from "../screens/client/AddressesScreen";         // Faltaba
-import EditProfile from "../screens/client/EditProfile";           // Ruta corregida (está en client)
+import HomeScreen from "../screens/client/HomeScreen"; // Ruta corregida
+import AddressesScreen from "../screens/client/AddressesScreen"; // Faltaba
+import EditProfile from "../screens/client/EditProfile"; // Ruta corregida (está en client)
 import FacturaDetalleScreen from "../screens/client/FacturaDetalleScreen"; // Faltaba
-import Facturasscreen from "../screens/client/FacturasScreen";           // Faltaba
-import ProfileScreen from "../screens/client/ProfileScreen";             // Faltaba
-import ProductsScreen from '../screens/client/ProductsScreen';
-import ProductDetailScreen from '../screens/client/ProductDetailScreen';
-import ConfiguracionScreen from "../screens/client/ConfiguracionScreen";
-import AyudaSoporteScreen from "../screens/client/AyudaSoporteScreen";
-// ==========================================
-// PANTALLAS / SELLER
-// ==========================================
+import Facturasscreen from "../screens/client/FacturasScreen"; // Faltaba
+import ProfileScreen from "../screens/client/ProfileScreen"; // Faltaba
 import Dashboard from "../screens/seller/inicio/Dashboard";
-import NewScreen from "../screens/client/NewScreen";                     // Ruta corregida
-// import EditProductScreen from "../screens/seller/EditProductScreen";     // Faltaba
-// import OrdersScreen from "../screens/seller/OrdersScreen";               // Faltaba
-// import ProductsScreen from "../screens/seller/ProductsScreen";           // Faltaba
 
 // ==========================================
 // NAVEGACIÓN Y COMPONENTES COMPARTIDOS
 // ==========================================
 import FacturasStack from "./FacturasStack";
 // import SharedLoadingScreeno from "../screens/shared/Logit adingScreen";
-
-
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -206,47 +193,6 @@ export default function TabNavigation() {
       <Tab.Screen
         name="Facturasscreen"
         component={Facturasscreen}
-        options={{
-          tabBarItemStyle: { display: "none" },
-          tabBarButton: () => null,
-        }}
-      />
-
-      <Tab.Screen
-        name="NewScreen"
-        component={NewScreen}
-        options={{
-          tabBarItemStyle: { display: "none" },
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="ProductsScreen"
-        component={ProductsScreen}
-        options={{
-          tabBarItemStyle: { display: "none" },
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="ProductDetail"
-        component={ProductDetailScreen}
-        options={{
-          tabBarItemStyle: { display: "none" },
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="Configuracion"
-        component={ConfiguracionScreen}
-        options={{
-          tabBarItemStyle: { display: "none" },
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="AyudaSoporte"
-        component={AyudaSoporteScreen}
         options={{
           tabBarItemStyle: { display: "none" },
           tabBarButton: () => null,

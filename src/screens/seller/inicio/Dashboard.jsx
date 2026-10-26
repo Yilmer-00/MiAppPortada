@@ -316,7 +316,7 @@ export default function Dashboard() {
   const abrirFactura = (venta) => {
     try {
       navigation.navigate("FacturasStack", {
-        screen: "FacturaDetalle",
+        screen: "FacturasListSeller",
         params: { factura: venta },
       });
     } catch (error) {
@@ -328,16 +328,22 @@ export default function Dashboard() {
   };
 
   const mostrarRutaPendiente = (seccion) => {
-    Alert.alert(
-      `Sección: ${seccion}`,
-      `El botón ya responde. Conecta aquí la ruta de ${seccion} cuando esté registrada en tu navegador.`,
-    );
+    try {
+      navigation.navigate('Facturas');
+    } catch (error) {
+      Alert.alert(
+        `Sección:`,
+        `El botón ya responde. Conecta aquí la ruta de  cuando esté registrada en tu navegador.`,
+      );
+    }
+
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50" style={{ flex: 1, height: '100%', overflow: 'hidden' }}>
-
-
+    <SafeAreaView
+      className="flex-1 bg-slate-50"
+      style={{ flex: 1, height: "100%", overflow: "hidden" }}
+    >
       <ScrollView
         className="flex-1"
         contentContainerStyle={{

@@ -1,188 +1,72 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
-export default function FacturaDetalleScreen({ route, navigation }) {
-  // Recibimos los datos de la factura que se presionó (si no hay, usamos una por defecto)
-  const { factura } = route.params || {
-    id: 'FAC-0001',
-    cliente: 'Juan Pérez',
-    fecha: '25/08/2026',
-    total: '$ 150.000',
-    estado: 'Pagada',
-  };
+export default function FacturaDetalle() {
+  const route = useRoute();
+  const navigation = useNavigation();
+
+  // Obtenemos el ID de los parámetros de navegación de forma segura
+  const { id = 'FAC-0001', factura } = route.params || {};
+  const facturaId = factura?.numero || id;
 
   return (
-    <ScrollView style={styles.container}>
-      {/* Botón Volver */}
+    <ScrollView className="flex-1 bg-gray-50 p-4">
+      {/* Botón de Volver */}
       <TouchableOpacity
-        style={styles.btnVolver}
-        onPress={() => navigation.navigate('Dashboard')}
+        className="flex-row items-center mb-4 py-1"
+        onPress={() => navigation.goBack()}
       >
-        <Ionicons name="arrow-back" size={18} color="#198754" />
-        <Text style={styles.btnVolverText}>Volver a Facturas</Text>
+        <Ionicons name="arrow-back" size={20} color="#047857" />
+        <Text className="text-xs font-semibold text-emerald-700 ml-1">Volver a Facturas</Text>
       </TouchableOpacity>
 
-      {/* Tarjeta de Detalle */}
-      <View style={styles.card}>
-        <View style={styles.headerRow}>
-          <Text style={styles.title}>Detalle de la Factura: {factura.id}</Text>
-          <View style={[
-            styles.badge,
-            { backgroundColor: factura.estado === 'Pagada' ? '#d1e7dd' : '#fff3cd' }
-          ]}>
-            <Text style={[
-              styles.badgeText,
-              { color: factura.estado === 'Pagada' ? '#0f5132' : '#664d03' }
-            ]}>
-              {factura.estado}
-            </Text>
-          </View>
-        </View>
+      {/* Tarjeta principal de detalle */}
+      <View className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm mb-6">
+        <Text className="text-lg font-bold text-gray-900 mb-4">
+          Detalle de la Factura: <Text className="text-emerald-700">{facturaId}</Text>
+        </Text>
 
-        <View style={styles.infoRow}>
+        {/* Metadatos (Cliente, Fecha, Estado) */}
+        <View className="flex-row justify-between items-center border-b border-gray-100 pb-4 mb-4">
           <View>
-            <Text style={styles.label}>CLIENTE</Text>
-            <Text style={styles.value}>{factura.cliente}</Text>
+            <Text className="text-xs text-gray-400 mb-1">Cliente</Text>
+            <Text className="text-xs font-bold text-gray-800">Juan Pérez</Text>
           </View>
           <View>
-            <Text style={styles.label}>FECHA</Text>
-            <Text style={styles.value}>{factura.fecha}</Text>
+            <Text className="text-xs text-gray-400 mb-1">Fecha</Text>
+            <Text className="text-xs font-bold text-gray-800">22/05/2026</Text>
+          </View>
+          <View className="items-end">
+            <Text className="text-xs text-gray-400 mb-1">Estado</Text>
+            <View className="bg-green-50 px-2.5 py-1 rounded-md">
+              <Text className="text-xs font-bold text-green-700">Pagado</Text>
+            </View>
           </View>
         </View>
 
-        <View style={styles.divider} />
+        {/* Título de productos */}
+        <Text className="text-xs font-bold text-gray-900 mb-3">Productos comprados</Text>
 
-        <Text style={styles.sectionTitle}>PRODUCTOS COMPRADOS</Text>
-
-        <View style={styles.productRow}>
-          <Text style={styles.productName}>Yogur Griego Natural (x1)</Text>
-          <Text style={styles.productPrice}>$ 12.000</Text>
+        {/* Lista de productos */}
+        <View className="mb-4">
+          <View className="flex-row justify-between py-2 border-b border-gray-50">
+            <Text className="text-xs text-gray-700">Yogur Griego Natural (x1)</Text>
+            <Text className="text-xs font-bold text-gray-900">$12.000</Text>
+          </View>
+          <View className="flex-row justify-between py-2 border-b border-gray-50">
+            <Text className="text-xs text-gray-700">Ensalada Fresh (x1)</Text>
+            <Text className="text-xs font-bold text-gray-900">$15.000</Text>
+          </View>
         </View>
 
-        <View style={styles.productRow}>
-          <Text style={styles.productName}>Ensalada Fresh (x1)</Text>
-          <Text style={styles.productPrice}>$ 15.000</Text>
-        </View>
-
-        <View style={styles.divider} />
-
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Total de Pago:</Text>
-          <Text style={styles.totalValue}>{factura.total}</Text>
+        {/* Total a pagar */}
+        <View className="border-t border-gray-100 pt-4 flex-row justify-between items-center">
+          <Text className="text-xs font-bold text-gray-900">Total a Pagar:</Text>
+          <Text className="text-base font-extrabold text-emerald-700">$27.000</Text>
         </View>
       </View>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f9fa',
-    padding: 16,
-    paddingTop: 40,
-  },
-  btnVolver: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-    backgroundColor: '#e8f5e9',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    alignSelf: 'flex-start',
-  },
-  btnVolverText: {
-    color: '#198754',
-    fontWeight: 'bold',
-    marginLeft: 6,
-  },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
-  },
-  headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  badge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-  },
-  badgeText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  infoRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 15,
-  },
-  label: {
-    fontSize: 11,
-    color: '#888',
-    fontWeight: 'bold',
-  },
-  value: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#333',
-    marginTop: 2,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: '#eee',
-    marginVertical: 15,
-  },
-  sectionTitle: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#666',
-    marginBottom: 10,
-  },
-  productRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 6,
-  },
-  productName: {
-    fontSize: 14,
-    color: '#444',
-  },
-  productPrice: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-  },
-  totalRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  totalLabel: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  totalValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#198754',
-  },
-});
