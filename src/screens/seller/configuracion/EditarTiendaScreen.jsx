@@ -219,11 +219,15 @@ export default function EditarTiendaScreen({ onSave }) {
                     onPress: () => {
                         setForm({ ...INITIAL_VALUES });
 
-                        navigation.navigate('Soporte');
+                        navigation.navigate('Configuración');
                     },
                 },
             ],
         );
+    };
+
+    const volverConfiguracion = () => {
+        navigation.navigate("Configuración");
     };
 
 
@@ -552,7 +556,7 @@ export default function EditarTiendaScreen({ onSave }) {
                             title="Cancelar"
                             icon="close-circle-outline"
                             variant="secondary"
-                            onPress={handleCancel}
+                            onPress={volverConfiguracion}
                             disabled={saving}
                         />
 

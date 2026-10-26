@@ -1,6 +1,7 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
+
 import SellerHeader from "../components/SellerHeader";
 import CustomDrawerContent from "../components/CustomDrawerContent";
 
@@ -8,9 +9,13 @@ import CustomDrawerContent from "../components/CustomDrawerContent";
 import SellerProfile from "../screens/seller/profile/SellerProfileScreen";
 import Dashboard from "../screens/seller/inicio/Dashboard";
 import Facturas from "../screens/seller/factura/FacturasScreen";
+import FacturaDetalle from "../screens/seller/factura/FacturaDetalleScreen"
 import Productos from "../screens/seller/Productos/ProductosScreen";
 import Pedidos from "../screens/seller/pedidos/PedidosScreen";
+import PedidoDetalleScreen from "../screens/seller/pedidos/PedidoDetalleScreen";
 // import Ventas from "../screens/seller/ventas/VentasScreen";
+import CrearProductoScreen from "../screens/seller/Productos/CrearProductoScreen";
+import EditarProductoScreen from "../screens/seller/Productos/EditarProductoScreen";
 import ConfiguracionScreen from "../screens/seller/configuracion/ConfiguracionScreen";
 import Soporte from "../screens/seller/soporte/SellerSupportScreen";
 import CrarFactura from "../screens/seller/factura/CrearFacturaScreen";
@@ -116,8 +121,8 @@ export default function SellerNavigator() {
       />
 
       <Drawer.Screen
-        name="FacturaDetalleScreen"
-        component={Dashboard}
+        name="FacturaDetalle"
+        component={FacturaDetalle}
         options={{ drawerItemStyle: { display: "none" } }}
       />
       <Drawer.Screen
@@ -152,6 +157,35 @@ export default function SellerNavigator() {
         options={{
           title: "Facturas",
           drawerItemStyle: { display: "none" },
+        }}
+      />
+
+      {/* Rutas ocultas para gestión de Productos */}
+      <Drawer.Screen
+        name="CrearProductoScreen"
+        component={CrearProductoScreen}
+        options={{
+          title: "Nuevo Producto",
+          drawerItemStyle: { display: "none" },
+        }}
+      />
+
+      <Drawer.Screen
+        name="EditarProductoScreen"
+        component={EditarProductoScreen}
+        options={{
+          title: "Editar Producto",
+          drawerItemStyle: { display: "none" },
+        }}
+      />
+      
+      <Drawer.Screen
+        name="PedidoDetalleScreen"
+        component={PedidoDetalleScreen}
+        options={{
+          title: "Detalle de Pedido",
+          drawerItemStyle: { display: "none" },
+          unmountOnBlur: true,
         }}
       />
     </Drawer.Navigator>
