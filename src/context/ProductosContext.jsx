@@ -74,9 +74,13 @@ export const ProductosProvider = ({ children }) => {
     );
   };
 
-  const eliminarProducto = (id) => {
-    setProductos((prev) => prev.filter((item) => item.id !== id));
-  };
+const eliminarProducto = (id) => {
+  setProductos((productosActuales) =>
+    productosActuales.filter(
+      (producto) => String(producto.id) !== String(id)
+    )
+  );
+};
 
   return (
     <ProductosContext.Provider

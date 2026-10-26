@@ -35,6 +35,7 @@ import FacturaDetalleScreen from "../screens/client/FacturaDetalleScreen"; // Fa
 import Facturasscreen from "../screens/client/FacturasScreen"; // Faltaba
 import ProfileScreen from "../screens/client/ProfileScreen"; // Faltaba
 import Dashboard from "../screens/seller/inicio/Dashboard";
+import ProductsScreen from "../screens/client/ProductsScreen"; // Faltaba
 
 // ==========================================
 // NAVEGACIÓN Y COMPONENTES COMPARTIDOS
