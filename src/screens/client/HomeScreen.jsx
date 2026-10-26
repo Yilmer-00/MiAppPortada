@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   TextInput,
   FlatList,
@@ -10,9 +9,10 @@ import {
   Image,
   Dimensions,
 } from "react-native";
+
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Search,  Star, Flame, Plus } from "lucide-react-native";
+import { Search, Star, Flame, Plus, ShoppingBag } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
 import TopHeader from "../../components/TopHeader";
 import Footer from "../../components/Footer";
@@ -48,6 +48,7 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const [selectedTag, setSelectedTag] = useState("Todos");
   const [activeBannerIndex, setActiveBannerIndex] = useState(0);
+
   const bannerRef = useRef(null);
   const tags = ["Todos", "Orgánico", "Keto", "Vegano", "Sin Gluten"];
 
@@ -55,14 +56,10 @@ export default function HomeScreen() {
     const timer = setInterval(() => {
       setActiveBannerIndex((prevIndex) => {
         const nextIndex = prevIndex === banners.length - 1 ? 0 : prevIndex + 1;
-        bannerRef.current?.scrollToIndex({
-          index: nextIndex,
-          animated: true,
-        });
+        bannerRef.current?.scrollToIndex({ index: nextIndex, animated: true });
         return nextIndex;
       });
     }, 4000);
-
     return () => clearInterval(timer);
   }, []);
 
@@ -73,115 +70,82 @@ export default function HomeScreen() {
   };
 
   const categories = [
-    { id: "1", name: "Proteínas", icon: require("../../../assets/icons/proteina.png"), screen: "ProteinasScreen", bgColor: "#E8F5E9" },
-    { id: "2", name: "Vitaminas", icon: require("../../../assets/icons/vitaminas.png"), screen: "VitaminasScreen", bgColor: "#FFF3E0" },
-    { id: "3", name: "Snacks", icon: require("../../../assets/icons/snacks.png"), screen: "SnacksScreen", bgColor: "#c4f783" },
-    { id: "4", name: "Bebidas", icon: require("../../../assets/icons/bebidas.png"), screen: "BebidasScreen", bgColor: "#99eff1" },
-    { id: "5", name: "Creatinas", icon: require("../../../assets/icons/creatina.png"), screen: "CreatinasScreen", bgColor: "#ffaf53" },
-    { id: "6", name: "Superfoods", icon: require("../../../assets/icons/superfoods.png"), screen: "SuperfoodsScreen", bgColor: "#ffe570" },
+    { id: "1", name: "Proteínas", icon: require("../../../assets/icons/proteina.png"), bgColor: "bg-[#E8F5E9]" },
+    { id: "2", name: "Vitaminas", icon: require("../../../assets/icons/vitaminas.png"), bgColor: "bg-[#FFF3E0]" },
+    { id: "3", name: "Snacks", icon: require("../../../assets/icons/snacks.png"), bgColor: "bg-[#c4f783]" },
+    { id: "4", name: "Bebidas", icon: require("../../../assets/icons/bebidas.png"), bgColor: "bg-[#99eff1]" },
+    { id: "5", name: "Creatinas", icon: require("../../../assets/icons/creatina.png"), bgColor: "bg-[#ffaf53]" },
+    { id: "6", name: "Superfoods", icon: require("../../../assets/icons/superfoods.png"), bgColor: "bg-[#ffe570]" },
   ];
 
-  // Ampliado con más de dos ofertas para ti
+  // Productos de respaldo locales
+  const localProducts = [
+    { id: "1", title: "Proteína Whey Gold", category: "Proteínas", price: "$140.000" },
+    { id: "2", title: "Vitamina C 1000mg", category: "Vitaminas", price: "$45.000" },
+    { id: "3", title: "Creatina Monohidratada", category: "Creatinas", price: "$90.000" },
+    { id: "4", title: "Barra Energética Keto", category: "Snacks", price: "$8.000" },
+  ];
+
   const deals = [
-    {
-      id: "1",
-      title: "Combo Keto Saludable",
-      subtitle: "30% OFF en toda la categoría",
-      time: "Envío Gratis",
-      image: require("../../../assets/Saludable.png"),
-    },
-    {
-      id: "2",
-      title: "Kit de Vitaminas D3",
-      subtitle: "Ahorra comprando el dúo",
-      time: "20 min o menos",
-      image: require("../../../assets/bannerdos.png"),
-    },
-    {
-      id: "3",
-      title: "Pack Proteína Whey",
-      subtitle: "Incluye shaker de regalo",
-      time: "Envío Gratis",
-      image: require("../../../assets/proteina.png"),
-    },
-    {
-      id: "4",
-      title: "Snacks Energéticos",
-      subtitle: "2x1 en barras seleccionadas",
-      time: "15 min o menos",
-      image: require("../../../assets/Questbar.png"),
-    },
+    { id: "1", title: "Combo Keto Saludable", subtitle: "30% OFF en toda la categoría", time: "Envío Gratis", image: require("../../../assets/Saludable.png") },
+    { id: "2", title: "Kit de Vitaminas D3", subtitle: "Ahorra comprando el dúo", time: "20 min o menos", image: require("../../../assets/bannerdos.png") },
+    { id: "3", title: "Pack Proteína Whey", subtitle: "Incluye shaker de regalo", time: "Envío Gratis", image: require("../../../assets/proteina.png") },
+    { id: "4", title: "Snacks Energéticos", subtitle: "2x1 en barras seleccionadas", time: "15 min o menos", image: require("../../../assets/Questbar.png") },
   ];
 
   const storesNearYou = [
-    {
-      id: "1",
-      name: "Nutrik Organic Store",
-      category: "Orgánico • Saludable",
-      rating: "4.8",
-      time: "15-20 min",
-      discount: "15% OFF",
-      image: require("../../../assets/proteina.png"),
-      bgAccent: "#E8F5E9",
-    },
-    {
-      id: "2",
-      name: "Vida Natural Express",
-      category: "Suplementos • Vitaminas",
-      rating: "4.9",
-      time: "10-15 min",
-      discount: "20% OFF",
-      image: require("../../../assets/barra.png"),
-      bgAccent: "#FFF3E0",
-    },
+    { id: "1", name: "Nutrik Organic Store", category: "Orgánico • Saludable", rating: "4.8", time: "15-20 min", discount: "15% OFF", image: require("../../../assets/proteina.png"), bgAccent: "bg-[#E8F5E9]" },
+    { id: "2", name: "Vida Natural Express", category: "Suplementos • Vitaminas", rating: "4.9", time: "10-15 min", discount: "20% OFF", image: require("../../../assets/barra.png"), bgAccent: "bg-[#FFF3E0]" },
   ];
 
   const handleAddToCart = (product) => {
     navigation.navigate("Carrito", {
       productoAgregar: {
         id: product.id,
-        title: product.name || product.title,
-        brand: product.category || product.brand,
-        price: product.price || "$28.000",
-        numericPrice: product.numericPrice || 28000,
+        title: product.title,
+        brand: product.category,
+        price: product.price,
+        numericPrice: 28000,
         weight: "1 un",
-        bgAccent: product.bgAccent || "#F8FAFC",
+        bgAccent: "#F8FAFC",
         quantity: 1,
       },
     });
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-[#fafafa]" edges={["top"]}>
       <TopHeader title="Nutrik" />
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.body}>
+        <View className="px-4 pt-4">
           {/* Barra de Búsqueda */}
-          <View style={styles.searchContainer}>
-            <Search size={18} color="#888" style={styles.searchIcon} />
+          <View className="flex-row items-center bg-[#f0f2f0] rounded-full px-4 h-12 mb-4">
+            <Search size={18} color="#888" className="mr-2" />
             <TextInput
               placeholder="Buscar productos, marcas, suplementos..."
               placeholderTextColor="#888"
-              style={styles.searchInput}
+              className="flex-1 text-sm text-[#333]"
             />
           </View>
 
           {/* Chips / Filtros Horizontales */}
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tagsContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingBottom: 15 }}>
             {tags.map((tag) => (
               <TouchableOpacity
                 key={tag}
-                style={[styles.tagChip, selectedTag === tag && styles.tagChipActive]}
+                className={`px-5 py-2 rounded-full ${selectedTag === tag ? "bg-[#15803D]" : "bg-[#f0f0f0]"}`}
                 onPress={() => setSelectedTag(tag)}
               >
-                <Text style={[styles.tagText, selectedTag === tag && styles.tagTextActive]}>{tag}</Text>
+                <Text className={`text-xs font-medium ${selectedTag === tag ? "text-white font-bold" : "text-[#666]"}`}>
+                  {tag}
+                </Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
 
           {/* Banner Promocional Carrusel */}
-          <View style={styles.bannerContainer}>
+          <View className="h-44 rounded-2xl mb-6 overflow-hidden justify-center bg-[#15803D] relative">
             <FlatList
               ref={bannerRef}
               data={banners}
@@ -192,121 +156,156 @@ export default function HomeScreen() {
               keyExtractor={(item) => item.id}
               getItemLayout={(_, index) => ({ length: BANNER_WIDTH, offset: BANNER_WIDTH * index, index })}
               renderItem={({ item }) => (
-                <View style={[styles.bannerCard, { width: BANNER_WIDTH }]}>
-                  <Image source={item.image} style={styles.bannerImage} />
+                <View style={{ width: BANNER_WIDTH }} className="h-44 relative justify-center">
+                  <Image
+                    source={item.image}
+                    style={{ position: "absolute", right: 0, top: 0, width: "75%", height: "100%" }}
+                    resizeMode="cover"
+                  />
                   <LinearGradient
                     colors={["#15803D", "rgba(21, 128, 61, 0.8)", "transparent"]}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 0 }}
-                    style={styles.bannerGradient}
+                    className="absolute left-0 top-0 bottom-0 w-[85%] z-10"
                   />
-                  <View style={styles.bannerContent}>
-                    <Text style={styles.bannerTitle}>{item.title}</Text>
-                    <Text style={styles.bannerSubtitle}>{item.subtitle}</Text>
-                    <TouchableOpacity style={styles.bannerButton} activeOpacity={0.8}>
-                      <Text style={styles.bannerButtonText}>{item.buttonText}</Text>
+                  <View className="p-5 w-[58%] z-20">
+                    <Text className="text-white text-lg font-bold leading-5">{item.title}</Text>
+                    <Text className="text-[#f0f0f0] text-xs my-1.5">{item.subtitle}</Text>
+                    <TouchableOpacity className="bg-white px-4 py-2 rounded-full self-start mt-1.5" activeOpacity={0.8}>
+                      <Text className="text-[#316b33] text-xs font-bold">{item.buttonText}</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
               )}
             />
-            <View style={styles.paginationContainer}>
+            <View className="absolute bottom-2.5 self-center flex-row gap-1.5 z-30">
               {banners.map((_, index) => (
                 <View
                   key={index}
-                  style={[styles.dot, activeBannerIndex === index ? styles.activeDot : styles.inactiveDot]}
+                  className={`h-2 rounded-full ${activeBannerIndex === index ? "w-5 bg-white" : "w-2 bg-white/50"}`}
                 />
               ))}
             </View>
           </View>
 
           {/* Sección Categorías */}
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Categorías</Text>
+          <View className="flex-row justify-between items-center mb-4 mt-2">
+            <Text className="text-lg font-bold text-[#0F172A]">Categorías</Text>
             <TouchableOpacity onPress={() => navigation.navigate("Tienda")}>
-              <Text style={styles.seeAllText}>Ver todo</Text>
+              <Text className="text-xs text-[#15803D] font-semibold">Ver todo</Text>
             </TouchableOpacity>
           </View>
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 18, paddingBottom: 15 }}>
             {categories.map((cat) => (
-              <TouchableOpacity
-                key={cat.id}
-                style={styles.categoryCard}
-                onPress={() => navigation.navigate("Tienda")}
-              >
-                <View style={[styles.categoryIconCircle, { backgroundColor: cat.bgColor || '#F5F5F5' }]}>
-                  <Image source={cat.icon} style={styles.categoryIconImage} />
+              <TouchableOpacity key={cat.id} className="items-center" style={{ width: 70 }} onPress={() => navigation.navigate("Tienda")}>
+                <View className={`rounded-full items-center justify-center mb-1.5 ${cat.bgColor}`} style={{ width: 60, height: 60 }}>
+                  <Image source={cat.icon} style={{ width: 35, height: 35 }} resizeMode="contain" />
                 </View>
-                <Text style={styles.categoryName}>{cat.name}</Text>
+                <Text className="text-xs font-medium text-[#333] text-center">{cat.name}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
 
-          {/* Sección Ofertas para ti ("Deals for you") con más de dos elementos */}
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Ofertas para ti</Text>
-            <TouchableOpacity><Text style={styles.seeAllText}>Ver todo</Text></TouchableOpacity>
+          {/* Sección de Productos Destacados Locales */}
+          <View className="flex-row justify-between items-center mb-3 mt-4">
+            <Text className="text-lg font-bold text-[#0F172A]">Productos Destacados</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Tienda")}>
+              <Text className="text-xs text-[#15803D] font-semibold">Ver todo</Text>
+            </TouchableOpacity>
           </View>
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.dealsContainer}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 12, paddingBottom: 15 }}
+          >
+            {localProducts.map((product) => (
+              <TouchableOpacity
+                key={product.id}
+                className="bg-white rounded-xl overflow-hidden border border-[#E2E8F0]"
+                style={{ width: 160 }}
+                onPress={() => handleAddToCart(product)}
+              >
+                <View className="bg-[#15803D]/10 items-center justify-center" style={{ height: 110 }}>
+                  <ShoppingBag size={32} color="#15803D" />
+                </View>
+                <View className="p-3">
+                  <Text className="text-sm font-bold text-[#333]" numberOfLines={1}>
+                    {product.title}
+                  </Text>
+                  <Text className="text-xs text-[#15803D] font-bold mt-1">
+                    {product.price}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+
+          {/* Sección Ofertas para ti */}
+          <View className="flex-row justify-between items-center mb-4 mt-2">
+            <Text className="text-lg font-bold text-[#0F172A]">Ofertas para ti</Text>
+            <TouchableOpacity><Text className="text-xs text-[#15803D] font-semibold">Ver todo</Text></TouchableOpacity>
+          </View>
+
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 14, paddingBottom: 15 }}>
             {deals.map((deal) => (
-              <View key={deal.id} style={styles.dealCard}>
-                <Image source={deal.image} style={styles.dealImage} />
-                <View style={styles.dealContent}>
-                  <Text style={styles.dealTitle}>{deal.title}</Text>
-                  <Text style={styles.dealSubtitle}>{deal.subtitle}</Text>
-                  <View style={styles.dealBadge}>
-                    <Text style={styles.dealBadgeText}>⚡ {deal.time}</Text>
+              <View key={deal.id} className="w-52 bg-white rounded-2xl overflow-hidden shadow-sm">
+                <Image source={deal.image} style={{ width: "100%", height: 96 }} resizeMode="cover" />
+                <View className="p-2.5">
+                  <Text className="text-sm font-bold text-[#333]">{deal.title}</Text>
+                  <Text className="text-xs text-[#666] my-0.5">{deal.subtitle}</Text>
+                  <View className="bg-[#E8F5E9] px-1.5 py-0.5 rounded-md self-start mt-1">
+                    <Text className="text-[10px] text-[#2e7d32] font-bold">⚡ {deal.time}</Text>
                   </View>
                 </View>
               </View>
             ))}
           </ScrollView>
 
-          {/* Sección Tiendas / Marcas Cercanas */}
-          <View style={styles.sectionHeader}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+          {/* Sección Tiendas Cercanas */}
+          <View className="flex-row justify-between items-center mb-4 mt-2">
+            <View className="flex-row items-center gap-1.5">
               <Flame size={18} color="#15803D" />
-              <Text style={styles.sectionTitle}>Tiendas Saludables Cerca</Text>
+              <Text className="text-lg font-bold text-[#0F172A]">Tiendas Saludables Cerca</Text>
             </View>
             <TouchableOpacity onPress={() => navigation.navigate("Tienda")}>
-              <Text style={styles.seeAllText}>Ver todo</Text>
+              <Text className="text-xs text-[#15803D] font-semibold">Ver todo</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={styles.storesContainer}>
+          <View className="gap-4 pb-6">
             {storesNearYou.map((store) => (
               <TouchableOpacity
                 key={store.id}
-                style={styles.storeCard}
+                className="bg-white rounded-2xl p-3 shadow-sm"
                 activeOpacity={0.9}
                 onPress={() => navigation.navigate("Tienda")}
               >
-                <View style={[styles.storeImageWrapper, { backgroundColor: store.bgAccent }]}>
-                  <Image source={store.image} style={styles.storeImage} resizeMode="contain" />
+                <View className={`w-full rounded-xl items-center justify-center mb-2.5 relative ${store.bgAccent}`} style={{ height: 128 }}>
+                  <Image source={store.image} style={{ width: "70%", height: "70%" }} resizeMode="contain" />
                   {store.discount && (
-                    <View style={styles.storeDiscountBadge}>
-                      <Text style={styles.storeDiscountText}>{store.discount}</Text>
+                    <View className="absolute top-2.5 left-2.5 bg-[#0F172A] px-2 py-0.5 rounded-lg">
+                      <Text className="text-white text-[10px] font-bold">{store.discount}</Text>
                     </View>
                   )}
                 </View>
 
-                <View style={styles.storeInfoRow}>
-                  <View style={{ flex: 1 }}>
-                    <Text style={styles.storeName} numberOfLines={1}>{store.name}</Text>
-                    <Text style={styles.storeCategory} numberOfLines={1}>{store.category}</Text>
+                <View className="flex-row justify-between items-center mb-2">
+                  <View className="flex-1">
+                    <Text className="text-sm font-bold text-[#0F172A]" numberOfLines={1}>{store.name}</Text>
+                    <Text className="text-xs text-[#64748B] mt-0.5" numberOfLines={1}>{store.category}</Text>
                   </View>
-                  <View style={styles.ratingBox}>
+                  <View className="flex-row items-center gap-1 bg-[#FEF3C7] px-1.5 py-0.5 rounded-md">
                     <Star size={12} color="#F59E0B" fill="#F59E0B" />
-                    <Text style={styles.ratingText}>{store.rating}</Text>
+                    <Text className="text-xs font-bold text-[#D97706]">{store.rating}</Text>
                   </View>
                 </View>
 
-                <View style={styles.storeFooterRow}>
-                  <Text style={styles.storeTime}>🕒 {store.time}</Text>
+                <View className="flex-row justify-between items-center border-t border-[#F1F5F9] pt-2">
+                  <Text className="text-xs text-[#64748B] font-semibold">🕒 {store.time}</Text>
                   <TouchableOpacity
-                    style={styles.storeAddBtn}
+                    className="bg-[#15803D] w-7 h-7 rounded-full items-center justify-center"
                     onPress={() => handleAddToCart(store)}
                   >
                     <Plus size={16} color="#FFFFFF" />
@@ -315,73 +314,10 @@ export default function HomeScreen() {
               </TouchableOpacity>
             ))}
           </View>
+
         </View>
         <Footer />
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fafafa" },
-  body: { paddingHorizontal: 16, paddingTop: 15 },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f0f2f0",
-    borderRadius: 25,
-    paddingHorizontal: 15,
-    height: 46,
-    marginBottom: 15,
-  },
-  searchIcon: { marginRight: 10 },
-  searchInput: { flex: 1, fontSize: 14, color: "#333" },
-  tagsContainer: { gap: 10, paddingBottom: 15 },
-  tagChip: { paddingHorizontal: 18, paddingVertical: 8, borderRadius: 20, backgroundColor: "#f0f0f0" },
-  tagChipActive: { backgroundColor: "#15803D" },
-  tagText: { fontSize: 13, fontWeight: "500", color: "#666" },
-  tagTextActive: { color: "#fff", fontWeight: "bold" },
-  bannerContainer: { height: 170, borderRadius: 20, marginBottom: 25, overflow: "hidden", justifyContent: "center", backgroundColor: "#15803D" },
-  bannerCard: { height: 170, position: 'relative', justifyContent: 'center' },
-  paginationContainer: { position: 'absolute', bottom: 10, alignSelf: 'center', flexDirection: 'row', gap: 6, zIndex: 3 },
-  dot: { height: 8, borderRadius: 4 },
-  activeDot: { width: 18, backgroundColor: '#FFFFFF' },
-  inactiveDot: { width: 8, backgroundColor: 'rgba(255, 255, 255, 0.5)' },
-  bannerGradient: { position: "absolute", left: 0, top: 0, bottom: 0, width: "85%", zIndex: 1 },
-  bannerImage: { position: "absolute", right: -20, top: 0, width: "75%", height: "100%", resizeMode: "cover" },
-  bannerContent: { padding: 20, width: "58%", zIndex: 2 },
-  bannerTitle: { color: "#ffffff", fontSize: 18, fontWeight: "bold", lineHeight: 22 },
-  bannerSubtitle: { color: "#f0f0f0", fontSize: 12, marginVertical: 6 },
-  bannerButton: { backgroundColor: "#ffffff", paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, alignSelf: "flex-start", marginTop: 6 },
-  bannerButtonText: { color: "#316b33", fontSize: 12, fontWeight: "bold" },
-  sectionHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 15, marginTop: 10 },
-  sectionTitle: { fontSize: 18, fontWeight: "bold", color: "#0F172A" },
-  seeAllText: { fontSize: 13, color: "#15803D", fontWeight: "600" },
-  categoriesContainer: { gap: 18, paddingBottom: 15 },
-  categoryCard: { alignItems: "center", width: 70 },
-  categoryIconCircle: { width: 60, height: 60, borderRadius: 30, alignItems: "center", justifyContent: "center", marginBottom: 6 },
-  categoryIconImage: { width: 35, height: 35, resizeMode: "contain" },
-  categoryName: { fontSize: 12, fontWeight: "500", color: "#333", textAlign: "center" },
-  dealsContainer: { gap: 14, paddingBottom: 15 },
-  dealCard: { width: 220, backgroundColor: "#FFF", borderRadius: 14, overflow: "hidden", shadowColor: "#000", shadowOpacity: 0.05, shadowRadius: 4, elevation: 2 },
-  dealImage: { width: "100%", height: 100, resizeMode: "cover" },
-  dealContent: { padding: 10 },
-  dealTitle: { fontSize: 14, fontWeight: "bold", color: "#333" },
-  dealSubtitle: { fontSize: 11, color: "#666", marginVertical: 2 },
-  dealBadge: { backgroundColor: "#E8F5E9", paddingHorizontal: 6, paddingVertical: 2, borderRadius: 6, alignSelf: "flex-start", marginTop: 4 },
-  dealBadgeText: { fontSize: 10, color: "#2e7d32", fontWeight: "bold" },
-  storesContainer: { gap: 16, paddingBottom: 25 },
-  storeCard: { backgroundColor: "#FFF", borderRadius: 16, padding: 12, shadowColor: "#000", shadowOpacity: 0.05, shadowRadius: 6, elevation: 2 },
-  storeImageWrapper: { width: "100%", height: 130, borderRadius: 12, alignItems: "center", justifyContent: "center", marginBottom: 10, position: "relative" },
-  storeImage: { width: "70%", height: "70%" },
-  storeDiscountBadge: { position: "absolute", top: 10, left: 10, backgroundColor: "#0F172A", paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
-  storeDiscountText: { color: "#FFF", fontSize: 10, fontWeight: "bold" },
-  storeInfoRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 8 },
-  storeName: { fontSize: 15, fontWeight: "bold", color: "#0F172A" },
-  storeCategory: { fontSize: 11, color: "#64748B", marginTop: 2 },
-  ratingBox: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "#FEF3C7", paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6 },
-  ratingText: { fontSize: 11, fontWeight: "bold", color: "#D97706" },
-  storeFooterRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderTopWidth: 1, borderTopColor: "#F1F5F9", paddingTop: 8 },
-  storeTime: { fontSize: 12, color: "#64748B", fontWeight: "600" },
-  storeAddBtn: { backgroundColor: "#15803D", width: 28, height: 28, borderRadius: 14, alignItems: "center", justifyContent: "center" },
-});

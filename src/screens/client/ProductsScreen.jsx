@@ -126,6 +126,7 @@ export default function ProductsScreen() {
       },
     });
   };
+  
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
