@@ -1,3 +1,5 @@
+//configuration de la api
+
 import axios from 'axios';
 
 const api = axios.create({
