@@ -8,13 +8,11 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  ActivityIndicator,
 } from "react-native";
 
-import { fetchMovies } from "../services/movieService";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Search, Star, Flame, Plus } from "lucide-react-native";
+import { Search, Star, Flame, Plus, ShoppingBag } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
 import TopHeader from "../../components/TopHeader";
 import Footer from "../../components/Footer";
@@ -50,33 +48,9 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const [selectedTag, setSelectedTag] = useState("Todos");
   const [activeBannerIndex, setActiveBannerIndex] = useState(0);
-  const [apiMovies, setApiMovies] = useState([]);
-  const [apiLoading, setApiLoading] = useState(true);
-  const [apiError, setApiError] = useState(null);
+
   const bannerRef = useRef(null);
   const tags = ["Todos", "Orgánico", "Keto", "Vegano", "Sin Gluten"];
-
-  useEffect(() => {
-    let isActive = true;
-
-    const loadMovies = async () => {
-      try {
-        const movies = await fetchMovies();
-        if (isActive) setApiMovies(movies);
-      } catch (error) {
-        if (isActive) {
-          setApiError(error instanceof Error ? error.message : "No se pudieron cargar las películas.");
-        }
-      } finally {
-        if (isActive) setApiLoading(false);
-      }
-    };
-
-    loadMovies();
-    return () => {
-      isActive = false;
-    };
-  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -104,6 +78,14 @@ export default function HomeScreen() {
     { id: "6", name: "Superfoods", icon: require("../../../assets/icons/superfoods.png"), bgColor: "bg-[#ffe570]" },
   ];
 
+  // Productos de respaldo locales
+  const localProducts = [
+    { id: "1", title: "Proteína Whey Gold", category: "Proteínas", price: "$140.000" },
+    { id: "2", title: "Vitamina C 1000mg", category: "Vitaminas", price: "$45.000" },
+    { id: "3", title: "Creatina Monohidratada", category: "Creatinas", price: "$90.000" },
+    { id: "4", title: "Barra Energética Keto", category: "Snacks", price: "$8.000" },
+  ];
+
   const deals = [
     { id: "1", title: "Combo Keto Saludable", subtitle: "30% OFF en toda la categoría", time: "Envío Gratis", image: require("../../../assets/Saludable.png") },
     { id: "2", title: "Kit de Vitaminas D3", subtitle: "Ahorra comprando el dúo", time: "20 min o menos", image: require("../../../assets/bannerdos.png") },
@@ -120,10 +102,10 @@ export default function HomeScreen() {
     navigation.navigate("Carrito", {
       productoAgregar: {
         id: product.id,
-        title: product.name || product.title,
-        brand: product.category || product.brand,
-        price: product.price || "$28.000",
-        numericPrice: product.numericPrice || 28000,
+        title: product.title,
+        brand: product.category,
+        price: product.price,
+        numericPrice: 28000,
         weight: "1 un",
         bgAccent: "#F8FAFC",
         quantity: 1,
@@ -225,44 +207,40 @@ export default function HomeScreen() {
             ))}
           </ScrollView>
 
-          <View className="flex-row justify-between items-center mb-3 mt-2">
-            <Text className="text-lg font-bold text-[#0F172A]">Ejemplo de API con Axios</Text>
-            <Text className="text-xs text-[#64748B]">Películas</Text>
+          {/* Sección de Productos Destacados Locales */}
+          <View className="flex-row justify-between items-center mb-3 mt-4">
+            <Text className="text-lg font-bold text-[#0F172A]">Productos Destacados</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Tienda")}>
+              <Text className="text-xs text-[#15803D] font-semibold">Ver todo</Text>
+            </TouchableOpacity>
           </View>
 
-          {apiLoading ? (
-            <ActivityIndicator size="small" color="#15803D" className="my-4" />
-          ) : apiError ? (
-            <Text className="text-sm text-red-600 mb-4">{apiError}</Text>
-          ) : apiMovies.length === 0 ? (
-            <Text className="text-sm text-[#64748B] mb-4">La API no devolvió películas.</Text>
-          ) : (
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ gap: 12, paddingBottom: 15 }}
-            >
-              {apiMovies.map((movie) => (
-                <View
-                  key={movie.id}
-                  className="bg-white rounded-xl overflow-hidden border border-[#E2E8F0]"
-                  style={{ width: 208 }}
-                >
-                  <View className="bg-[#E2E8F0] items-center justify-center" style={{ height: 72 }}>
-                    <Text className="font-bold text-[#475569]">{movie.releaseYear}</Text>
-                  </View>
-                  <View className="p-3">
-                    <Text className="text-sm font-bold text-[#333]" numberOfLines={1}>
-                      {movie.title}
-                    </Text>
-                    <Text className="text-xs text-[#64748B] mt-1">
-                      Año: {movie.releaseYear}
-                    </Text>
-                  </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 12, paddingBottom: 15 }}
+          >
+            {localProducts.map((product) => (
+              <TouchableOpacity
+                key={product.id}
+                className="bg-white rounded-xl overflow-hidden border border-[#E2E8F0]"
+                style={{ width: 160 }}
+                onPress={() => handleAddToCart(product)}
+              >
+                <View className="bg-[#15803D]/10 items-center justify-center" style={{ height: 110 }}>
+                  <ShoppingBag size={32} color="#15803D" />
                 </View>
-              ))}
-            </ScrollView>
-          )}
+                <View className="p-3">
+                  <Text className="text-sm font-bold text-[#333]" numberOfLines={1}>
+                    {product.title}
+                  </Text>
+                  <Text className="text-xs text-[#15803D] font-bold mt-1">
+                    {product.price}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
 
           {/* Sección Ofertas para ti */}
           <View className="flex-row justify-between items-center mb-4 mt-2">
