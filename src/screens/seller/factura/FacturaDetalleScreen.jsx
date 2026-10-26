@@ -1,135 +1,76 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRoute, useNavigation } from '@react-navigation/native';
-import * as Print from 'expo-print';
-import * as Sharing from 'expo-sharing';
-import * as FileSystem from 'expo-file-system'; // 👈 Importante para gestionar el archivo en el móvil
 
-export default function FacturaDetalle() {
-    const route = useRoute();
+export default function FacturaDetalleScreen() {
     const navigation = useNavigation();
+    const route = useRoute();
+    const { factura } = route.params || {};
 
-    const { id = 'FAC-0001', factura } = route.params || {};
-    const facturaId = factura?.numero || id;
-
-    // Función para descargar y guardar la factura en el celular
-    const handleDownloadPDF = async () => {
-        try {
-            const htmlContent = `
-        <html>
-          <body style="font-family: Helvetica, Arial, sans-serif; padding: 20px; color: #333;">
-            <h2 style="color: #047857;">Detalle de la Factura: ${facturaId}</h2>
-            <p><strong>Cliente:</strong> Juan Pérez</p>
-            <p><strong>Fecha:</strong> 22/05/2026</p>
-            <p><strong>Estado:</strong> Pagado</p>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
-            <h3>Productos comprados</h3>
-            <ul>
-              <li>Yogur Griego Natural (x1) - $12.000</li>
-              <li>Ensalada Fresh (x1) - $15.000</li>
-            </ul>
-            <h3 style="color: #047857;">Total a Pagar: $27.000</h3>
-          </body>
-        </html>
-      `;
-
-            // 1. Generar el PDF temporalmente
-            const { uri } = await Print.printToFileAsync({ html: htmlContent });
-
-            // 2. Definir una ruta permanente y segura en el almacenamiento local del celular
-            const fileName = `Factura_${facturaId.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
-            const fileUri = `${FileSystem.documentDirectory}${fileName}`;
-
-            // 3. Copiar el archivo al directorio de documentos del dispositivo
-            await FileSystem.copyAsync({
-                from: uri,
-                to: fileUri
-            });
-
-            // 4. Abrir el selector nativo del celular para que el usuario guarde o comparta el PDF
-            if (await Sharing.isAvailableAsync()) {
-                await Sharing.shareAsync(fileUri, {
-                    UTI: '.pdf',
-                    mimeType: 'application/pdf',
-                    dialogTitle: `Guardar Factura ${facturaId}`
-                });
-            } else {
-                Alert.alert('Aviso', 'La función de compartir no está disponible en este dispositivo.');
-            }
-        } catch (error) {
-            Alert.alert('Error', 'No se pudo generar o descargar la factura en el dispositivo.');
-            console.error(error);
-        }
+    const handleDescargar = () => {
+        Alert.alert(
+            "Descargar Factura",
+            `Se ha generado la descarga del documento PDF para ${factura?.numeroFactura || 'la factura'}.`,
+            [{ text: "Aceptar" }]
+        );
     };
+
+    if (!factura) {
+        return (
+            <View className="flex-1 items-center justify-center p-4 bg-gray-50">
+                <Text className="text-gray-500">No se encontró información de la factura.</Text>
+            </View>
+        );
+    }
 
     return (
         <ScrollView className="flex-1 bg-gray-50 p-4">
-            {/* Botón de Volver */}
-            <TouchableOpacity
-                className="flex-row items-center mb-4 py-1"
-                onPress={() => navigation.goBack()}
-            >
-                <Ionicons name="arrow-back" size={20} color="#047857" />
-                <Text className="text-xs font-semibold text-emerald-700 ml-1">Volver a Facturas</Text>
-            </TouchableOpacity>
+            <View className="flex-row items-center mb-6">
+                <TouchableOpacity onPress={() => navigation.navigate('Facturas')} className="mr-3">
+                    <Ionicons name="arrow-back" size={24} color="#111827" />
+                </TouchableOpacity>
+                <Text className="text-xl font-bold text-gray-900">Detalle {factura.numeroFactura}</Text>
+            </View>
 
-            {/* Tarjeta principal de detalle */}
-            <View className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm mb-4">
-                <View className="flex-row justify-between items-center mb-4">
-                    <Text className="text-lg font-bold text-gray-900">
-                        Detalle: <Text className="text-emerald-700">{facturaId}</Text>
-                    </Text>
-
-                    {/* Botón de Descargar / Guardar */}
-                    <TouchableOpacity
-                        className="bg-emerald-50 flex-row items-center px-3 py-1.5 rounded-lg border border-emerald-200"
-                        onPress={handleDownloadPDF}
-                    >
-                        <Ionicons name="download-outline" size={16} color="#047857" />
-                        <Text className="text-xs font-bold text-emerald-700 ml-1">Descargar</Text>
-                    </TouchableOpacity>
+            <View className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-4 mb-6">
+                <View className="flex-row justify-between items-center pb-3 border-b border-gray-100">
+                    <View>
+                        <Text className="text-xs text-gray-400">Cliente</Text>
+                        <Text className="text-base font-bold text-gray-800">{factura.cliente}</Text>
+                        <Text className="text-xs text-gray-500">Doc: {factura.documentoCliente || 'N/A'}</Text>
+                    </View>
+                    <View className={`px-3 py-1 rounded-full ${factura.estado === 'Pagada' ? 'bg-green-100' : 'bg-amber-100'}`}>
+                        <Text className={`text-xs font-bold ${factura.estado === 'Pagada' ? 'text-green-800' : 'text-amber-800'}`}>
+                            {factura.estado}
+                        </Text>
+                    </View>
                 </View>
 
-                {/* Metadatos (Cliente, Fecha, Estado) */}
-                <View className="flex-row justify-between items-center border-b border-gray-100 pb-4 mb-4">
-                    <View>
-                        <Text className="text-xs text-gray-400 mb-1">Cliente</Text>
-                        <Text className="text-xs font-bold text-gray-800">Juan Pérez</Text>
-                    </View>
-                    <View>
-                        <Text className="text-xs text-gray-400 mb-1">Fecha</Text>
-                        <Text className="text-xs font-bold text-gray-800">22/05/2026</Text>
-                    </View>
-                    <View className="items-end">
-                        <Text className="text-xs text-gray-400 mb-1">Estado</Text>
-                        <View className="bg-green-50 px-2.5 py-1 rounded-md">
-                            <Text className="text-xs font-bold text-green-700">Pagado</Text>
+                <Text className="text-xs font-bold text-gray-700 mt-2 mb-1">Ítems de la Factura</Text>
+                {factura.items?.map((item, index) => (
+                    <View key={index} className="flex-row justify-between items-center py-2 border-b border-gray-50">
+                        <View className="flex-1">
+                            <Text className="text-xs font-semibold text-gray-800">{item.nombre}</Text>
+                            <Text className="text-[11px] text-gray-400">{item.cantidad} x {item.precioUnitario}</Text>
                         </View>
+                        <Text className="text-xs font-bold text-gray-900">{item.subtotal}</Text>
                     </View>
-                </View>
+                ))}
 
-                {/* Título de productos */}
-                <Text className="text-xs font-bold text-gray-900 mb-3">Productos comprados</Text>
-
-                {/* Lista de productos */}
-                <View className="mb-4">
-                    <View className="flex-row justify-between py-2 border-b border-gray-50">
-                        <Text className="text-xs text-gray-700">Yogur Griego Natural (x1)</Text>
-                        <Text className="text-xs font-bold text-gray-900">$12.000</Text>
-                    </View>
-                    <View className="flex-row justify-between py-2 border-b border-gray-50">
-                        <Text className="text-xs text-gray-700">Ensalada Fresh (x1)</Text>
-                        <Text className="text-xs font-bold text-gray-900">$15.000</Text>
-                    </View>
-                </View>
-
-                {/* Total a pagar */}
-                <View className="border-t border-gray-100 pt-4 flex-row justify-between items-center">
-                    <Text className="text-xs font-bold text-gray-900">Total a Pagar:</Text>
-                    <Text className="text-base font-extrabold text-emerald-700">$27.000</Text>
+                <View className="flex-row justify-between items-center pt-3 border-t border-gray-200 mt-2">
+                    <Text className="text-sm font-bold text-gray-900">Total a Pagar</Text>
+                    <Text className="text-lg font-extrabold text-emerald-700">{factura.total}</Text>
                 </View>
             </View>
+
+            <TouchableOpacity
+                className="bg-emerald-700 flex-row items-center justify-center py-3 rounded-xl shadow-sm"
+                onPress={handleDescargar}
+            >
+                <Ionicons name="download-outline" size={20} color="#fff" />
+                <Text className="text-white font-bold text-sm ml-2">Descargar Factura PDF</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
 }

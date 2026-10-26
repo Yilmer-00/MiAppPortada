@@ -1,6 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FacturasScreen from '../screens/client/FacturasScreen';
+import FacturaDetalle from '../screens/seller/factura/FacturaDetalleScreen';
 import FacturaDetalleScreen from '../screens/seller/factura/FacturaDetalleScreen';
 import CrearFacturaScreen from '../screens/seller/factura/CrearFacturaScreen';
 
@@ -9,6 +10,7 @@ const Stack = createNativeStackNavigator();
 export default function FacturasStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="FacturasListSeller" component={FacturaDetalle} />
       <Stack.Screen name="FacturasList" component={FacturasScreen} />
       <Stack.Screen name="FacturaDetalle" component={FacturaDetalleScreen} />
       <Stack.Screen name="CrearFactura" component={CrearFacturaScreen} />

@@ -10,8 +10,11 @@ import AuthNavigator from "./src/Navigation/AuthNavigator";
 import SellerNavigator from "./src/Navigation/SellerNavigator";
 import SplashScreen from './src/components/SplashScreen';
 
+import { FacturasProvider } from './src/context/FacturasContext';
+import { ProductosProvider } from './src/context/ProductosContext';
 import { AuthProvider, AuthContext } from "./src/context/AuthContext";
-
+import { PedidosProvider } from './src/context/PedidosContext';
+import { ThemeProvider } from './src/context/ThemeContext';
 // ======================================================
 // NAVEGACIÓN SEGÚN EL ROL
 // ======================================================
@@ -52,11 +55,19 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <View style={styles.root}>
-          <NavigationContainer>
-            <AppNavigation />
-          </NavigationContainer>
-        </View>
+        <ThemeProvider>
+          <ProductosProvider>
+            <FacturasProvider>
+              <PedidosProvider>
+                <View style={styles.root}>
+                  <NavigationContainer>
+                    <AppNavigation />
+                  </NavigationContainer>
+                </View>
+              </PedidosProvider>
+            </FacturasProvider>
+          </ProductosProvider>
+        </ThemeProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );
