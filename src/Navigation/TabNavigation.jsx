@@ -50,6 +50,7 @@ export default function TabNavigation() {
 
   return (
     <Tab.Navigator
+
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
@@ -75,7 +76,7 @@ export default function TabNavigation() {
       />
       <Tab.Screen
         name="Tienda"
-        component={StoreScreen}
+        component={ProductsScreen}
         options={{
           tabBarIcon: ({ color }) => <Store size={22} color={color} />,
         }}
