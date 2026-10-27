@@ -6,25 +6,28 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { useProductos } from "../../../context/ProductosContext";
+import api from "../../../config/env"; // Importamos el cliente de Axios que configuraste
 
 export default function CrearProductoScreen() {
   const navigation = useNavigation();
-  const { agregarProducto } = useProductos();
 
+  // Estados del formulario
   const [nombre, setNombre] = useState("");
   const [categoria, setCategoria] = useState("");
   const [precio, setPrecio] = useState("");
   const [stock, setStock] = useState("");
   const [estado, setEstado] = useState("Activo");
-  const [imagen, setImagen] = useState(
-    "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=100",
-  );
+  const [imagen, setImagen] = useState("");
 
-  const handleGuardar = () => {
+  // Estado para la carga de la petición
+  const [cargando, setCargando] = useState(false);
+
+  const handleGuardar = async () => {
+    // Validaciones básicas de campos obligatorios
     if (
       !nombre.trim() ||
       !categoria.trim() ||
@@ -35,20 +38,48 @@ export default function CrearProductoScreen() {
       return;
     }
 
-    // 1. Guardar en el contexto
-    agregarProducto({
-      nombre: nombre.trim(),
-      categoria: categoria.trim(),
-      precio: precio.startsWith("$") ? precio : `$ ${precio}`,
-      stock: stock.trim(),
-      estado,
-      imagen:
-        imagen.trim() ||
-        "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=100",
-    });
+    // Convertir precio y stock a tipos numéricos adecuados
+    const precioNumerico = parseFloat(precio.replace(/[^0-9.]/g, ""));
+    const stockNumerico = parseInt(stock, 10);
 
-    // 2. Redirigir a la pantalla de Productos
-    navigation.navigate("Productos");
+    if (isNaN(precioNumerico) || isNaN(stockNumerico)) {
+      Alert.alert("Error", "El precio y el stock deben ser números válidos");
+      return;
+    }
+
+    try {
+      setCargando(true);
+
+      // Petición POST a Laravel (ajusta el endpoint '/productos' si tu API usa otra ruta)
+      const response = await api.post("/productos", {
+        nombre: nombre.trim(),
+        categoria: categoria.trim(),
+        precio: precioNumerico,
+        stock: stockNumerico,
+        estado: estado,
+        imagen: imagen.trim() || "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=100",
+      });
+
+      if (response.status === 201 || response.status === 200) {
+        Alert.alert("Éxito", "Producto guardado correctamente", [
+          {
+            text: "OK",
+            onPress: () => navigation.navigate("Productos"),
+          },
+        ]);
+      }
+    } catch (error) {
+      console.error("Error al guardar el producto:", error);
+
+      // Capturamos la respuesta de error de la API (ej. validaciones de Laravel)
+      const mensajeError =
+        error.response?.data?.message ||
+        "No se pudo guardar el producto. Verifica la conexión con la API.";
+
+      Alert.alert("Error al guardar", mensajeError);
+    } finally {
+      setCargando(false);
+    }
   };
 
   const volverProductos = () => {
@@ -96,7 +127,7 @@ export default function CrearProductoScreen() {
             </Text>
             <TextInput
               className="bg-gray-50 border border-gray-200 rounded-lg p-2.5 text-xs text-gray-800"
-              placeholder="85.000"
+              placeholder="85000"
               keyboardType="numeric"
               value={precio}
               onChangeText={setPrecio}
@@ -135,21 +166,26 @@ export default function CrearProductoScreen() {
           </Text>
           <View className="flex-row space-x-2">
             <TouchableOpacity
-              className={`flex-1 py-2 rounded-lg items-center ${estado === "Activo" ? "bg-emerald-700" : "bg-gray-100"}`}
+              className={`flex-1 py-2 rounded-lg items-center ${estado === "Activo" ? "bg-emerald-700" : "bg-gray-100"
+                }`}
               onPress={() => setEstado("Activo")}
             >
               <Text
-                className={`text-xs font-bold ${estado === "Activo" ? "text-white" : "text-gray-600"}`}
+                className={`text-xs font-bold ${estado === "Activo" ? "text-white" : "text-gray-600"
+                  }`}
               >
                 Activo
               </Text>
             </TouchableOpacity>
+
             <TouchableOpacity
-              className={`flex-1 py-2 rounded-lg items-center ml-2 ${estado === "Inactivo" ? "bg-red-600" : "bg-gray-100"}`}
+              className={`flex-1 py-2 rounded-lg items-center ml-2 ${estado === "Inactivo" ? "bg-red-600" : "bg-gray-100"
+                }`}
               onPress={() => setEstado("Inactivo")}
             >
               <Text
-                className={`text-xs font-bold ${estado === "Inactivo" ? "text-white" : "text-gray-600"}`}
+                className={`text-xs font-bold ${estado === "Inactivo" ? "text-white" : "text-gray-600"
+                  }`}
               >
                 Inactivo
               </Text>
@@ -157,12 +193,19 @@ export default function CrearProductoScreen() {
           </View>
         </View>
 
-        {/* ✅ Asignado handleGuardar en lugar de volverProductos */}
         <TouchableOpacity
-          className="bg-emerald-700 py-3 rounded-lg items-center mt-4"
+          className={`py-3 rounded-lg items-center mt-4 ${cargando ? "bg-emerald-500" : "bg-emerald-700"
+            }`}
           onPress={handleGuardar}
+          disabled={cargando}
         >
-          <Text className="text-white font-bold text-sm">Guardar Producto</Text>
+          {cargando ? (
+            <ActivityIndicator color="#ffffff" size="small" />
+          ) : (
+            <Text className="text-white font-bold text-sm">
+              Guardar Producto
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
     </ScrollView>
